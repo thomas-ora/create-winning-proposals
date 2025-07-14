@@ -1,0 +1,244 @@
+[
+  {
+    "name": "Analytical Client - Enterprise Software Implementation",
+    "description": "Detailed, data-driven proposal for a CTO requiring comprehensive technical analysis",
+    "client_type": "analytical",
+    "payload": {
+      "client": {
+        "first_name": "Robert",
+        "last_name": "Chen",
+        "email": "robert.chen@techcorp.com",
+        "phone": "+1-555-0101",
+        "title": "Chief Technology Officer",
+        "company_name": "TechCorp Analytics",
+        "company_website": "https://techcorp-analytics.com",
+        "industry": "Technology",
+        "employee_count": 250,
+        "revenue_range": "$10M-$50M",
+        "growth_stage": "Growth",
+        "consultation_date": "2024-07-20T14:00:00Z"
+      },
+      "psychology_profile": {
+        "primary_type": "Analytical",
+        "secondary_type": "Driver",
+        "analytical_score": 85,
+        "driver_score": 65,
+        "expressive_score": 30,
+        "amiable_score": 20,
+        "decision_style": "Deliberate",
+        "decision_authority": "Full",
+        "risk_tolerance": "Conservative"
+      },
+      "proposal": {
+        "title": "Enterprise Data Analytics Platform Implementation",
+        "executive_summary": "Our comprehensive technical analysis reveals significant opportunities to optimize your data infrastructure and unlock actionable insights. This proposal outlines a systematic, evidence-based approach to implementing a modern analytics platform that will reduce data processing time by 60% and improve decision-making accuracy by 40%. All metrics are based on documented case studies and performance benchmarks from similar enterprise implementations.",
+        "sections": [
+          {
+            "type": "text",
+            "title": "Technical Assessment & Current State Analysis",
+            "content": "Based on our comprehensive technical audit, your current data infrastructure exhibits several critical inefficiencies: fragmented data sources across 12 systems, manual ETL processes consuming 40+ hours weekly, and legacy reporting tools with 3-5 day data latency. Our analysis quantifies these inefficiencies at approximately $2.3M annually in lost productivity and delayed decision-making.",
+            "order": 1
+          },
+          {
+            "type": "text",
+            "title": "Proposed Solution Architecture",
+            "content": "We recommend implementing a cloud-native analytics platform with automated data pipelines, real-time dashboards, and predictive modeling capabilities. The solution includes: (1) Data Lake architecture with 99.9% uptime SLA, (2) Automated ETL pipelines reducing processing time by 85%, (3) Real-time visualization layer with sub-second query response, (4) Machine learning models for predictive analytics with 90%+ accuracy.",
+            "order": 2
+          },
+          {
+            "type": "pricing",
+            "title": "Detailed Investment Analysis & ROI Projections",
+            "content": {
+              "headers": ["Component", "Year 1", "Year 2", "Year 3", "Total ROI"],
+              "rows": [
+                { "Component": "Platform Setup & Configuration", "Year 1": "$125,000", "Year 2": "$0", "Year 3": "$0", "Total ROI": "N/A" },
+                { "Component": "Implementation Services", "Year 1": "$200,000", "Year 2": "$50,000", "Year 3": "$25,000", "Total ROI": "280%" },
+                { "Component": "Training & Change Management", "Year 1": "$75,000", "Year 2": "$40,000", "Year 3": "$40,000", "Total ROI": "150%" },
+                { "Component": "Total Investment", "Year 1": "$400,000", "Year 2": "$90,000", "Year 3": "$65,000", "Total ROI": "340%" }
+              ]
+            },
+            "order": 3
+          }
+        ],
+        "financial_amount": 400000,
+        "financial_currency": "USD",
+        "payment_terms": "Net 30, milestone-based payments",
+        "valid_until": "2024-08-20T23:59:59Z",
+        "prepared_by": "Sarah Martinez, Senior Solutions Architect",
+        "password_protected": false,
+        "brand_color": "#1E40AF"
+      }
+    }
+  },
+  {
+    "name": "Driver Client - Revenue Acceleration Program", 
+    "description": "Results-focused, action-oriented proposal for a CEO who values speed and outcomes",
+    "client_type": "driver",
+    "payload": {
+      "client": {
+        "first_name": "Alex",
+        "last_name": "Rodriguez",
+        "email": "alex@rapidgrowth.com",
+        "phone": "+1-555-0202",
+        "title": "Chief Executive Officer",
+        "company_name": "RapidGrowth Ventures",
+        "company_website": "https://rapidgrowth.com",
+        "industry": "E-commerce",
+        "employee_count": 75,
+        "revenue_range": "$5M-$10M", 
+        "growth_stage": "Growth",
+        "consultation_date": "2024-07-18T09:00:00Z"
+      },
+      "psychology_profile": {
+        "primary_type": "Driver",
+        "secondary_type": "Expressive",
+        "analytical_score": 40,
+        "driver_score": 90,
+        "expressive_score": 70,
+        "amiable_score": 25,
+        "decision_style": "Fast",
+        "decision_authority": "Full",
+        "risk_tolerance": "Aggressive"
+      },
+      "proposal": {
+        "title": "Revenue Acceleration Program - 150% Growth in 6 Months",
+        "executive_summary": "BOTTOM LINE: We'll increase your revenue by 150% in 6 months. Period. Our proven system has generated $50M+ for similar companies. Stop losing money to competitors - let's dominate your market starting next week.",
+        "sections": [
+          {
+            "type": "text",
+            "title": "The Opportunity (Act Fast)",
+            "content": "Your company is positioned for explosive growth RIGHT NOW. Current revenue of $8M can reach $20M within 12 months with our acceleration strategy. We've done this 47 times before. Your competitors are already moving - don't get left behind.",
+            "order": 1
+          },
+          {
+            "type": "text",
+            "title": "Our Proven 3-Phase System",
+            "content": "Phase 1 (Month 1): Optimize conversion funnels - 40% improvement GUARANTEED. Phase 2 (Months 2-3): Scale advertising spend - 3x ROAS minimum or money back. Phase 3 (Months 4-6): Launch new revenue streams - 2-3 additional channels generating $2M+ each.",
+            "order": 2
+          }
+        ],
+        "financial_amount": 150000,
+        "financial_currency": "USD",
+        "payment_terms": "50% upfront, 50% at 90-day milestone",
+        "valid_until": "2024-07-25T23:59:59Z",
+        "prepared_by": "Mike Thompson, Growth Strategist",
+        "password_protected": false,
+        "brand_color": "#DC2626"
+      }
+    }
+  },
+  {
+    "name": "Expressive Client - Brand Transformation Journey",
+    "description": "Relationship-focused, collaborative proposal emphasizing partnership and creative vision", 
+    "client_type": "expressive",
+    "payload": {
+      "client": {
+        "first_name": "Maria",
+        "last_name": "Silva",
+        "email": "maria@creativeagency.com",
+        "phone": "+1-555-0303",
+        "title": "Creative Director",
+        "company_name": "Inspire Creative Agency",
+        "company_website": "https://inspirecreative.com",
+        "industry": "Marketing & Advertising",
+        "employee_count": 35,
+        "revenue_range": "$2M-$5M",
+        "growth_stage": "Growth",
+        "consultation_date": "2024-07-19T11:00:00Z"
+      },
+      "psychology_profile": {
+        "primary_type": "Expressive",
+        "secondary_type": "Amiable",
+        "analytical_score": 35,
+        "driver_score": 45,
+        "expressive_score": 85,
+        "amiable_score": 70,
+        "decision_style": "Moderate",
+        "decision_authority": "Partial",
+        "risk_tolerance": "Moderate"
+      },
+      "proposal": {
+        "title": "Brand Transformation & Digital Experience Revolution",
+        "executive_summary": "Imagine your brand not just being seen, but being FELT by your audience. This isn't just a marketing campaign - it's a complete brand renaissance that will position you as the industry leader everyone wants to work with. Together, we'll create something extraordinary that reflects your unique vision and values.",
+        "sections": [
+          {
+            "type": "text",
+            "title": "Your Brand's Unlimited Potential",
+            "content": "Your creative vision deserves a platform that amplifies its impact. We see the incredible potential in your brand story - the authentic passion, the innovative approach, the genuine desire to make a difference. Let's unleash this potential through innovative digital experiences that captivate hearts and minds.",
+            "order": 1
+          },
+          {
+            "type": "text",
+            "title": "Our Collaborative Journey Together",
+            "content": "This partnership is about co-creating magic. Our team becomes an extension of yours, working hand-in-hand to bring your boldest creative visions to life. We'll combine your artistic insights with our technical expertise to create experiences that inspire, engage, and transform.",
+            "order": 2
+          }
+        ],
+        "financial_amount": 85000,
+        "financial_currency": "USD",
+        "payment_terms": "Monthly payments over 6 months - flexible and supportive",
+        "valid_until": "2024-08-19T23:59:59Z", 
+        "prepared_by": "Jessica Park, Brand Strategist & Creative Partner",
+        "password_protected": false,
+        "brand_color": "#7C3AED"
+      }
+    }
+  },
+  {
+    "name": "Amiable Client - Gentle Digital Modernization",
+    "description": "Supportive, reassuring proposal for a family business owner who values stability and relationships",
+    "client_type": "amiable",
+    "payload": {
+      "client": {
+        "first_name": "David",
+        "last_name": "Wilson", 
+        "email": "david@familybusiness.com",
+        "phone": "+1-555-0404",
+        "title": "Operations Manager",
+        "company_name": "Wilson Family Hardware",
+        "company_website": "https://wilsonhardware.com",
+        "industry": "Retail",
+        "employee_count": 12,
+        "revenue_range": "$1M-$2M",
+        "growth_stage": "Mature",
+        "consultation_date": "2024-07-21T15:00:00Z"
+      },
+      "psychology_profile": {
+        "primary_type": "Amiable",
+        "secondary_type": "Analytical", 
+        "analytical_score": 60,
+        "driver_score": 20,
+        "expressive_score": 30,
+        "amiable_score": 90,
+        "decision_style": "Deliberate",
+        "decision_authority": "Partial",
+        "risk_tolerance": "Conservative"
+      },
+      "proposal": {
+        "title": "Gentle Digital Modernization for Your Family Business",
+        "executive_summary": "We understand how important it is to preserve what makes your family business special while carefully introducing helpful technology. This proposal outlines a supportive, step-by-step approach that respects your values, supports your team, and ensures everyone feels comfortable throughout the process.",
+        "sections": [
+          {
+            "type": "text",
+            "title": "Understanding Your Unique Needs",
+            "content": "We know that change can feel overwhelming, especially for a business with such strong traditions and relationships. Our approach prioritizes your comfort, your team's confidence, and maintaining the personal touch that your customers love. Every step will be taken with care and consideration.",
+            "order": 1
+          },
+          {
+            "type": "text",
+            "title": "Gradual, Supportive Implementation",
+            "content": "We'll start small with the most helpful improvements first - perhaps a simple inventory system or basic customer database. Each step will be thoroughly tested and approved by you before moving forward. Your team will receive patient, ongoing training and support from our friendly specialists.",
+            "order": 2
+          }
+        ],
+        "financial_amount": 25000,
+        "financial_currency": "USD",
+        "payment_terms": "Quarterly payments with no penalties for delays - we understand",
+        "valid_until": "2024-09-21T23:59:59Z",
+        "prepared_by": "Jennifer Adams, Customer Success Manager",
+        "password_protected": false,
+        "brand_color": "#059669"
+      }
+    }
+  }
+]

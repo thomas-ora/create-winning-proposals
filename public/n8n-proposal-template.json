@@ -1,0 +1,168 @@
+{
+  "name": "Proposal Generation Workflow",
+  "meta": {
+    "instanceId": "proposal-system-template"
+  },
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# Proposal Generation Workflow\n\nThis workflow demonstrates how to integrate with the Proposal Generation API.\n\n## Prerequisites:\n1. Get your API key from the system\n2. Replace 'YOUR_API_KEY_HERE' with your actual API key\n3. Customize the client and proposal data\n\n## Client Psychology Types:\n- **Analytical**: Data-driven, detailed proposals\n- **Driver**: Results-focused, concise proposals  \n- **Expressive**: Relationship-focused, collaborative proposals\n- **Amiable**: Supportive, gentle proposals"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [380, 140],
+      "name": "Instructions"
+    },
+    {
+      "parameters": {
+        "url": "https://axqqqpomxdjwrpkbfawl.supabase.co/functions/v1/create-proposal",
+        "authentication": "headerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_API_KEY_HERE"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyContentType": "json",
+        "jsonParameters": "{\n  \"client\": {\n    \"first_name\": \"{{ $json.client_first_name }}\",\n    \"last_name\": \"{{ $json.client_last_name }}\",\n    \"email\": \"{{ $json.client_email }}\",\n    \"phone\": \"{{ $json.client_phone }}\",\n    \"title\": \"{{ $json.client_title }}\",\n    \"company_name\": \"{{ $json.company_name }}\",\n    \"company_website\": \"{{ $json.company_website }}\",\n    \"industry\": \"{{ $json.industry }}\",\n    \"employee_count\": {{ $json.employee_count }},\n    \"revenue_range\": \"{{ $json.revenue_range }}\",\n    \"growth_stage\": \"{{ $json.growth_stage }}\",\n    \"consultation_date\": \"{{ $json.consultation_date }}\"\n  },\n  \"psychology_profile\": {\n    \"primary_type\": \"{{ $json.psychology_primary_type }}\",\n    \"secondary_type\": \"{{ $json.psychology_secondary_type }}\",\n    \"analytical_score\": {{ $json.analytical_score }},\n    \"driver_score\": {{ $json.driver_score }},\n    \"expressive_score\": {{ $json.expressive_score }},\n    \"amiable_score\": {{ $json.amiable_score }},\n    \"decision_style\": \"{{ $json.decision_style }}\",\n    \"decision_authority\": \"{{ $json.decision_authority }}\",\n    \"risk_tolerance\": \"{{ $json.risk_tolerance }}\"\n  },\n  \"proposal\": {\n    \"title\": \"{{ $json.proposal_title }}\",\n    \"executive_summary\": \"{{ $json.executive_summary }}\",\n    \"sections\": {{ $json.sections }},\n    \"financial_amount\": {{ $json.financial_amount }},\n    \"financial_currency\": \"{{ $json.financial_currency }}\",\n    \"payment_terms\": \"{{ $json.payment_terms }}\",\n    \"pricing_tiers\": {{ $json.pricing_tiers }},\n    \"valid_until\": \"{{ $json.valid_until }}\",\n    \"prepared_by\": \"{{ $json.prepared_by }}\",\n    \"password_protected\": {{ $json.password_protected }},\n    \"password\": \"{{ $json.password }}\",\n    \"brand_color\": \"{{ $json.brand_color }}\",\n    \"logo_url\": \"{{ $json.logo_url }}\"\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": false,
+              "responseFormat": "autodetect"
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [700, 340],
+      "name": "Create Proposal API",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Sample data for testing - replace with your actual data source\nreturn [\n  {\n    // Client Information\n    client_first_name: \"Robert\",\n    client_last_name: \"Chen\", \n    client_email: \"robert.chen@techcorp.com\",\n    client_phone: \"+1-555-0101\",\n    client_title: \"CTO\",\n    company_name: \"TechCorp Analytics\",\n    company_website: \"https://techcorp-analytics.com\",\n    industry: \"Technology\",\n    employee_count: 250,\n    revenue_range: \"$10M-$50M\",\n    growth_stage: \"Growth\",\n    consultation_date: \"2024-07-20T14:00:00Z\",\n    \n    // Psychology Profile\n    psychology_primary_type: \"Analytical\",\n    psychology_secondary_type: \"Driver\", \n    analytical_score: 85,\n    driver_score: 65,\n    expressive_score: 30,\n    amiable_score: 20,\n    decision_style: \"Deliberate\",\n    decision_authority: \"Full\",\n    risk_tolerance: \"Conservative\",\n    \n    // Proposal Details\n    proposal_title: \"Enterprise Data Analytics Platform Implementation\",\n    executive_summary: \"Our comprehensive analysis reveals significant opportunities to optimize your data infrastructure and unlock actionable insights. This proposal outlines a systematic approach to implementing a modern analytics platform that will reduce data processing time by 60% and improve decision-making accuracy by 40%.\",\n    sections: [\n      {\n        type: \"text\",\n        title: \"Current State Analysis\", \n        content: \"Based on our technical assessment, your current data infrastructure faces several critical challenges: fragmented data sources, manual reporting processes, and limited real-time analytics capabilities.\",\n        order: 1\n      },\n      {\n        type: \"text\",\n        title: \"Proposed Solution Architecture\",\n        content: \"We recommend implementing a cloud-native analytics platform with automated data pipelines, real-time dashboards, and predictive modeling capabilities.\",\n        order: 2\n      }\n    ],\n    financial_amount: 400000,\n    financial_currency: \"USD\",\n    payment_terms: \"Net 30\",\n    pricing_tiers: {\n      efficiency: {\n        name: \"Data Efficiency Package\",\n        price: 250000,\n        features: [\"Basic analytics platform\", \"Standard reporting\", \"Email support\"]\n      },\n      growth: {\n        name: \"Growth Analytics Package\",\n        price: 400000, \n        features: [\"Advanced analytics\", \"Real-time dashboards\", \"Priority support\", \"Custom integrations\"]\n      },\n      transformation: {\n        name: \"Digital Transformation Package\",\n        price: 650000,\n        features: [\"Enterprise platform\", \"AI/ML capabilities\", \"24/7 support\", \"Dedicated team\", \"Strategic consulting\"]\n      }\n    },\n    valid_until: \"2024-08-20T23:59:59Z\",\n    prepared_by: \"Sarah Martinez, Solutions Architect\",\n    password_protected: false,\n    password: \"\",\n    brand_color: \"#1E40AF\",\n    logo_url: \"\"\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [380, 340],
+      "name": "Sample Data"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "success",
+              "leftValue": "={{ $json.success }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equal"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1020, 340],
+      "name": "Check Success"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Success - Extract proposal URL and ID\nconst response = $input.all()[0].json;\n\nreturn {\n  status: 'success',\n  proposal_id: response.proposal_id,\n  proposal_url: response.url,\n  expires_at: response.expires_at,\n  message: 'Proposal created successfully!'\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1200, 240],
+      "name": "Success Handler"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Error - Extract error details\nconst errorData = $input.all()[0].json;\n\nreturn {\n  status: 'error',\n  error_message: errorData.error || 'Unknown error',\n  details: errorData,\n  timestamp: new Date().toISOString()\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1200, 440],
+      "name": "Error Handler"
+    },
+    {
+      "parameters": {
+        "content": "## Error Handling\n\nCommon errors and solutions:\n\n**401 Unauthorized**\n- Check API key is correct\n- Verify API key is active\n\n**400 Bad Request** \n- Validate required fields\n- Check JSON format\n\n**429 Too Many Requests**\n- Rate limit: 100 requests/minute\n- Add delay between requests\n\n**500 Server Error**\n- Retry the request\n- Check server status"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1020, 520],
+      "name": "Error Guide"
+    }
+  ],
+  "connections": {
+    "Sample Data": {
+      "main": [
+        [
+          {
+            "node": "Create Proposal API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Proposal API": {
+      "main": [
+        [
+          {
+            "node": "Check Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Success": {
+      "main": [
+        [
+          {
+            "node": "Success Handler",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Handler",
+            "type": "main", 
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-07-14T12:00:00.000Z",
+  "versionId": "1"
+}

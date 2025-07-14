@@ -12,6 +12,7 @@ import CreateProposal from "./pages/CreateProposal";
 import Templates from "./pages/Templates";
 import APIKeys from "./pages/APIKeys";
 import APIDocumentation from "./pages/APIDocumentation";
+import TestAPI from "./pages/TestAPI";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/proposals/:id/analytics" element={<ProposalAnalytics />} />
           <Route path="/templates" element={<Templates />} />
           <Route path="/settings/api-keys" element={<APIKeys />} />
+          <Route path="/test-api" element={<TestAPI />} />
           <Route path="/api-docs" element={<APIDocumentation />} />
           <Route path="/proposal/:proposalId" element={<ProposalView />} />
           <Route path="/p/:proposalId" element={<ProposalView />} />

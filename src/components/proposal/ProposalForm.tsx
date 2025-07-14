@@ -8,6 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { UseFormReturn } from "react-hook-form";
 import { Plus, Trash2, GripVertical } from "lucide-react";
+import { TemplateSelector } from './TemplateSelector';
+import { proposalTemplates, getTemplateById } from '@/data/proposalTemplates';
 
 interface ClientInfoProps {
   form: UseFormReturn<any>;
@@ -86,15 +88,30 @@ export const ClientInfoStep = ({ form }: ClientInfoProps) => {
 
 interface ProposalDetailsProps {
   form: UseFormReturn<any>;
+  onTemplateSelect?: (templateId: string) => void;
 }
 
-export const ProposalDetailsStep = ({ form }: ProposalDetailsProps) => {
+export const ProposalDetailsStep = ({ form, onTemplateSelect }: ProposalDetailsProps) => {
   const { register, formState: { errors }, setValue, watch } = form;
   const template = watch("template");
 
+  const handleTemplateSelection = (templateId: string) => {
+    setValue("template", templateId);
+    if (onTemplateSelect) {
+      onTemplateSelect(templateId);
+    }
+  };
+
   return (
-    <div className="space-y-6">
-      <div>
+      <div className="space-y-8">
+        {/* Template Selection */}
+        <TemplateSelector
+          templates={proposalTemplates}
+          selectedTemplate={template}
+          onSelectTemplate={handleTemplateSelection}
+        />
+
+        <div>
         <h3 className="text-2xl font-bold mb-2">Proposal Details</h3>
         <p className="text-muted-foreground">Configure the basic details of your proposal.</p>
       </div>
@@ -113,19 +130,33 @@ export const ProposalDetailsStep = ({ form }: ProposalDetailsProps) => {
         </div>
 
         <div>
-          <Label htmlFor="template">Template</Label>
-          <Select onValueChange={(value) => setValue("template", value)} value={template}>
-            <SelectTrigger>
-              <SelectValue placeholder="Choose a template" />
-            </SelectTrigger>
-            <SelectContent className="bg-background border">
-              <SelectItem value="web-development">Web Development</SelectItem>
-              <SelectItem value="marketing">Marketing Services</SelectItem>
-              <SelectItem value="consulting">Consulting</SelectItem>
-              <SelectItem value="design">Design Services</SelectItem>
-              <SelectItem value="custom">Custom</SelectItem>
-            </SelectContent>
-          </Select>
+          <Label htmlFor="template">Selected Template</Label>
+          <div className="mt-2 p-3 bg-muted/50 rounded-lg border">
+            {template && template !== 'custom' ? (
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm font-medium">
+                    {getTemplateById(template)?.name || 'Unknown Template'}
+                  </span>
+                  <Badge variant="outline" className="text-xs">
+                    {getTemplateById(template)?.category}
+                  </Badge>
+                </div>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleTemplateSelection('custom')}
+                >
+                  Change
+                </Button>
+              </div>
+            ) : (
+              <span className="text-sm text-muted-foreground">
+                Custom proposal - sections can be added manually
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">

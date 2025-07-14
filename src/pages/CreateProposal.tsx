@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Card } from "@/components/ui/card";
@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, ArrowRight, Save, FileText } from "lucide-react";
 import { ClientInfoStep, ProposalDetailsStep, SectionsStep } from "@/components/proposal/ProposalForm";
+import { getTemplateById } from "@/data/proposalTemplates";
 import { toast } from "@/hooks/use-toast";
 
 interface ProposalFormData {
@@ -27,7 +28,7 @@ interface ProposalFormData {
   };
   sections: Array<{
     id: string;
-    type: 'text' | 'list' | 'pricing';
+    type: 'text' | 'list' | 'pricing' | 'roi_calculator';
     title: string;
     content: any;
     order: number;
@@ -44,6 +45,10 @@ const CreateProposal = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isDraft, setIsDraft] = useState(false);
   const navigate = useNavigate();
+  
+  // Check for template parameter in URL
+  const searchParams = new URLSearchParams(window.location.search);
+  const templateParam = searchParams.get('template');
 
   const form = useForm<ProposalFormData>({
     defaultValues: {
@@ -54,7 +59,7 @@ const CreateProposal = () => {
         phone: ''
       },
       title: '',
-      template: 'custom',
+      template: templateParam || 'custom',
       financial: {
         amount: 0,
         currency: 'USD',
@@ -68,6 +73,13 @@ const CreateProposal = () => {
   });
 
   const { handleSubmit, trigger, watch } = form;
+
+  // Apply template on mount if template parameter exists
+  useEffect(() => {
+    if (templateParam && templateParam !== 'custom') {
+      handleTemplateSelect(templateParam);
+    }
+  }, [templateParam]);
 
   const progress = (currentStep / STEPS.length) * 100;
 
@@ -112,6 +124,36 @@ const CreateProposal = () => {
     setIsDraft(false);
   };
 
+  const handleTemplateSelect = (templateId: string) => {
+    if (templateId === 'custom') {
+      // Clear sections for custom proposal
+      form.setValue('sections', []);
+      return;
+    }
+
+    const template = getTemplateById(templateId);
+    if (template) {
+      // Pre-populate form with template data
+      form.setValue('financial.currency', template.financial.currency);
+      form.setValue('financial.paymentTerms', template.financial.paymentTerms);
+      
+      // Set estimated amount to middle of range
+      const avgAmount = Math.round((template.estimatedValue.min + template.estimatedValue.max) / 2);
+      form.setValue('financial.amount', avgAmount);
+      
+      // Set estimated duration
+      form.setValue('timeline.estimatedDuration', template.duration);
+      
+      // Pre-populate sections from template
+      form.setValue('sections', template.sections);
+      
+      toast({
+        title: "Template Applied",
+        description: `${template.name} template has been applied to your proposal.`,
+      });
+    }
+  };
+
   const onSubmit = async (data: ProposalFormData) => {
     try {
       // Simulate proposal creation
@@ -141,7 +183,7 @@ const CreateProposal = () => {
       case 1:
         return <ClientInfoStep form={form} />;
       case 2:
-        return <ProposalDetailsStep form={form} />;
+        return <ProposalDetailsStep form={form} onTemplateSelect={handleTemplateSelect} />;
       case 3:
         return <SectionsStep form={form} />;
       default:

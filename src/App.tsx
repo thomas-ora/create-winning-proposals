@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import ProposalView from "./pages/ProposalView";
 import ProposalList from "./pages/ProposalList";
 import CreateProposal from "./pages/CreateProposal";
+import Templates from "./pages/Templates";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/proposals" element={<ProposalList />} />
           <Route path="/proposals/create" element={<CreateProposal />} />
+          <Route path="/templates" element={<Templates />} />
           <Route path="/proposal/:proposalId" element={<ProposalView />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

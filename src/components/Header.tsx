@@ -10,27 +10,21 @@ const Header = () => {
           <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
             <FileText className="w-5 h-5 text-white" />
           </div>
-          <span className="font-bold text-xl">ProposalCraft</span>
+          <span className="font-bold text-xl">ProposalSystem</span>
         </Link>
 
         <nav className="hidden md:flex items-center space-x-6">
-          <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors">
-            Home
+          <Link to="/proposals" className="text-muted-foreground hover:text-foreground transition-colors">
+            Proposals
           </Link>
           <Link to="/templates" className="text-muted-foreground hover:text-foreground transition-colors">
             Templates
           </Link>
-          <Link to="/pricing" className="text-muted-foreground hover:text-foreground transition-colors">
-            Pricing
-          </Link>
         </nav>
 
         <div className="flex items-center space-x-4">
-          <Button variant="ghost" className="hidden md:inline-flex">
-            Sign In
-          </Button>
-          <Button variant="hero">
-            Get Started
+          <Button asChild>
+            <Link to="/proposals/create">Create Proposal</Link>
           </Button>
           <Button variant="ghost" size="icon" className="md:hidden">
             <Menu className="w-5 h-5" />

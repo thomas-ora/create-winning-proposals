@@ -1,8 +1,8 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, AlertCircle, Home } from "lucide-react";
+import { FileText, AlertCircle, Home, BarChart3 } from "lucide-react";
 import { ProposalHeader } from "@/components/proposal/ProposalHeader";
 import { ProposalMeta } from "@/components/proposal/ProposalMeta";
 import { ProposalSection } from "@/components/proposal/ProposalSection";
@@ -92,6 +92,20 @@ const ProposalView = () => {
                     />
                   </div>
                 ))}
+            </div>
+
+            {/* Analytics Button */}
+            <div className="flex justify-center mb-6">
+              <Button 
+                asChild
+                variant="outline" 
+                className="flex items-center"
+              >
+                <Link to={`/proposals/${proposalId}/analytics`}>
+                  <BarChart3 className="w-4 h-4 mr-2" />
+                  View Analytics
+                </Link>
+              </Button>
             </div>
 
             {/* Call to Action */}

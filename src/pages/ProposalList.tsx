@@ -1,13 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Skeleton } from "@/components/ui/skeleton";
-import { AlertCircle, FileText, Plus, RefreshCw, Eye, BarChart3 } from "lucide-react";
+import { AlertCircle, FileText, Plus, RefreshCw, Eye, BarChart3, GitCompare } from "lucide-react";
 import { useProposalList } from "@/hooks/useProposalList";
 import { formatCurrency, formatDate, formatStatus } from "@/utils/formatters";
 import { getProposalAnalytics } from "@/utils/analytics";
 import { type CurrencyType } from "@/utils/constants";
+import React from "react";
 
 const ProposalListSkeleton = () => (
   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -43,7 +45,29 @@ const ProposalListSkeleton = () => (
 );
 
 const ProposalList = () => {
+  const navigate = useNavigate();
   const { proposals, loading, error, refetch } = useProposalList();
+  const [selectedProposals, setSelectedProposals] = React.useState<string[]>([]);
+  const [selectionMode, setSelectionMode] = React.useState(false);
+
+  const toggleSelection = (proposalId: string) => {
+    setSelectedProposals(prev => 
+      prev.includes(proposalId) 
+        ? prev.filter(id => id !== proposalId)
+        : [...prev, proposalId]
+    );
+  };
+
+  const handleCompareSelected = () => {
+    if (selectedProposals.length >= 2) {
+      navigate(`/proposals/compare?ids=${selectedProposals.join(',')}`);
+    }
+  };
+
+  const clearSelection = () => {
+    setSelectedProposals([]);
+    setSelectionMode(false);
+  };
 
   if (loading) {
     return (
@@ -108,12 +132,37 @@ const ProposalList = () => {
               </p>
             </div>
             
-            <Button asChild className="flex items-center">
-              <Link to="/proposals/create">
-                <Plus className="w-4 h-4 mr-2" />
-                Create Proposal
-              </Link>
-            </Button>
+            <div className="flex items-center gap-3">
+              {proposals.length > 1 && (
+                <>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setSelectionMode(!selectionMode)}
+                    className="flex items-center"
+                  >
+                    <GitCompare className="w-4 h-4 mr-2" />
+                    {selectionMode ? 'Cancel' : 'Compare'}
+                  </Button>
+                  
+                  {selectionMode && selectedProposals.length >= 2 && (
+                    <Button 
+                      onClick={handleCompareSelected}
+                      className="flex items-center bg-green-600 hover:bg-green-700"
+                    >
+                      <GitCompare className="w-4 h-4 mr-2" />
+                      Compare Selected ({selectedProposals.length})
+                    </Button>
+                  )}
+                </>
+              )}
+              
+              <Button asChild className="flex items-center">
+                <Link to="/proposals/create">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Create Proposal
+                </Link>
+              </Button>
+            </div>
           </div>
 
           {/* Proposals Grid */}
@@ -138,14 +187,29 @@ const ProposalList = () => {
               {proposals.map((proposal) => {
                 const { text: statusText, colorClass: statusColor } = formatStatus(proposal.status as any);
                 const analytics = getProposalAnalytics(proposal.id);
+                const isSelected = selectedProposals.includes(proposal.id);
                 
                 return (
                   <div key={proposal.id} className="group relative">
+                    {/* Selection Mode Overlay */}
+                    {selectionMode && (
+                      <div className="absolute top-2 left-2 z-10">
+                        <Checkbox
+                          checked={isSelected}
+                          onCheckedChange={() => toggleSelection(proposal.id)}
+                          disabled={!isSelected && selectedProposals.length >= 3}
+                          className="bg-background/80 backdrop-blur"
+                        />
+                      </div>
+                    )}
+                    
                     <Link
                       to={`/proposal/${proposal.id}`}
-                      className="block"
+                      className={`block ${selectionMode ? 'pointer-events-none' : ''}`}
                     >
-                      <Card className="p-6 bg-card/50 backdrop-blur shadow-card hover:shadow-elegant transition-all duration-200 group-hover:scale-[1.02] cursor-pointer">
+                      <Card className={`p-6 bg-card/50 backdrop-blur shadow-card hover:shadow-elegant transition-all duration-200 group-hover:scale-[1.02] cursor-pointer ${
+                        isSelected ? 'ring-2 ring-primary bg-primary/5' : ''
+                      }`}>
                         <div className="space-y-4">
                           {/* Header */}
                           <div className="flex items-start space-x-3">
@@ -161,7 +225,7 @@ const ProposalList = () => {
                               </p>
                             </div>
                             {/* Analytics Badge */}
-                            {analytics.totalViews > 0 && (
+                            {analytics.totalViews > 0 && !selectionMode && (
                               <Badge variant="secondary" className="flex items-center gap-1">
                                 <Eye className="w-3 h-3" />
                                 {analytics.totalViews}
@@ -194,7 +258,7 @@ const ProposalList = () => {
                           </div>
 
                           {/* Analytics Preview */}
-                          {analytics.totalViews > 0 && (
+                          {analytics.totalViews > 0 && !selectionMode && (
                             <div className="pt-3 border-t border-muted/20">
                               <div className="flex justify-between items-center text-xs text-muted-foreground">
                                 <span className="flex items-center gap-1">
@@ -228,7 +292,7 @@ const ProposalList = () => {
                     </Link>
                     
                     {/* Analytics Button */}
-                    {analytics.totalViews > 0 && (
+                    {analytics.totalViews > 0 && !selectionMode && (
                       <Button
                         variant="ghost"
                         size="sm"

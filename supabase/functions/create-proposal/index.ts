@@ -191,6 +191,7 @@ serve(async (req) => {
         .from('clients')
         .update({
           ...proposalData.client,
+          name: `${proposalData.client.first_name || ''} ${proposalData.client.last_name || ''}`.trim() || proposalData.client.email,
           consultation_date: proposalData.client.consultation_date || null,
           updated_at: new Date().toISOString()
         })
@@ -201,6 +202,7 @@ serve(async (req) => {
         .from('clients')
         .insert({
           ...proposalData.client,
+          name: `${proposalData.client.first_name || ''} ${proposalData.client.last_name || ''}`.trim() || proposalData.client.email,
           consultation_date: proposalData.client.consultation_date || null
         })
         .select('id')

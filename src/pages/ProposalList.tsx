@@ -9,7 +9,7 @@ import { useProposalList } from "@/hooks/useProposalList";
 import { formatCurrency, formatDate, formatStatus } from "@/utils/formatters";
 import { getProposalAnalytics } from "@/utils/analytics";
 import { type CurrencyType } from "@/utils/constants";
-import MainLayout from "@/components/layout/MainLayout";
+import AppLayout from "@/components/layout/AppLayout";
 import React from "react";
 
 const ProposalListSkeleton = () => (
@@ -121,10 +121,7 @@ const ProposalList = () => {
   }
 
   return (
-    <MainLayout
-      title="All Proposals"
-      description="Manage and track your client proposals"
-    >
+    <AppLayout>
       <div className="p-8">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
@@ -320,7 +317,7 @@ const ProposalList = () => {
           )}
         </div>
       </div>
-    </MainLayout>
+    </AppLayout>
   );
 };
 

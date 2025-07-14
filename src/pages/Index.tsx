@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import MainLayout from "@/components/layout/MainLayout";
+import AppLayout from "@/components/layout/AppLayout";
 import { Activity, CheckCircle, Clock, AlertCircle, Users, TrendingUp, Zap, ArrowRight, Sparkles, BarChart3, Clock3 } from "lucide-react";
 
 const Index = () => {
@@ -43,7 +43,7 @@ const Index = () => {
     fetchStats();
   }, []);
   return (
-    <MainLayout>
+    <AppLayout>
       {/* Hero Section with animated background */}
       <div className="relative min-h-screen overflow-hidden">
         {/* Animated background */}
@@ -222,7 +222,7 @@ const Index = () => {
           </div>
         </div>
       </div>
-    </MainLayout>
+    </AppLayout>
   );
 };
 

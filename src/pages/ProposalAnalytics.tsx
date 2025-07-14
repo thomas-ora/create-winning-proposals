@@ -34,7 +34,7 @@ import {
 import { useProposal } from '@/hooks/useProposal';
 import { getProposalEvents, getProposalAnalytics } from '@/utils/analytics';
 import { formatDate } from '@/utils/formatters';
-import MainLayout from '@/components/layout/MainLayout';
+import AppLayout from '@/components/layout/AppLayout';
 
 const COLORS = ['hsl(var(--primary))', 'hsl(var(--secondary))', 'hsl(var(--accent))', 'hsl(var(--muted))'];
 
@@ -107,12 +107,10 @@ const ProposalAnalytics = () => {
 
   if (loading) {
     return (
-      <MainLayout
-        title="Proposal Analytics"
-        description="Loading analytics data..."
-      >
+      <AppLayout>
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-6xl mx-auto space-y-6">
+            <Skeleton className="h-12 w-64" />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[...Array(4)].map((_, i) => (
                 <Skeleton key={i} className="h-32" />
@@ -125,19 +123,16 @@ const ProposalAnalytics = () => {
             </div>
           </div>
         </div>
-      </MainLayout>
+      </AppLayout>
     );
   }
 
   if (!proposal || !analytics) {
     return (
-      <MainLayout
-        title="Analytics Not Available"
-        description="We couldn't load analytics for this proposal"
-      >
+      <AppLayout>
         <div className="flex items-center justify-center py-16">
           <Card className="p-8 text-center">
-            <h2 className="text-xl font-bold mb-4">No Data Available</h2>
+            <h1 className="text-2xl font-bold mb-4">Analytics Not Available</h1>
             <p className="text-muted-foreground mb-6">
               We couldn't load analytics for this proposal.
             </p>
@@ -146,15 +141,12 @@ const ProposalAnalytics = () => {
             </Button>
           </Card>
         </div>
-      </MainLayout>
+      </AppLayout>
     );
   }
 
   return (
-    <MainLayout
-      title="Proposal Analytics"
-      description={proposal.title}
-    >
+    <AppLayout>
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
@@ -162,9 +154,13 @@ const ProposalAnalytics = () => {
             <Button variant="outline" size="sm" asChild>
               <Link to="/proposals" className="flex items-center">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Proposals
+                Back
               </Link>
             </Button>
+            <div>
+              <h1 className="text-3xl font-bold">Proposal Analytics</h1>
+              <p className="text-muted-foreground">{proposal.title}</p>
+            </div>
           </div>
 
           {/* Key Metrics */}
@@ -397,7 +393,7 @@ const ProposalAnalytics = () => {
           </div>
         </div>
       </div>
-    </MainLayout>
+    </AppLayout>
   );
 };
 

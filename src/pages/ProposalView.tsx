@@ -64,55 +64,57 @@ const ProposalView = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
-      {/* Header */}
-      <ProposalHeader proposal={proposal} />
+    <ErrorBoundary>
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
+        {/* Header */}
+        <ProposalHeader proposal={proposal} />
 
-      {/* Proposal Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
-          {/* Proposal Meta */}
-          <ProposalMeta proposal={proposal} />
+        {/* Proposal Content */}
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-4xl mx-auto">
+            {/* Proposal Meta */}
+            <ProposalMeta proposal={proposal} />
 
-          {/* Proposal Sections */}
-          <div className="space-y-6">
-            {proposal.sections
-              .sort((a, b) => a.order - b.order)
-              .map((section) => (
-                <div
-                  key={section.id}
-                  data-section-id={section.id}
-                  data-section-title={section.title}
-                >
-                  <ProposalSection 
-                    section={section} 
-                    onCalculatorUse={tracking.trackCalculatorUse}
-                    onLinkClick={tracking.trackLinkClick}
-                  />
-                </div>
-              ))}
-          </div>
-
-          {/* Call to Action */}
-          <Card className="p-8 bg-gradient-primary text-white mt-8 shadow-elegant">
-            <div className="text-center">
-              <h3 className="text-2xl font-bold mb-4">Ready to Get Started?</h3>
-              <p className="text-white/90 mb-6">
-                We're excited to work with you on this project. Click below to accept this proposal and begin the process.
-              </p>
-              <Button 
-                size="lg" 
-                variant="secondary" 
-                className="bg-white text-primary hover:bg-white/90"
-                onClick={() => tracking.trackCTAClick('accept', { location: 'bottom_cta' })}
-              >
-                Accept Proposal
-              </Button>
+            {/* Proposal Sections */}
+            <div className="space-y-6">
+              {proposal.sections
+                .sort((a, b) => a.order - b.order)
+                .map((section) => (
+                  <div
+                    key={section.id}
+                    data-section-id={section.id}
+                    data-section-title={section.title}
+                  >
+                    <ProposalSection 
+                      section={section} 
+                      onCalculatorUse={tracking.trackCalculatorUse}
+                      onLinkClick={tracking.trackLinkClick}
+                    />
+                  </div>
+                ))}
             </div>
-          </Card>
+
+            {/* Call to Action */}
+            <Card className="p-8 bg-gradient-primary text-white mt-8 shadow-elegant">
+              <div className="text-center">
+                <h3 className="text-2xl font-bold mb-4">Ready to Get Started?</h3>
+                <p className="text-white/90 mb-6">
+                  We're excited to work with you on this project. Click below to accept this proposal and begin the process.
+                </p>
+                <Button 
+                  size="lg" 
+                  variant="secondary" 
+                  className="bg-white text-primary hover:bg-white/90"
+                  onClick={() => tracking.trackCTAClick('accept', { location: 'bottom_cta' })}
+                >
+                  Accept Proposal
+                </Button>
+              </div>
+            </Card>
+          </div>
         </div>
       </div>
-    </div>
+    </ErrorBoundary>
   );
 };
 

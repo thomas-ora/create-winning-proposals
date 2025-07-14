@@ -156,9 +156,86 @@ const CreateProposal = () => {
     }
   };
 
+  const validateFormData = (data: ProposalFormData): string[] => {
+    const errors: string[] = [];
+    
+    // Validate client data
+    if (!data.client?.name?.trim()) errors.push("Client name is required");
+    if (!data.client?.email?.trim()) errors.push("Client email is required");
+    if (!data.client?.company?.trim()) errors.push("Client company is required");
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (data.client?.email && !emailRegex.test(data.client.email)) {
+      errors.push("Client email format is invalid");
+    }
+    
+    // Validate proposal data
+    if (!data.title?.trim()) errors.push("Proposal title is required");
+    if (!data.financial?.amount || data.financial.amount <= 0) {
+      errors.push("Financial amount must be greater than 0");
+    }
+    if (!data.financial?.currency?.trim()) errors.push("Currency is required");
+    
+    // Validate sections (at least one is recommended)
+    if (!data.sections || data.sections.length === 0) {
+      console.warn("No sections added to proposal - this is allowed but not recommended");
+    }
+    
+    return errors;
+  };
+
   const onSubmit = async (data: ProposalFormData) => {
+    console.log("=== START CREATE PROPOSAL SUBMISSION ===");
+    console.log("Current step:", currentStep);
+    console.log("Complete form data:", JSON.stringify(data, null, 2));
+    
     try {
-      // Create the proposal using the backend API
+      // Validate form data before submission
+      console.log("Validating form data...");
+      const validationErrors = validateFormData(data);
+      
+      if (validationErrors.length > 0) {
+        console.error("Form validation failed:", validationErrors);
+        toast({
+          title: "Validation Error",
+          description: validationErrors.join(". "),
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      console.log("Form validation passed");
+      
+      // Check if all required fields are present
+      console.log("Checking required fields...");
+      const requiredChecks = {
+        clientName: !!data.client?.name?.trim(),
+        clientEmail: !!data.client?.email?.trim(),
+        clientCompany: !!data.client?.company?.trim(),
+        proposalTitle: !!data.title?.trim(),
+        financialAmount: data.financial?.amount > 0,
+        financialCurrency: !!data.financial?.currency?.trim()
+      };
+      
+      console.log("Required fields check:", requiredChecks);
+      
+      const missingFields = Object.entries(requiredChecks)
+        .filter(([_, isPresent]) => !isPresent)
+        .map(([field, _]) => field);
+      
+      if (missingFields.length > 0) {
+        console.error("Missing required fields:", missingFields);
+        toast({
+          title: "Missing Required Fields",
+          description: `Please fill in: ${missingFields.join(", ")}`,
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      // Create the proposal request object
+      console.log("Creating proposal request object...");
       const proposalRequest = {
         client: {
           first_name: data.client.name.split(' ')[0] || data.client.name,
@@ -180,7 +257,7 @@ const CreateProposal = () => {
             title: section.title,
             content: section.content
           })),
-          financial_amount: data.financial.amount,
+          financial_amount: Number(data.financial.amount),
           financial_currency: data.financial.currency,
           payment_terms: data.financial.paymentTerms || "Net 30",
           valid_until: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 30 days from now
@@ -189,11 +266,37 @@ const CreateProposal = () => {
           brand_color: "#7B7FEB"
         }
       };
-
+      
+      console.log("Proposal request object:", JSON.stringify(proposalRequest, null, 2));
+      
+      // Validate the proposal request object
+      if (!proposalRequest.client.first_name) {
+        throw new Error("Client first name is missing after processing");
+      }
+      if (!proposalRequest.client.email) {
+        throw new Error("Client email is missing after processing");
+      }
+      if (!proposalRequest.proposal.title) {
+        throw new Error("Proposal title is missing after processing");
+      }
+      if (isNaN(proposalRequest.proposal.financial_amount)) {
+        throw new Error("Financial amount is not a valid number");
+      }
+      
+      console.log("Making API call to create proposal...");
+      
       // Use a demo API key for now - in production this would come from user settings
       const demoApiKey = "demo-api-key-12345";
+      console.log("Using API key:", demoApiKey);
       
       const response = await proposalService.createProposal(proposalRequest, demoApiKey);
+      console.log("API response:", response);
+      
+      if (!response || !response.proposal_id) {
+        throw new Error("Invalid response from proposal service - missing proposal ID");
+      }
+      
+      console.log("Proposal created successfully with ID:", response.proposal_id);
       
       toast({
         title: "Proposal Created Successfully!",
@@ -201,27 +304,67 @@ const CreateProposal = () => {
       });
       
       // Navigate to the newly created proposal
+      console.log("Navigating to proposal:", `/p/${response.proposal_id}`);
       navigate(`/p/${response.proposal_id}`);
-    } catch (error) {
-      console.error('Error creating proposal:', error);
+      
+    } catch (error: any) {
+      console.error("=== ERROR CREATING PROPOSAL ===");
+      console.error("Error details:", error);
+      console.error("Error message:", error?.message);
+      console.error("Error stack:", error?.stack);
+      
+      // Try to extract more meaningful error information
+      let errorMessage = "Failed to create proposal. Please try again.";
+      
+      if (error?.message) {
+        errorMessage = error.message;
+      } else if (typeof error === 'string') {
+        errorMessage = error;
+      } else if (error?.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      } else if (error?.response?.statusText) {
+        errorMessage = `API Error: ${error.response.statusText}`;
+      }
+      
+      console.error("Final error message to display:", errorMessage);
+      
       toast({
-        title: "Error",
-        description: "Failed to create proposal. Please try again.",
+        title: "Error Creating Proposal",
+        description: errorMessage,
         variant: "destructive"
       });
+    } finally {
+      console.log("=== END CREATE PROPOSAL SUBMISSION ===");
     }
   };
 
   const renderCurrentStep = () => {
-    switch (currentStep) {
-      case 1:
-        return <ClientInfoStep form={form} />;
-      case 2:
-        return <ProposalDetailsStep form={form} onTemplateSelect={handleTemplateSelect} />;
-      case 3:
-        return <SectionsStep form={form} />;
-      default:
-        return null;
+    console.log("Rendering step:", currentStep);
+    console.log("Form values for current step:", form.getValues());
+    
+    try {
+      switch (currentStep) {
+        case 1:
+          console.log("Rendering ClientInfoStep");
+          return <ClientInfoStep form={form} />;
+        case 2:
+          console.log("Rendering ProposalDetailsStep");
+          return <ProposalDetailsStep form={form} onTemplateSelect={handleTemplateSelect} />;
+        case 3:
+          console.log("Rendering SectionsStep");
+          return <SectionsStep form={form} />;
+        default:
+          console.warn("Unknown step:", currentStep);
+          return null;
+      }
+    } catch (error) {
+      console.error("Error rendering current step:", error);
+      return (
+        <div className="p-4 text-center">
+          <p className="text-destructive">Error rendering form step. Please refresh and try again.</p>
+          <p className="text-sm text-muted-foreground mt-2">Step: {currentStep}</p>
+        </div>
+      );
     }
   };
 

@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import ProposalView from "./pages/ProposalView";
 import ProposalList from "./pages/ProposalList";
 import ProposalAnalytics from "./pages/ProposalAnalytics";
+import GeneralAnalytics from "./pages/GeneralAnalytics";
 import CompareProposals from "./pages/CompareProposals";
 import CreateProposal from "./pages/CreateProposal";
 import Templates from "./pages/Templates";
@@ -27,6 +28,7 @@ const AppContent = () => {
     <Routes>
       <Route path="/" element={<Index />} />
       <Route path="/proposals" element={<ProposalList />} />
+      <Route path="/proposals/analytics" element={<GeneralAnalytics />} />
       <Route path="/proposals/create" element={<CreateProposal />} />
       <Route path="/proposals/compare" element={<CompareProposals />} />
       <Route path="/proposals/:id/analytics" element={<ProposalAnalytics />} />

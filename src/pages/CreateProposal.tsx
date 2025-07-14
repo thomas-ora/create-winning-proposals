@@ -9,6 +9,7 @@ import { ClientInfoStep, ProposalDetailsStep, SectionsStep } from "@/components/
 import { getTemplateById } from "@/data/proposalTemplates";
 import { toast } from "@/hooks/use-toast";
 import AppLayout from "@/components/layout/AppLayout";
+import { proposalService } from "@/services/proposalService";
 
 interface ProposalFormData {
   client: {
@@ -157,20 +158,52 @@ const CreateProposal = () => {
 
   const onSubmit = async (data: ProposalFormData) => {
     try {
-      // Simulate proposal creation
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Create the proposal using the backend API
+      const proposalRequest = {
+        client: {
+          first_name: data.client.name.split(' ')[0] || data.client.name,
+          last_name: data.client.name.split(' ').slice(1).join(' ') || '',
+          email: data.client.email,
+          company_name: data.client.company,
+          phone: data.client.phone || undefined,
+        },
+        psychology_profile: {
+          risk_tolerance: "moderate",
+          decision_making_style: "analytical",
+          communication_preference: "detailed"
+        },
+        proposal: {
+          title: data.title,
+          executive_summary: "This proposal outlines a comprehensive solution tailored to your business needs.",
+          sections: data.sections.map(section => ({
+            type: section.type,
+            title: section.title,
+            content: section.content
+          })),
+          financial_amount: data.financial.amount,
+          financial_currency: data.financial.currency,
+          payment_terms: data.financial.paymentTerms || "Net 30",
+          valid_until: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 30 days from now
+          prepared_by: "ORA Systems Team",
+          password_protected: false,
+          brand_color: "#7B7FEB"
+        }
+      };
+
+      // Use a demo API key for now - in production this would come from user settings
+      const demoApiKey = "demo-api-key-12345";
       
-      // Create a mock proposal ID
-      const proposalId = `proposal-${Date.now()}`;
+      const response = await proposalService.createProposal(proposalRequest, demoApiKey);
       
       toast({
         title: "Proposal Created Successfully!",
         description: `Your proposal "${data.title}" has been created.`,
       });
       
-      // Navigate to the new proposal
-      navigate(`/proposal/${proposalId}`);
+      // Navigate to the newly created proposal
+      navigate(`/p/${response.proposal_id}`);
     } catch (error) {
+      console.error('Error creating proposal:', error);
       toast({
         title: "Error",
         description: "Failed to create proposal. Please try again.",

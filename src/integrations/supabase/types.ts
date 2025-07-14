@@ -44,6 +44,191 @@ export type Database = {
         }
         Relationships: []
       }
+      clients: {
+        Row: {
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          name: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      proposal_events: {
+        Row: {
+          created_at: string
+          event_data: Json | null
+          event_type: string
+          id: string
+          ip_address: unknown | null
+          proposal_id: string
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_data?: Json | null
+          event_type: string
+          id?: string
+          ip_address?: unknown | null
+          proposal_id: string
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_data?: Json | null
+          event_type?: string
+          id?: string
+          ip_address?: unknown | null
+          proposal_id?: string
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proposal_events_proposal_id_fkey"
+            columns: ["proposal_id"]
+            isOneToOne: false
+            referencedRelation: "proposals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      proposals: {
+        Row: {
+          client_id: string
+          created_at: string
+          created_by_api_key: string | null
+          currency: string
+          description: string | null
+          expires_at: string | null
+          id: string
+          password_hash: string | null
+          psychology_profile_id: string | null
+          sections: Json | null
+          settings: Json | null
+          status: string
+          title: string
+          total_value: number | null
+          updated_at: string
+          valid_until: string | null
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          created_by_api_key?: string | null
+          currency?: string
+          description?: string | null
+          expires_at?: string | null
+          id?: string
+          password_hash?: string | null
+          psychology_profile_id?: string | null
+          sections?: Json | null
+          settings?: Json | null
+          status?: string
+          title: string
+          total_value?: number | null
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          created_by_api_key?: string | null
+          currency?: string
+          description?: string | null
+          expires_at?: string | null
+          id?: string
+          password_hash?: string | null
+          psychology_profile_id?: string | null
+          sections?: Json | null
+          settings?: Json | null
+          status?: string
+          title?: string
+          total_value?: number | null
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proposals_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "proposals_created_by_api_key_fkey"
+            columns: ["created_by_api_key"]
+            isOneToOne: false
+            referencedRelation: "api_keys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "proposals_psychology_profile_id_fkey"
+            columns: ["psychology_profile_id"]
+            isOneToOne: false
+            referencedRelation: "psychology_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      psychology_profiles: {
+        Row: {
+          client_id: string
+          communication_preference: string | null
+          created_at: string
+          decision_making_style: string | null
+          id: string
+          risk_tolerance: string | null
+          updated_at: string
+        }
+        Insert: {
+          client_id: string
+          communication_preference?: string | null
+          created_at?: string
+          decision_making_style?: string | null
+          id?: string
+          risk_tolerance?: string | null
+          updated_at?: string
+        }
+        Update: {
+          client_id?: string
+          communication_preference?: string | null
+          created_at?: string
+          decision_making_style?: string | null
+          id?: string
+          risk_tolerance?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "psychology_profiles_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

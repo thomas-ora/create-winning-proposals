@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
@@ -10,7 +12,22 @@ const Index = () => {
       <main>
         <Hero />
         <Features />
-        <CTA />
+      <CTA />
+      
+      {/* View All Proposals Section */}
+      <section className="py-16">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold mb-6">Explore Sample Proposals</h2>
+          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Browse through our collection of professionally crafted proposals to see the system in action.
+          </p>
+          <Link to="/proposals">
+            <Button size="lg" variant="hero" className="shadow-elegant">
+              View All Proposals
+            </Button>
+          </Link>
+        </div>
+      </section>
       </main>
     </div>
   );

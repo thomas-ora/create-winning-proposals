@@ -23,10 +23,10 @@ const PrimarySidebar = () => {
   const navItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/" },
     { icon: FileText, label: "Proposals", path: "/proposals" },
-    { icon: BarChart3, label: "Analytics", path: "/analytics" },
+    { icon: BarChart3, label: "Analytics", path: "/proposals/analytics" },
     { icon: Layout, label: "Templates", path: "/templates" },
     { icon: Code, label: "API", path: "/api-docs" },
-    { icon: Settings, label: "Settings", path: "/settings" },
+    { icon: Settings, label: "Settings", path: "/settings/api-keys" },
   ];
 
   const isActive = (path: string) => {
@@ -45,7 +45,7 @@ const PrimarySidebar = () => {
         />
         
         {/* Mobile Sidebar */}
-        <div className="fixed left-0 top-0 h-full w-72 glass-sidebar flex flex-col z-50 lg:hidden transform transition-transform duration-300 ease-smooth">
+        <div className="fixed inset-y-0 left-0 w-80 max-w-[85vw] bg-surface-1/95 backdrop-blur-md border-r border-white/10 flex flex-col z-50 transform transition-transform duration-300 ease-smooth shadow-2xl">
           {/* Mobile Header */}
           <div className="p-4 border-b border-white/10 flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -122,9 +122,10 @@ const PrimarySidebar = () => {
       {isMobile && (
         <button
           onClick={() => setIsMobileOpen(true)}
-          className="fixed top-4 left-4 z-30 p-2 bg-card/80 backdrop-blur-sm rounded-lg shadow-lg lg:hidden border border-border/50 hover:bg-card transition-colors"
+          className="fixed top-4 left-4 z-50 p-3 bg-surface-1/90 backdrop-blur-md rounded-xl shadow-elegant border border-white/10 hover:bg-surface-2/90 transition-all duration-200 lg:hidden"
+          aria-label="Open navigation menu"
         >
-          <Menu className="w-5 h-5 text-foreground" />
+          <Menu className="w-6 h-6 text-foreground" />
         </button>
       )}
 

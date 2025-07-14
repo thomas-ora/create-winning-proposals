@@ -3,19 +3,8 @@ import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, Calendar, DollarSign, Clock, Download, Eye } from "lucide-react";
-
-interface ProposalData {
-  id: string;
-  title: string;
-  client: string;
-  amount: string;
-  date: string;
-  status: string;
-  sections: {
-    title: string;
-    content: string;
-  }[];
-}
+import { ProposalData, PricingTable } from "@/data/types";
+import { getProposalById } from "@/data/mockProposals";
 
 const ProposalView = () => {
   const { proposalId } = useParams();
@@ -26,37 +15,11 @@ const ProposalView = () => {
     // Simulate API call to fetch proposal data
     const fetchProposal = async () => {
       try {
-        // Mock data - in real app, this would be an API call
+        // Mock delay to simulate API call
         await new Promise(resolve => setTimeout(resolve, 1000));
         
-        const mockProposal: ProposalData = {
-          id: proposalId || "unknown",
-          title: "Website Redesign Proposal",
-          client: "Acme Corporation",
-          amount: "$15,000",
-          date: "December 14, 2024",
-          status: "Pending Review",
-          sections: [
-            {
-              title: "Project Overview",
-              content: "We propose a complete redesign of your website to improve user experience, increase conversion rates, and modernize your digital presence. This project will include UX research, design mockups, and full development implementation."
-            },
-            {
-              title: "Scope of Work",
-              content: "1. Discovery and Research Phase\n2. UX/UI Design\n3. Frontend Development\n4. Content Management System\n5. Testing and Quality Assurance\n6. Launch and Training"
-            },
-            {
-              title: "Timeline",
-              content: "The project will be completed in 8 weeks, with key milestones every 2 weeks for your review and feedback. We'll provide regular updates and maintain open communication throughout the process."
-            },
-            {
-              title: "Investment",
-              content: "Total project investment: $15,000\nPayment terms: 50% upfront, 50% upon completion\nIncludes 30 days of post-launch support"
-            }
-          ]
-        };
-        
-        setProposal(mockProposal);
+        const proposalData = getProposalById(proposalId || "");
+        setProposal(proposalData || null);
       } catch (error) {
         console.error("Error fetching proposal:", error);
       } finally {
@@ -103,7 +66,7 @@ const ProposalView = () => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold">{proposal.title}</h1>
-                <p className="text-muted-foreground">For {proposal.client}</p>
+                <p className="text-muted-foreground">For {proposal.client.company}</p>
               </div>
             </div>
             
@@ -131,7 +94,7 @@ const ProposalView = () => {
                 <DollarSign className="w-5 h-5 text-primary" />
                 <div>
                   <p className="text-sm text-muted-foreground">Total Value</p>
-                  <p className="font-semibold text-lg">{proposal.amount}</p>
+                  <p className="font-semibold text-lg">${proposal.financial.amount.toLocaleString()}</p>
                 </div>
               </div>
             </Card>
@@ -141,7 +104,7 @@ const ProposalView = () => {
                 <Calendar className="w-5 h-5 text-primary" />
                 <div>
                   <p className="text-sm text-muted-foreground">Date</p>
-                  <p className="font-semibold">{proposal.date}</p>
+                  <p className="font-semibold">{proposal.timeline.createdAt.toLocaleDateString()}</p>
                 </div>
               </div>
             </Card>
@@ -151,7 +114,7 @@ const ProposalView = () => {
                 <Clock className="w-5 h-5 text-primary" />
                 <div>
                   <p className="text-sm text-muted-foreground">Status</p>
-                  <p className="font-semibold text-orange-600">{proposal.status}</p>
+                  <p className="font-semibold text-orange-600 capitalize">{proposal.status}</p>
                 </div>
               </div>
             </Card>
@@ -159,15 +122,65 @@ const ProposalView = () => {
 
           {/* Proposal Sections */}
           <div className="space-y-6">
-            {proposal.sections.map((section, index) => (
-              <Card key={index} className="p-8 bg-card/50 backdrop-blur shadow-card">
+            {proposal.sections
+              .sort((a, b) => a.order - b.order)
+              .map((section) => (
+              <Card key={section.id} className="p-8 bg-card/50 backdrop-blur shadow-card">
                 <h2 className="text-2xl font-bold mb-4">{section.title}</h2>
                 <div className="prose prose-gray max-w-none">
-                  {section.content.split('\n').map((paragraph, i) => (
-                    <p key={i} className="text-foreground leading-relaxed mb-4 last:mb-0">
-                      {paragraph}
-                    </p>
-                  ))}
+                  {section.type === 'text' && typeof section.content === 'string' && (
+                    section.content.split('\n').map((paragraph, i) => (
+                      <p key={i} className="text-foreground leading-relaxed mb-4 last:mb-0">
+                        {paragraph}
+                      </p>
+                    ))
+                  )}
+                  {section.type === 'list' && Array.isArray(section.content) && (
+                    <ul className="space-y-2">
+                      {section.content.map((item, i) => (
+                        <li key={i} className="text-foreground leading-relaxed flex items-start">
+                          <span className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {section.type === 'pricing' && typeof section.content === 'object' && !Array.isArray(section.content) && section.content !== null && (
+                    <div className="overflow-x-auto">
+                      <table className="w-full border-collapse">
+                        <thead>
+                          <tr className="border-b">
+                            {(section.content as PricingTable).headers.map((header, i) => (
+                              <th key={i} className="text-left py-3 px-4 font-semibold">
+                                {header}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {(section.content as PricingTable).rows.map((row, i) => (
+                            <tr key={i} className="border-b border-muted">
+                              {(section.content as PricingTable).headers.map((header, j) => (
+                                <td key={j} className="py-3 px-4">
+                                  {row[header]}
+                                </td>
+                              ))}
+                            </tr>
+                          ))}
+                          {(section.content as PricingTable).total && (
+                            <tr className="border-t-2 border-primary font-semibold">
+                              <td className="py-3 px-4" colSpan={(section.content as PricingTable).headers.length - 1}>
+                                Total Investment
+                              </td>
+                              <td className="py-3 px-4">
+                                ${(section.content as PricingTable).total!.toLocaleString()}
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
                 </div>
               </Card>
             ))}

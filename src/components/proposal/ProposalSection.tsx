@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { ProposalSection as ProposalSectionType, PricingTable } from "@/data/types";
+import { ROICalculator } from "./ROICalculator";
 
 interface ProposalSectionProps {
   section: ProposalSectionType;
@@ -26,6 +27,14 @@ export const ProposalSection = ({ section }: ProposalSectionProps) => {
               </li>
             ))}
           </ul>
+        )}
+        {section.type === 'roi_calculator' && (
+          <div className="-mx-8 -mb-8 mt-4">
+            <ROICalculator 
+              title={section.title || "ROI Calculator"}
+              standalone={false}
+            />
+          </div>
         )}
         {section.type === 'pricing' && typeof section.content === 'object' && !Array.isArray(section.content) && section.content !== null && (
           <div className="overflow-x-auto">

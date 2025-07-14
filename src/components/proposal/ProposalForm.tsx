@@ -186,7 +186,7 @@ export const ProposalDetailsStep = ({ form }: ProposalDetailsProps) => {
 
 interface Section {
   id: string;
-  type: 'text' | 'list' | 'pricing';
+  type: 'text' | 'list' | 'pricing' | 'roi_calculator';
   title: string;
   content: any;
   order: number;
@@ -200,12 +200,12 @@ export const SectionsStep = ({ form }: SectionsStepProps) => {
   const { setValue, watch } = form;
   const sections = watch("sections") || [];
 
-  const addSection = (type: 'text' | 'list' | 'pricing') => {
+  const addSection = (type: 'text' | 'list' | 'pricing' | 'roi_calculator') => {
     const newSection: Section = {
       id: `section-${Date.now()}`,
       type,
       title: "",
-      content: type === 'list' ? [] : type === 'pricing' ? { headers: [], rows: [], total: 0 } : "",
+      content: type === 'list' ? [] : type === 'pricing' ? { headers: [], rows: [], total: 0 } : type === 'roi_calculator' ? { title: '', description: '' } : "",
       order: sections.length
     };
     setValue("sections", [...sections, newSection]);
@@ -242,6 +242,10 @@ export const SectionsStep = ({ form }: SectionsStepProps) => {
         <Button type="button" variant="outline" onClick={() => addSection('list')}>
           <Plus className="w-4 h-4 mr-2" />
           Add List Section
+        </Button>
+        <Button type="button" variant="outline" onClick={() => addSection('roi_calculator')}>
+          <Plus className="w-4 h-4 mr-2" />
+          Add ROI Calculator
         </Button>
         <Button type="button" variant="outline" onClick={() => addSection('pricing')}>
           <Plus className="w-4 h-4 mr-2" />
@@ -330,6 +334,19 @@ export const SectionsStep = ({ form }: SectionsStepProps) => {
                       <Plus className="w-4 h-4 mr-2" />
                       Add Item
                     </Button>
+                  </div>
+                </div>
+              )}
+
+              {section.type === 'roi_calculator' && (
+                <div>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    ROI Calculator will be automatically configured based on your proposal details.
+                  </p>
+                  <div className="p-4 bg-muted/50 rounded-lg border-2 border-dashed border-muted">
+                    <div className="text-center text-muted-foreground">
+                      Interactive ROI Calculator Preview
+                    </div>
                   </div>
                 </div>
               )}

@@ -6,7 +6,7 @@ export interface PricingTable {
 
 export interface ProposalSection {
   id: string;
-  type: 'text' | 'list' | 'table' | 'image' | 'pricing';
+  type: 'text' | 'list' | 'table' | 'image' | 'pricing' | 'roi_calculator';
   title: string;
   content: string | string[] | PricingTable;
   order: number;

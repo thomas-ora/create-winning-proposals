@@ -82,11 +82,18 @@ export const mockProposals: ProposalData[] = [
         order: 4
       },
       {
+        id: 'roi-calculator',
+        type: 'roi_calculator',
+        title: 'ROI Calculator: Automation Benefits',
+        content: "",
+        order: 5
+      },
+      {
         id: 'investment',
         type: 'text',
         title: 'Investment Breakdown',
         content: 'Total Investment: $25,000\n\nDesign & UX: $5,000\nFrontend Development: $8,000\nBackend Development: $7,000\nTesting & QA: $3,000\nDeployment & Setup: $2,000\n\nPayment Schedule:\n50% ($12,500) - Project initiation\n25% ($6,250) - Mid-project milestone\n25% ($6,250) - Project completion',
-        order: 5
+        order: 6
       }
     ]
   },

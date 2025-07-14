@@ -120,8 +120,8 @@ const ProposalList = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
-      <div className="container mx-auto px-4 py-8">
+    <AppLayout>
+      <div className="p-8">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
@@ -316,7 +316,7 @@ const ProposalList = () => {
           )}
         </div>
       </div>
-    </div>
+    </AppLayout>
   );
 };
 

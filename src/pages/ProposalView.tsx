@@ -1,51 +1,17 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, AlertCircle, Home } from "lucide-react";
-import { ProposalData } from "@/data/types";
-import { getProposalById } from "@/data/mockProposals";
 import { ProposalHeader } from "@/components/proposal/ProposalHeader";
 import { ProposalMeta } from "@/components/proposal/ProposalMeta";
 import { ProposalSection } from "@/components/proposal/ProposalSection";
 import { ProposalSkeleton } from "@/components/proposal/ProposalSkeleton";
 import { ErrorBoundary } from "@/components/common/ErrorBoundary";
+import { useProposal } from "@/hooks/useProposal";
 
 const ProposalView = () => {
   const { proposalId } = useParams();
-  const [proposal, setProposal] = useState<ProposalData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    // Simulate API call to fetch proposal data
-    const fetchProposal = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        
-        // Mock delay to simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        const proposalData = getProposalById(proposalId || "");
-        
-        if (!proposalData) {
-          setError("Proposal not found");
-          setProposal(null);
-        } else {
-          setProposal(proposalData);
-        }
-      } catch (error) {
-        console.error("Error fetching proposal:", error);
-        setError("Failed to load proposal");
-        setProposal(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProposal();
-  }, [proposalId]);
+  const { proposal, loading, error, refetch } = useProposal(proposalId);
 
   if (loading) {
     return <ProposalSkeleton />;
@@ -71,7 +37,7 @@ const ProposalView = () => {
           
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button 
-              onClick={() => window.location.reload()}
+              onClick={refetch}
               className="flex items-center"
             >
               <FileText className="w-4 h-4 mr-2" />

@@ -4,9 +4,11 @@ import { ROICalculator } from "./ROICalculator";
 
 interface ProposalSectionProps {
   section: ProposalSectionType;
+  onCalculatorUse?: (data: Record<string, any>) => void;
+  onLinkClick?: (url: string, text?: string) => void;
 }
 
-export const ProposalSection = ({ section }: ProposalSectionProps) => {
+export const ProposalSection = ({ section, onCalculatorUse, onLinkClick }: ProposalSectionProps) => {
   return (
     <Card className="p-8 bg-card/50 backdrop-blur shadow-card">
       <h2 className="text-2xl font-bold mb-4">{section.title}</h2>
@@ -33,6 +35,7 @@ export const ProposalSection = ({ section }: ProposalSectionProps) => {
             <ROICalculator 
               title={section.title || "ROI Calculator"}
               standalone={false}
+              onCalculatorUse={onCalculatorUse}
             />
           </div>
         )}

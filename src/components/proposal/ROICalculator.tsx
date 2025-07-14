@@ -13,6 +13,8 @@ interface ROICalculatorProps {
   title?: string;
   className?: string;
   standalone?: boolean;
+  onCalculatorUse?: (data: Record<string, any>) => void;
+  data?: any;
 }
 
 interface ROIInputs {
@@ -27,7 +29,9 @@ interface ROIInputs {
 export const ROICalculator = ({ 
   title = "ROI Calculator", 
   className = "",
-  standalone = false 
+  standalone = false,
+  onCalculatorUse,
+  data
 }: ROICalculatorProps) => {
   const [inputs, setInputs] = useState<ROIInputs>({
     currentHourlyRate: 75,
@@ -50,6 +54,16 @@ export const ROICalculator = ({
 
   const updateInput = (field: keyof ROIInputs, value: number) => {
     setInputs(prev => ({ ...prev, [field]: value }));
+    
+    // Track calculator usage
+    if (onCalculatorUse) {
+      onCalculatorUse({
+        field,
+        value,
+        ...inputs,
+        timestamp: Date.now()
+      });
+    }
   };
 
   useEffect(() => {

@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { AlertCircle, FileText, Plus, RefreshCw } from "lucide-react";
+import { AlertCircle, FileText, Plus, RefreshCw, Eye, BarChart3 } from "lucide-react";
 import { useProposalList } from "@/hooks/useProposalList";
 import { formatCurrency, formatDate, formatStatus } from "@/utils/formatters";
+import { getProposalAnalytics } from "@/utils/analytics";
 import { type CurrencyType } from "@/utils/constants";
 
 const ProposalListSkeleton = () => (
@@ -135,70 +137,115 @@ const ProposalList = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {proposals.map((proposal) => {
                 const { text: statusText, colorClass: statusColor } = formatStatus(proposal.status as any);
+                const analytics = getProposalAnalytics(proposal.id);
                 
                 return (
-                  <Link
-                    key={proposal.id}
-                    to={`/proposal/${proposal.id}`}
-                    className="group"
-                  >
-                    <Card className="p-6 bg-card/50 backdrop-blur shadow-card hover:shadow-elegant transition-all duration-200 group-hover:scale-[1.02] cursor-pointer">
-                      <div className="space-y-4">
-                        {/* Header */}
-                        <div className="flex items-start space-x-3">
-                          <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center flex-shrink-0">
-                            <FileText className="w-4 h-4 text-white" />
+                  <div key={proposal.id} className="group relative">
+                    <Link
+                      to={`/proposal/${proposal.id}`}
+                      className="block"
+                    >
+                      <Card className="p-6 bg-card/50 backdrop-blur shadow-card hover:shadow-elegant transition-all duration-200 group-hover:scale-[1.02] cursor-pointer">
+                        <div className="space-y-4">
+                          {/* Header */}
+                          <div className="flex items-start space-x-3">
+                            <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center flex-shrink-0">
+                              <FileText className="w-4 h-4 text-white" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-semibold text-lg group-hover:text-primary transition-colors line-clamp-2">
+                                {proposal.title}
+                              </h3>
+                              <p className="text-muted-foreground text-sm">
+                                {proposal.client.company}
+                              </p>
+                            </div>
+                            {/* Analytics Badge */}
+                            {analytics.totalViews > 0 && (
+                              <Badge variant="secondary" className="flex items-center gap-1">
+                                <Eye className="w-3 h-3" />
+                                {analytics.totalViews}
+                              </Badge>
+                            )}
                           </div>
-                          <div className="flex-1 min-w-0">
-                            <h3 className="font-semibold text-lg group-hover:text-primary transition-colors line-clamp-2">
-                              {proposal.title}
-                            </h3>
-                            <p className="text-muted-foreground text-sm">
-                              {proposal.client.company}
-                            </p>
-                          </div>
-                        </div>
 
-                        {/* Details */}
-                        <div className="space-y-2">
-                          <div className="flex justify-between items-center">
-                            <span className="text-sm text-muted-foreground">Amount</span>
-                            <span className="font-semibold">
-                              {formatCurrency(proposal.financial.amount, proposal.financial.currency as CurrencyType)}
-                            </span>
-                          </div>
-                          
-                          <div className="flex justify-between items-center">
-                            <span className="text-sm text-muted-foreground">Date</span>
-                            <span className="text-sm">
-                              {formatDate(proposal.timeline.createdAt)}
-                            </span>
-                          </div>
-                          
-                          <div className="flex justify-between items-center">
-                            <span className="text-sm text-muted-foreground">Status</span>
-                            <span className={`text-sm font-medium ${statusColor}`}>
-                              {statusText}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Analytics if available */}
-                        {proposal.analytics && (
-                          <div className="pt-3 border-t border-muted/20">
-                            <div className="flex justify-between items-center text-xs text-muted-foreground">
-                              <span>{proposal.analytics.views} views</span>
-                              {proposal.analytics.lastViewed && (
-                                <span>
-                                  Last viewed {formatDate(proposal.analytics.lastViewed, 'SHORT')}
-                                </span>
-                              )}
+                          {/* Details */}
+                          <div className="space-y-2">
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm text-muted-foreground">Amount</span>
+                              <span className="font-semibold">
+                                {formatCurrency(proposal.financial.amount, proposal.financial.currency as CurrencyType)}
+                              </span>
+                            </div>
+                            
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm text-muted-foreground">Date</span>
+                              <span className="text-sm">
+                                {formatDate(proposal.timeline.createdAt)}
+                              </span>
+                            </div>
+                            
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm text-muted-foreground">Status</span>
+                              <span className={`text-sm font-medium ${statusColor}`}>
+                                {statusText}
+                              </span>
                             </div>
                           </div>
-                        )}
-                      </div>
-                    </Card>
-                  </Link>
+
+                          {/* Analytics Preview */}
+                          {analytics.totalViews > 0 && (
+                            <div className="pt-3 border-t border-muted/20">
+                              <div className="flex justify-between items-center text-xs text-muted-foreground">
+                                <span className="flex items-center gap-1">
+                                  <Eye className="w-3 h-3" />
+                                  {analytics.totalViews} views
+                                </span>
+                                {analytics.lastActivity && (
+                                  <span>
+                                    {formatDate(analytics.lastActivity, 'SHORT')}
+                                  </span>
+                                )}
+                              </div>
+                              {analytics.engagementScore > 0 && (
+                                <div className="mt-2">
+                                  <div className="flex justify-between items-center">
+                                    <span className="text-xs text-muted-foreground">Engagement</span>
+                                    <span className="text-xs font-medium">{analytics.engagementScore}%</span>
+                                  </div>
+                                  <div className="w-full bg-muted/30 rounded-full h-1.5 mt-1">
+                                    <div 
+                                      className="bg-primary h-1.5 rounded-full transition-all duration-300" 
+                                      style={{ width: `${analytics.engagementScore}%` }}
+                                    />
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </Card>
+                    </Link>
+                    
+                    {/* Analytics Button */}
+                    {analytics.totalViews > 0 && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        asChild
+                        className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 backdrop-blur"
+                        onClick={(e) => e.preventDefault()}
+                      >
+                        <Link 
+                          to={`/proposals/${proposal.id}/analytics`}
+                          className="flex items-center gap-1"
+                        >
+                          <BarChart3 className="w-4 h-4" />
+                          Analytics
+                        </Link>
+                      </Button>
+                    )}
+                  </div>
                 );
               })}
             </div>

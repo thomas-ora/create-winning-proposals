@@ -9,18 +9,14 @@ import { ProposalSection } from "@/components/proposal/ProposalSection";
 import { ProposalSkeleton } from "@/components/proposal/ProposalSkeleton";
 import { ErrorBoundary } from "@/components/common/ErrorBoundary";
 import { useProposal } from "@/hooks/useProposal";
-import { trackProposalEvent } from "@/utils/analytics";
+import { useProposalTracking } from "@/hooks/useProposalTracking";
 
 const ProposalView = () => {
   const { proposalId } = useParams();
   const { proposal, loading, error, refetch } = useProposal(proposalId);
-
-  // Track proposal view when component mounts and proposal loads
-  React.useEffect(() => {
-    if (proposal && !loading) {
-      trackProposalEvent(proposal.id, 'view');
-    }
-  }, [proposal, loading]);
+  
+  // Initialize proposal tracking
+  const tracking = useProposalTracking(proposalId || '');
 
   if (loading) {
     return <ProposalSkeleton />;
@@ -84,7 +80,17 @@ const ProposalView = () => {
               {proposal.sections
                 .sort((a, b) => a.order - b.order)
                 .map((section) => (
-                  <ProposalSection key={section.id} section={section} />
+                  <div
+                    key={section.id}
+                    data-section-id={section.id}
+                    data-section-title={section.title}
+                  >
+                    <ProposalSection 
+                      section={section} 
+                      onCalculatorUse={tracking.trackCalculatorUse}
+                      onLinkClick={tracking.trackLinkClick}
+                    />
+                  </div>
                 ))}
             </div>
 
@@ -95,7 +101,12 @@ const ProposalView = () => {
                 <p className="text-white/90 mb-6">
                   We're excited to work with you on this project. Click below to accept this proposal and begin the process.
                 </p>
-                <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
+                <Button 
+                  size="lg" 
+                  variant="secondary" 
+                  className="bg-white text-primary hover:bg-white/90"
+                  onClick={() => tracking.trackCTAClick('accept', { location: 'bottom_cta' })}
+                >
                   Accept Proposal
                 </Button>
               </div>

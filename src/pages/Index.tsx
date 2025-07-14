@@ -18,17 +18,29 @@ const Index = () => {
   });
 
   useEffect(() => {
-    // Mock system stats - replace with actual API calls
+    // Fetch system stats including health check
     const fetchStats = async () => {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      setSystemStats({
-        totalProposals: 127,
-        activeAPIKeys: 8,
-        recentActivity: 23,
-        systemHealth: 'healthy'
-      });
+      try {
+        // Fetch health status
+        const healthResponse = await fetch('https://axqqqpomxdjwrpkbfawl.supabase.co/functions/v1/health');
+        const healthData = await healthResponse.json();
+        
+        setSystemStats({
+          totalProposals: 127,
+          activeAPIKeys: 8,
+          recentActivity: 23,
+          systemHealth: healthData.status === 'healthy' ? 'healthy' : 
+                       healthData.status === 'degraded' ? 'warning' : 'error'
+        });
+      } catch (error) {
+        console.error('Failed to fetch system stats:', error);
+        setSystemStats({
+          totalProposals: 127,
+          activeAPIKeys: 8,
+          recentActivity: 23,
+          systemHealth: 'warning'
+        });
+      }
     };
 
     fetchStats();

@@ -1,0 +1,73 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "installCommand": "npm install",
+  "devCommand": "npm run dev",
+  "env": {
+    "NODE_VERSION": "18"
+  },
+  "functions": {
+    "runtime": "nodejs18.x",
+    "memory": 1024,
+    "maxDuration": 30
+  },
+  "regions": ["iad1"],
+  "github": {
+    "silent": true,
+    "autoJobCancelation": true
+  },
+  "redirects": [
+    {
+      "source": "/health",
+      "destination": "https://axqqqpomxdjwrpkbfawl.supabase.co/functions/v1/health",
+      "permanent": false
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "https://axqqqpomxdjwrpkbfawl.supabase.co/functions/v1/:path*",
+      "permanent": false
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/setup-guide.md",
+      "destination": "/setup-guide.md"
+    },
+    {
+      "source": "/n8n-proposal-template.json",
+      "destination": "/n8n-proposal-template.json"
+    },
+    {
+      "source": "/sample-payloads.json", 
+      "destination": "/sample-payloads.json"
+    }
+  ]
+}

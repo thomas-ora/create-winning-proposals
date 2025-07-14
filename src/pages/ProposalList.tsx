@@ -106,9 +106,11 @@ const ProposalList = () => {
               </p>
             </div>
             
-            <Button className="flex items-center">
-              <Plus className="w-4 h-4 mr-2" />
-              Create Proposal
+            <Button asChild className="flex items-center">
+              <Link to="/proposals/create">
+                <Plus className="w-4 h-4 mr-2" />
+                Create Proposal
+              </Link>
             </Button>
           </div>
 
@@ -122,9 +124,11 @@ const ProposalList = () => {
               <p className="text-muted-foreground mb-6">
                 Create your first proposal to get started with client management.
               </p>
-              <Button className="flex items-center mx-auto">
-                <Plus className="w-4 h-4 mr-2" />
-                Create Your First Proposal
+              <Button asChild className="flex items-center mx-auto">
+                <Link to="/proposals/create">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Create Your First Proposal
+                </Link>
               </Button>
             </Card>
           ) : (

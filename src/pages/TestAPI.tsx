@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Copy, Play, CheckCircle, XCircle, AlertTriangle, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import AppLayout from '@/components/layout/AppLayout';
+import MainLayout from '@/components/layout/MainLayout';
 
 const TestAPI: React.FC = () => {
   const [apiKey, setApiKey] = useState('');
@@ -386,16 +386,12 @@ const TestAPI: React.FC = () => {
   };
 
   return (
-    <AppLayout>
+    <MainLayout
+      title="API Testing Console"
+      description="Test the proposal creation API with different client psychology profiles"
+    >
       <div className="container mx-auto p-6 space-y-6">
         <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold">API Testing Console</h1>
-            <p className="text-muted-foreground">
-              Test the proposal creation API with different client psychology profiles
-            </p>
-          </div>
-          
           <Button onClick={downloadN8NTemplate} variant="outline">
             <Download className="w-4 h-4 mr-2" />
             Download N8N Template
@@ -605,7 +601,7 @@ const TestAPI: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    </AppLayout>
+    </MainLayout>
   );
 };
 

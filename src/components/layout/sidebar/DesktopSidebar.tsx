@@ -17,9 +17,10 @@ const DesktopSidebar = ({ isHovered, onMouseEnter, onMouseLeave }: DesktopSideba
     <div
       className={cn(
         "sidebar-container transition-all duration-300 ease-smooth will-change-transform",
-        "hidden lg:flex", // Only show on desktop
+        "hidden lg:flex flex-col", // Only show on desktop, flex column layout
+        "fixed left-0 top-0 h-full z-40", // Fixed positioning for proper expansion
         isHovered 
-          ? "sidebar-expanded shadow-2xl z-50" 
+          ? "sidebar-expanded shadow-2xl" 
           : "sidebar-collapsed"
       )}
       onMouseEnter={onMouseEnter}

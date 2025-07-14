@@ -234,8 +234,9 @@ All colors MUST be HSL.
   }
 
   .sidebar-collapsed {
-    @apply w-16;
+    @apply w-20;
   }
+
 
   .bg-gradient-primary {
     background: var(--gradient-primary);

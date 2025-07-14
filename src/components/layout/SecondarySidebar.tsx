@@ -73,7 +73,7 @@ const SecondarySidebar = () => {
   ];
 
   return (
-    <div className="glass-sidebar h-full border-r border-white/10">
+    <div className="glass-sidebar h-full border-r border-white/10 w-60 hidden lg:block ml-20">
       <div className="p-6">
         <h2 className="text-lg font-semibold mb-6">Navigation</h2>
         

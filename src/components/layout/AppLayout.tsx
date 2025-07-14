@@ -26,18 +26,18 @@ const AppLayout = ({ children }: AppLayoutProps) => {
     );
   }
 
-  // Desktop layout - grid with fixed sidebars
+  // Desktop layout - flexible layout with expandable primary sidebar
   return (
     <div className="min-h-screen bg-background">
-      <div className="grid grid-cols-[80px_240px_1fr] h-screen">
-        {/* Primary Sidebar - Icons only */}
+      <div className="flex h-screen relative">
+        {/* Primary Sidebar - Expandable icons sidebar */}
         <PrimarySidebar />
         
-        {/* Secondary Sidebar - Detailed navigation */}
+        {/* Secondary Sidebar - Fixed detailed navigation */}
         <SecondarySidebar />
         
         {/* Main content area */}
-        <div className="flex flex-col">
+        <div className="flex flex-col flex-1 min-w-0">
           <TopHeader />
           <main className="flex-1 overflow-auto">
             {children}

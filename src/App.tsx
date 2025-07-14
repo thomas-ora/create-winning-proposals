@@ -34,6 +34,7 @@ const App = () => (
           <Route path="/settings/api-keys" element={<APIKeys />} />
           <Route path="/setup" element={<SystemSetup />} />
           <Route path="/api-docs" element={<APIDocumentation />} />
+          <Route path="/test-api" element={<TestAPI />} />
           <Route path="/proposal/:proposalId" element={<ProposalView />} />
           <Route path="/p/:proposalId" element={<ProposalView />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

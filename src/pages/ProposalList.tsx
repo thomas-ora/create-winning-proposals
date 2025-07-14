@@ -9,6 +9,7 @@ import { useProposalList } from "@/hooks/useProposalList";
 import { formatCurrency, formatDate, formatStatus } from "@/utils/formatters";
 import { getProposalAnalytics } from "@/utils/analytics";
 import { type CurrencyType } from "@/utils/constants";
+import AppLayout from "@/components/layout/AppLayout";
 import React from "react";
 
 const ProposalListSkeleton = () => (

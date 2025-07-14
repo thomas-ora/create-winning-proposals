@@ -187,6 +187,7 @@ export const ProposalDetailsStep = ({ form, onTemplateSelect }: ProposalDetailsP
                 <SelectItem value="EUR">EUR (€)</SelectItem>
                 <SelectItem value="GBP">GBP (£)</SelectItem>
                 <SelectItem value="CAD">CAD (C$)</SelectItem>
+                <SelectItem value="AUD">AUD (A$)</SelectItem>
               </SelectContent>
             </Select>
           </div>

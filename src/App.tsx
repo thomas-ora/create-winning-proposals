@@ -14,9 +14,38 @@ import APIKeys from "./pages/APIKeys";
 import APIDocumentation from "./pages/APIDocumentation";
 import TestAPI from "./pages/TestAPI";
 import SystemSetup from "./pages/SystemSetup";
+import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
+import { useAdminShortcut } from "./hooks/useAdminShortcut";
 
 const queryClient = new QueryClient();
+
+const AppContent = () => {
+  useAdminShortcut();
+  
+  return (
+    <Routes>
+      <Route path="/" element={<Index />} />
+      <Route path="/proposals" element={<ProposalList />} />
+      <Route path="/proposals/create" element={<CreateProposal />} />
+      <Route path="/proposals/compare" element={<CompareProposals />} />
+      <Route path="/proposals/:id/analytics" element={<ProposalAnalytics />} />
+      <Route path="/templates" element={<Templates />} />
+      <Route path="/settings/api-keys" element={<APIKeys />} />
+      <Route path="/api-docs" element={<APIDocumentation />} />
+      <Route path="/test-api" element={<TestAPI />} />
+      <Route path="/proposal/:proposalId" element={<ProposalView />} />
+      <Route path="/p/:proposalId" element={<ProposalView />} />
+      
+      {/* Admin Routes */}
+      <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/admin/setup" element={<SystemSetup />} />
+      
+      {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -24,22 +53,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/proposals" element={<ProposalList />} />
-          <Route path="/proposals/create" element={<CreateProposal />} />
-          <Route path="/proposals/compare" element={<CompareProposals />} />
-          <Route path="/proposals/:id/analytics" element={<ProposalAnalytics />} />
-          <Route path="/templates" element={<Templates />} />
-          <Route path="/settings/api-keys" element={<APIKeys />} />
-          <Route path="/setup" element={<SystemSetup />} />
-          <Route path="/api-docs" element={<APIDocumentation />} />
-          <Route path="/test-api" element={<TestAPI />} />
-          <Route path="/proposal/:proposalId" element={<ProposalView />} />
-          <Route path="/p/:proposalId" element={<ProposalView />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AppContent />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

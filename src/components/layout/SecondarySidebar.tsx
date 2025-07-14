@@ -68,12 +68,6 @@ const SecondarySidebar = () => {
           path: "/api-docs",
           description: "API reference"
         },
-        { 
-          icon: Wrench, 
-          label: "Setup Guide", 
-          path: "/setup",
-          description: "System configuration"
-        },
       ]
     }
   ];

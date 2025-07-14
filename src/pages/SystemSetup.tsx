@@ -22,7 +22,7 @@ import {
   Zap
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import AppLayout from '@/components/layout/AppLayout';
+import AdminLayout from '@/components/layout/AdminLayout';
 
 interface SetupStep {
   id: string;
@@ -362,7 +362,7 @@ const SystemSetup: React.FC = () => {
   const allTestsPassed = steps.every(step => step.status === 'success');
 
   return (
-    <AppLayout>
+    <AdminLayout>
       <div className="container mx-auto p-6 space-y-6">
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold">System Setup & Deployment</h1>
@@ -608,7 +608,7 @@ const SystemSetup: React.FC = () => {
         </CardContent>
       </Card>
     </div>
-    </AppLayout>
+    </AdminLayout>
   );
 };
 

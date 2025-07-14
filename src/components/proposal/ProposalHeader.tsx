@@ -1,12 +1,42 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { FileText, Download, Eye } from "lucide-react";
+import { FileText, Download, Eye, Loader2 } from "lucide-react";
 import { ProposalData } from "@/data/types";
+import { downloadPDF, trackPDFDownload } from "@/utils/generatePDF";
+import { toast } from "@/hooks/use-toast";
 
 interface ProposalHeaderProps {
   proposal: ProposalData;
 }
 
 export const ProposalHeader = ({ proposal }: ProposalHeaderProps) => {
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+
+  const handleDownloadPDF = async () => {
+    try {
+      setIsGeneratingPDF(true);
+      
+      // Generate and download PDF
+      await downloadPDF({ proposal });
+      
+      // Track the download event
+      await trackPDFDownload(proposal.id);
+      
+      toast({
+        title: "PDF Downloaded",
+        description: "The proposal has been downloaded successfully.",
+      });
+    } catch (error) {
+      console.error('PDF download failed:', error);
+      toast({
+        title: "Download Failed",
+        description: "There was an error generating the PDF. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGeneratingPDF(false);
+    }
+  };
   return (
     <div className="bg-card/50 backdrop-blur border-b">
       <div className="container mx-auto px-4 py-6">
@@ -22,9 +52,18 @@ export const ProposalHeader = ({ proposal }: ProposalHeaderProps) => {
           </div>
           
           <div className="flex items-center space-x-3">
-            <Button variant="outline" size="sm">
-              <Download className="w-4 h-4 mr-2" />
-              Download PDF
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={handleDownloadPDF}
+              disabled={isGeneratingPDF}
+            >
+              {isGeneratingPDF ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Download className="w-4 h-4 mr-2" />
+              )}
+              {isGeneratingPDF ? 'Generating...' : 'Download PDF'}
             </Button>
             <Button variant="hero" size="sm">
               <Eye className="w-4 h-4 mr-2" />

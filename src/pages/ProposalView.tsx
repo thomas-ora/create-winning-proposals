@@ -1,3 +1,4 @@
+import React from "react";
 import { useParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,10 +9,18 @@ import { ProposalSection } from "@/components/proposal/ProposalSection";
 import { ProposalSkeleton } from "@/components/proposal/ProposalSkeleton";
 import { ErrorBoundary } from "@/components/common/ErrorBoundary";
 import { useProposal } from "@/hooks/useProposal";
+import { trackProposalEvent } from "@/utils/analytics";
 
 const ProposalView = () => {
   const { proposalId } = useParams();
   const { proposal, loading, error, refetch } = useProposal(proposalId);
+
+  // Track proposal view when component mounts and proposal loads
+  React.useEffect(() => {
+    if (proposal && !loading) {
+      trackProposalEvent(proposal.id, 'view');
+    }
+  }, [proposal, loading]);
 
   if (loading) {
     return <ProposalSkeleton />;

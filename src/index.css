@@ -226,7 +226,7 @@ All colors MUST be HSL.
 
   /* Missing utility classes for sidebar */
   .sidebar-container {
-    @apply bg-sidebar-background border-r border-sidebar-border;
+    @apply bg-sidebar border-r border-sidebar-border;
   }
 
   .sidebar-expanded {

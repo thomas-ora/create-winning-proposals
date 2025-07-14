@@ -6,6 +6,77 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+interface APIKey {
+  id: string
+  name: string
+  key_hash: string
+  is_active: boolean
+  created_at: string
+  last_used?: string
+}
+
+interface RateLimitState {
+  requests: number
+  windowStart: number
+}
+
+const rateLimitWindows = new Map<string, RateLimitState>()
+
+// Rate limiting helper (100 requests per minute)
+function checkRateLimit(apiKeyId: string): { allowed: boolean; remainingRequests: number } {
+  const now = Date.now()
+  const windowDuration = 60 * 1000 // 1 minute
+  const maxRequests = 100
+
+  const existing = rateLimitWindows.get(apiKeyId)
+  
+  if (!existing || (now - existing.windowStart) >= windowDuration) {
+    rateLimitWindows.set(apiKeyId, {
+      requests: 1,
+      windowStart: now
+    })
+    return { allowed: true, remainingRequests: maxRequests - 1 }
+  }
+
+  if (existing.requests >= maxRequests) {
+    return { allowed: false, remainingRequests: 0 }
+  }
+
+  existing.requests += 1
+  rateLimitWindows.set(apiKeyId, existing)
+
+  return { 
+    allowed: true, 
+    remainingRequests: maxRequests - existing.requests 
+  }
+}
+
+// Validate API key
+async function validateAPIKey(apiKey: string, supabaseClient: any): Promise<APIKey | null> {
+  if (!apiKey) return null
+
+  try {
+    const encoder = new TextEncoder()
+    const keyData = encoder.encode(apiKey)
+    const hashBuffer = await crypto.subtle.digest('SHA-256', keyData)
+    const hashArray = Array.from(new Uint8Array(hashBuffer))
+    const keyHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
+
+    const { data, error } = await supabaseClient
+      .from('api_keys')
+      .select('*')
+      .eq('key_hash', keyHash)
+      .eq('is_active', true)
+      .single()
+
+    if (error || !data) return null
+    return data as APIKey
+  } catch (error) {
+    console.error('API key validation error:', error)
+    return null
+  }
+}
+
 interface ProposalRequest {
   client: {
     first_name: string
@@ -61,29 +132,47 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
 
-    // Validate API key
+    // Extract and validate API key
     const authHeader = req.headers.get('authorization')
-    if (!authHeader?.startsWith('Bearer ')) {
-      return new Response(JSON.stringify({ error: 'Missing or invalid API key' }), {
+    const apiKey = authHeader?.startsWith('Bearer ') ? authHeader.substring(7) : null
+    
+    if (!apiKey) {
+      return new Response(JSON.stringify({ error: 'Missing API key' }), {
         status: 401,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       })
     }
 
-    const apiKey = authHeader.substring(7)
-    const { data: keyData, error: keyError } = await supabaseClient
-      .from('api_keys')
-      .select('id')
-      .eq('key_hash', apiKey)
-      .eq('is_active', true)
-      .single()
-
-    if (keyError || !keyData) {
+    const validatedKey = await validateAPIKey(apiKey, supabaseClient)
+    if (!validatedKey) {
       return new Response(JSON.stringify({ error: 'Invalid API key' }), {
         status: 401,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       })
     }
+
+    // Check rate limit
+    const rateLimit = checkRateLimit(validatedKey.id)
+    if (!rateLimit.allowed) {
+      return new Response(JSON.stringify({ error: 'Rate limit exceeded. Try again later.' }), {
+        status: 429,
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json',
+          'X-RateLimit-Remaining': '0',
+          'X-RateLimit-Reset': '60'
+        }
+      })
+    }
+
+    // Log API usage
+    console.log('API Key Usage:', {
+      keyId: validatedKey.id,
+      keyName: validatedKey.name,
+      endpoint: 'create-proposal',
+      timestamp: new Date().toISOString(),
+      remainingRequests: rateLimit.remainingRequests
+    })
 
     const proposalData: ProposalRequest = await req.json()
 
@@ -179,7 +268,7 @@ serve(async (req) => {
         password_hash: passwordHash,
         brand_color: proposalData.proposal.brand_color,
         logo_url: proposalData.proposal.logo_url,
-        created_by_api_key: keyData.id
+        created_by_api_key: validatedKey.id
       })
       .select('id')
       .single()
@@ -192,11 +281,11 @@ serve(async (req) => {
       })
     }
 
-    // Update API key last_used
+    // Update API key last_used timestamp
     await supabaseClient
       .from('api_keys')
       .update({ last_used: new Date().toISOString() })
-      .eq('id', keyData.id)
+      .eq('id', validatedKey.id)
 
     const proposalUrl = `${req.headers.get('origin') || 'https://your-domain.com'}/p/${proposal.id}`
 
@@ -206,7 +295,11 @@ serve(async (req) => {
       url: proposalUrl,
       expires_at: proposalData.proposal.valid_until
     }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      headers: { 
+        ...corsHeaders, 
+        'Content-Type': 'application/json',
+        'X-RateLimit-Remaining': rateLimit.remainingRequests.toString()
+      }
     })
 
   } catch (error) {

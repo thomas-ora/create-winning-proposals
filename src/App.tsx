@@ -10,6 +10,8 @@ import ProposalAnalytics from "./pages/ProposalAnalytics";
 import CompareProposals from "./pages/CompareProposals";
 import CreateProposal from "./pages/CreateProposal";
 import Templates from "./pages/Templates";
+import APIKeys from "./pages/APIKeys";
+import APIDocumentation from "./pages/APIDocumentation";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,7 +29,10 @@ const App = () => (
           <Route path="/proposals/compare" element={<CompareProposals />} />
           <Route path="/proposals/:id/analytics" element={<ProposalAnalytics />} />
           <Route path="/templates" element={<Templates />} />
+          <Route path="/settings/api-keys" element={<APIKeys />} />
+          <Route path="/api-docs" element={<APIDocumentation />} />
           <Route path="/proposal/:proposalId" element={<ProposalView />} />
+          <Route path="/p/:proposalId" element={<ProposalView />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

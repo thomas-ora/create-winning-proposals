@@ -21,11 +21,23 @@ const Index = () => {
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
             Browse through our collection of professionally crafted proposals to see the system in action.
           </p>
-          <Link to="/proposals">
-            <Button size="lg" variant="hero" className="shadow-elegant">
-              View All Proposals
-            </Button>
-          </Link>
+          <div className="flex gap-4 justify-center">
+            <Link to="/proposals">
+              <Button size="lg" variant="hero" className="shadow-elegant">
+                View All Proposals
+              </Button>
+            </Link>
+            <Link to="/api-docs">
+              <Button size="lg" variant="outline">
+                API Documentation
+              </Button>
+            </Link>
+            <Link to="/settings/api-keys">
+              <Button size="lg" variant="secondary">
+                Manage API Keys
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
       </main>

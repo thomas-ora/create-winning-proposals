@@ -1,5 +1,6 @@
 import { useEffect, useCallback, useRef } from 'react';
 import { trackProposalEvent } from '@/utils/analytics';
+import { proposalService } from '@/services/proposalService';
 
 interface TrackingState {
   sessionStart: number;
@@ -107,10 +108,20 @@ export const useProposalTracking = (proposalId: string) => {
   }, [trackInteraction]);
 
   const trackCTAClick = useCallback((ctaType: 'accept' | 'contact' | 'download', metadata?: Record<string, any>) => {
+    // Track with both systems for now
     trackProposalEvent(proposalId, ctaType === 'accept' ? 'accept' : 'calculator_use', {
       ctaType,
       ...metadata
     });
+    
+    // Also track with new Supabase service
+    proposalService.trackEvent(proposalId, {
+      event_type: ctaType === 'accept' ? 'cta_click' : 'click',
+      event_data: {
+        ctaType,
+        ...metadata
+      }
+    }).catch(console.error);
   }, [proposalId]);
 
   return {

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ProposalData } from '@/data/types';
-import { getProposalById } from '@/data/mockProposals';
+import { proposalService } from '@/services/proposalService';
 
 interface UseProposalReturn {
   proposal: ProposalData | null;
@@ -26,20 +26,52 @@ export const useProposal = (proposalId: string | undefined): UseProposalReturn =
       setLoading(true);
       setError(null);
       
-      // Mock delay to simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const proposalData = getProposalById(proposalId);
+      const proposalData = await proposalService.getProposal(proposalId);
       
       if (!proposalData) {
         setError("Proposal not found");
         setProposal(null);
       } else {
-        setProposal(proposalData);
+        // Transform the database proposal to ProposalData format
+        const transformedProposal: ProposalData = {
+          id: proposalData.id,
+          title: proposalData.title,
+          client: {
+            name: `${proposalData.client?.first_name || ''} ${proposalData.client?.last_name || ''}`.trim(),
+            email: proposalData.client?.email || '',
+            company: proposalData.client?.company_name || '',
+          },
+          author: {
+            name: proposalData.prepared_by || '',
+            email: '',
+            company: '',
+          },
+          financial: {
+            amount: proposalData.financial_amount || 0,
+            currency: proposalData.financial_currency || 'USD',
+            paymentTerms: proposalData.payment_terms || '',
+          },
+          timeline: {
+            createdAt: new Date(proposalData.created_at),
+            expiresAt: proposalData.valid_until ? new Date(proposalData.valid_until) : undefined,
+          },
+          status: proposalData.status,
+          sections: proposalData.sections || [],
+          template: 'custom',
+          branding: {
+            primaryColor: proposalData.brand_color || '#7B7FEB',
+            logo: proposalData.logo_url,
+          },
+          analytics: {
+            views: 0,
+            lastViewed: undefined,
+          },
+        };
+        setProposal(transformedProposal);
       }
     } catch (error) {
       console.error("Error fetching proposal:", error);
-      setError("Failed to load proposal");
+      setError(error instanceof Error ? error.message : "Failed to load proposal");
       setProposal(null);
     } finally {
       setLoading(false);

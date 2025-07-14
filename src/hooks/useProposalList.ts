@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ProposalData } from '@/data/types';
-import { mockProposals } from '@/data/mockProposals';
+import { proposalService } from '@/services/proposalService';
 
 interface UseProposalListReturn {
   proposals: ProposalData[];
@@ -19,18 +19,11 @@ export const useProposalList = (): UseProposalListReturn => {
       setLoading(true);
       setError(null);
       
-      // Mock delay to simulate API call
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
-      // Simulate potential API failure (5% chance)
-      if (Math.random() < 0.05) {
-        throw new Error("Network error");
-      }
-      
-      setProposals(mockProposals);
+      const proposalsData = await proposalService.getProposals();
+      setProposals(proposalsData);
     } catch (error) {
       console.error("Error fetching proposals:", error);
-      setError("Failed to load proposals");
+      setError(error instanceof Error ? error.message : "Failed to load proposals");
       setProposals([]);
     } finally {
       setLoading(false);

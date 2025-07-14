@@ -1,1 +1,10 @@
 project_id = "axqqqpomxdjwrpkbfawl"
+
+[functions.create-proposal]
+verify_jwt = false
+
+[functions.get-proposal]
+verify_jwt = false
+
+[functions.track-event]
+verify_jwt = false

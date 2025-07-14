@@ -32,8 +32,10 @@ const PrimarySidebar = () => {
   return (
     <div
       className={cn(
-        "glass-sidebar h-full transition-all duration-300 ease-smooth flex flex-col",
-        isHovered ? "w-60" : "w-20"
+        "glass-sidebar h-full transition-all duration-300 ease-smooth flex flex-col relative",
+        isHovered 
+          ? "w-60 absolute top-0 left-0 z-50 shadow-xl" 
+          : "w-20"
       )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

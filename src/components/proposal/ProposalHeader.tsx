@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FileText, Download, Eye, Loader2 } from "lucide-react";
+import { FileText, Download, Eye, Loader2, BarChart3 } from "lucide-react";
 import { ProposalData } from "@/data/types";
 import { downloadPDF, trackPDFDownload } from "@/utils/generatePDF";
 import { toast } from "@/hooks/use-toast";
@@ -52,6 +53,12 @@ export const ProposalHeader = ({ proposal }: ProposalHeaderProps) => {
           </div>
           
           <div className="flex items-center space-x-3">
+            <Button variant="outline" size="sm" asChild>
+              <Link to={`/proposals/${proposal.id}/analytics`}>
+                <BarChart3 className="w-4 h-4 mr-2" />
+                Analytics
+              </Link>
+            </Button>
             <Button 
               variant="outline" 
               size="sm"

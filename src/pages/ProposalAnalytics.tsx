@@ -34,6 +34,7 @@ import {
 import { useProposal } from '@/hooks/useProposal';
 import { getProposalEvents, getProposalAnalytics } from '@/utils/analytics';
 import { formatDate } from '@/utils/formatters';
+import AppLayout from '@/components/layout/AppLayout';
 
 const COLORS = ['hsl(var(--primary))', 'hsl(var(--secondary))', 'hsl(var(--accent))', 'hsl(var(--muted))'];
 
@@ -106,7 +107,7 @@ const ProposalAnalytics = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
+      <AppLayout>
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-6xl mx-auto space-y-6">
             <Skeleton className="h-12 w-64" />
@@ -122,28 +123,30 @@ const ProposalAnalytics = () => {
             </div>
           </div>
         </div>
-      </div>
+      </AppLayout>
     );
   }
 
   if (!proposal || !analytics) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30 flex items-center justify-center">
-        <Card className="p-8 text-center">
-          <h1 className="text-2xl font-bold mb-4">Analytics Not Available</h1>
-          <p className="text-muted-foreground mb-6">
-            We couldn't load analytics for this proposal.
-          </p>
-          <Button asChild>
-            <Link to="/proposals">Back to Proposals</Link>
-          </Button>
-        </Card>
-      </div>
+      <AppLayout>
+        <div className="flex items-center justify-center py-16">
+          <Card className="p-8 text-center">
+            <h1 className="text-2xl font-bold mb-4">Analytics Not Available</h1>
+            <p className="text-muted-foreground mb-6">
+              We couldn't load analytics for this proposal.
+            </p>
+            <Button asChild>
+              <Link to="/proposals">Back to Proposals</Link>
+            </Button>
+          </Card>
+        </div>
+      </AppLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
+    <AppLayout>
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
@@ -380,9 +383,9 @@ const ProposalAnalytics = () => {
                 <Clock className="w-5 h-5 text-primary" />
                 <h3 className="font-semibold">Last Activity</h3>
               </div>
-                  <p className="text-lg font-bold">
-                    {analytics.lastActivity ? formatDate(analytics.lastActivity, 'SHORT') : 'Never'}
-                  </p>
+                <p className="text-lg font-bold">
+                  {analytics.lastActivity ? formatDate(analytics.lastActivity, 'SHORT') : 'Never'}
+                </p>
               <p className="text-sm text-muted-foreground">
                 Most recent engagement
               </p>
@@ -390,7 +393,7 @@ const ProposalAnalytics = () => {
           </div>
         </div>
       </div>
-    </div>
+    </AppLayout>
   );
 };
 

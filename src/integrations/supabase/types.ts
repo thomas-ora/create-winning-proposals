@@ -47,29 +47,62 @@ export type Database = {
       clients: {
         Row: {
           company: string | null
+          company_name: string | null
+          company_website: string | null
+          consultation_date: string | null
           created_at: string
           email: string
+          employee_count: number | null
+          first_name: string | null
+          growth_stage: string | null
           id: string
+          industry: string | null
+          last_name: string | null
+          linkedin_url: string | null
           name: string
           phone: string | null
+          revenue_range: string | null
+          title: string | null
           updated_at: string
         }
         Insert: {
           company?: string | null
+          company_name?: string | null
+          company_website?: string | null
+          consultation_date?: string | null
           created_at?: string
           email: string
+          employee_count?: number | null
+          first_name?: string | null
+          growth_stage?: string | null
           id?: string
+          industry?: string | null
+          last_name?: string | null
+          linkedin_url?: string | null
           name: string
           phone?: string | null
+          revenue_range?: string | null
+          title?: string | null
           updated_at?: string
         }
         Update: {
           company?: string | null
+          company_name?: string | null
+          company_website?: string | null
+          consultation_date?: string | null
           created_at?: string
           email?: string
+          employee_count?: number | null
+          first_name?: string | null
+          growth_stage?: string | null
           id?: string
+          industry?: string | null
+          last_name?: string | null
+          linkedin_url?: string | null
           name?: string
           phone?: string | null
+          revenue_range?: string | null
+          title?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -114,14 +147,22 @@ export type Database = {
       }
       proposals: {
         Row: {
+          brand_color: string | null
           client_id: string
           created_at: string
           created_by_api_key: string | null
           currency: string
           description: string | null
+          executive_summary: string | null
           expires_at: string | null
+          financial_amount: number | null
+          financial_currency: string | null
           id: string
+          logo_url: string | null
           password_hash: string | null
+          payment_terms: string | null
+          prepared_by: string | null
+          pricing_tiers: Json | null
           psychology_profile_id: string | null
           sections: Json | null
           settings: Json | null
@@ -132,14 +173,22 @@ export type Database = {
           valid_until: string | null
         }
         Insert: {
+          brand_color?: string | null
           client_id: string
           created_at?: string
           created_by_api_key?: string | null
           currency?: string
           description?: string | null
+          executive_summary?: string | null
           expires_at?: string | null
+          financial_amount?: number | null
+          financial_currency?: string | null
           id?: string
+          logo_url?: string | null
           password_hash?: string | null
+          payment_terms?: string | null
+          prepared_by?: string | null
+          pricing_tiers?: Json | null
           psychology_profile_id?: string | null
           sections?: Json | null
           settings?: Json | null
@@ -150,14 +199,22 @@ export type Database = {
           valid_until?: string | null
         }
         Update: {
+          brand_color?: string | null
           client_id?: string
           created_at?: string
           created_by_api_key?: string | null
           currency?: string
           description?: string | null
+          executive_summary?: string | null
           expires_at?: string | null
+          financial_amount?: number | null
+          financial_currency?: string | null
           id?: string
+          logo_url?: string | null
           password_hash?: string | null
+          payment_terms?: string | null
+          prepared_by?: string | null
+          pricing_tiers?: Json | null
           psychology_profile_id?: string | null
           sections?: Json | null
           settings?: Json | null

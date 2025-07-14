@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Copy, ExternalLink, Book, Code, Key, Zap } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import AppLayout from '@/components/layout/AppLayout';
 
 const APIDocumentation: React.FC = () => {
   const { toast } = useToast();
@@ -43,7 +44,8 @@ const APIDocumentation: React.FC = () => {
   const baseUrl = 'https://axqqqpomxdjwrpkbfawl.supabase.co/functions/v1';
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
+    <AppLayout>
+      <div className="container mx-auto p-6 space-y-8">
       {/* Header */}
       <div className="text-center space-y-4">
         <div className="flex justify-center">
@@ -409,6 +411,7 @@ const APIDocumentation: React.FC = () => {
         </CardContent>
       </Card>
     </div>
+    </AppLayout>
   );
 };
 

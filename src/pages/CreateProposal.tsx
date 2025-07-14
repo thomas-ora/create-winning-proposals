@@ -8,6 +8,7 @@ import { ArrowLeft, ArrowRight, Save, FileText } from "lucide-react";
 import { ClientInfoStep, ProposalDetailsStep, SectionsStep } from "@/components/proposal/ProposalForm";
 import { getTemplateById } from "@/data/proposalTemplates";
 import { toast } from "@/hooks/use-toast";
+import AppLayout from "@/components/layout/AppLayout";
 
 interface ProposalFormData {
   client: {
@@ -192,7 +193,8 @@ const CreateProposal = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
+    <AppLayout>
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
@@ -302,6 +304,7 @@ const CreateProposal = () => {
         </div>
       </div>
     </div>
+    </AppLayout>
   );
 };
 

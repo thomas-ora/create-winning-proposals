@@ -8,6 +8,7 @@ import { ArrowLeft, Plus, Minus, FileDown } from 'lucide-react';
 import { ComparisonTable } from '@/components/proposal/ComparisonTable';
 import { useProposalList } from '@/hooks/useProposalList';
 import { ProposalData } from '@/data/types';
+import AppLayout from '@/components/layout/AppLayout';
 
 const CompareProposals = () => {
   const [searchParams] = useSearchParams();
@@ -57,7 +58,8 @@ const CompareProposals = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
+    <AppLayout>
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
@@ -197,6 +199,7 @@ const CompareProposals = () => {
         </div>
       </div>
     </div>
+    </AppLayout>
   );
 };
 

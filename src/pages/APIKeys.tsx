@@ -10,6 +10,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Copy, Plus, Key, Calendar, Clock, AlertTriangle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import AppLayout from '@/components/layout/AppLayout';
 
 interface APIKey {
   id: string;
@@ -152,7 +153,8 @@ const APIKeys: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <AppLayout>
+      <div className="container mx-auto p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold">API Keys</h1>
@@ -310,6 +312,7 @@ const APIKeys: React.FC = () => {
         )}
       </div>
     </div>
+    </AppLayout>
   );
 };
 

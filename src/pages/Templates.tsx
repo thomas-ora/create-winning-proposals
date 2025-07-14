@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Clock, DollarSign, FileText, Eye, ArrowRight } from "lucide-react";
 import { proposalTemplates, getAllCategories } from '@/data/proposalTemplates';
 import { formatCurrency } from '@/utils/formatters';
+import AppLayout from '@/components/layout/AppLayout';
 
 const Templates = () => {
   const categories = getAllCategories();
@@ -27,7 +28,8 @@ const Templates = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
+    <AppLayout>
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
@@ -209,6 +211,7 @@ const Templates = () => {
         </div>
       </div>
     </div>
+    </AppLayout>
   );
 };
 

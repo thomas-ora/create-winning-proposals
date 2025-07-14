@@ -179,4 +179,36 @@ All colors MUST be HSL.
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
+  /* Sidebar animations */
+  .sidebar-slide-enter {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  .sidebar-slide-enter-active {
+    transform: translateX(0);
+    opacity: 1;
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 300ms ease-out;
+  }
+
+  .sidebar-text-fade {
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 200ms ease-out 100ms, transform 200ms ease-out 100ms;
+  }
+
+  .sidebar-text-fade-show {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Smooth hover transitions */
+  .sidebar-item {
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sidebar-item:hover {
+    transform: translateX(4px);
+  }
 }

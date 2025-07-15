@@ -116,7 +116,7 @@ const TestAPI: React.FC = () => {
         employee_count: 75,
         revenue_range: "$5M-$10M",
         growth_stage: "Growth",
-        consultation_date: "2024-07-18T09:00:00Z"
+        consultation_date: "2025-07-18T09:00:00Z"
       },
       psychology_profile: {
         primary_type: "Driver",
@@ -149,7 +149,7 @@ const TestAPI: React.FC = () => {
         financial_amount: 150000,
         financial_currency: "USD",
         payment_terms: "50% upfront, 50% at 90 days",
-        valid_until: "2024-07-25T23:59:59Z",
+        valid_until: "2026-07-25T23:59:59Z",
         prepared_by: "Mike Thompson, Growth Strategist",
         password_protected: false,
         brand_color: "#DC2626"
@@ -168,7 +168,7 @@ const TestAPI: React.FC = () => {
         employee_count: 35,
         revenue_range: "$2M-$5M",
         growth_stage: "Growth",
-        consultation_date: "2024-07-19T11:00:00Z"
+        consultation_date: "2025-07-19T11:00:00Z"
       },
       psychology_profile: {
         primary_type: "Expressive",
@@ -201,7 +201,7 @@ const TestAPI: React.FC = () => {
         financial_amount: 85000,
         financial_currency: "USD", 
         payment_terms: "Monthly payments over 6 months",
-        valid_until: "2024-08-19T23:59:59Z",
+        valid_until: "2026-08-19T23:59:59Z",
         prepared_by: "Jessica Park, Brand Strategist",
         password_protected: false,
         brand_color: "#7C3AED"
@@ -220,7 +220,7 @@ const TestAPI: React.FC = () => {
         employee_count: 12,
         revenue_range: "$1M-$2M", 
         growth_stage: "Mature",
-        consultation_date: "2024-07-21T15:00:00Z"
+        consultation_date: "2025-07-21T15:00:00Z"
       },
       psychology_profile: {
         primary_type: "Amiable",
@@ -253,7 +253,7 @@ const TestAPI: React.FC = () => {
         financial_amount: 25000,
         financial_currency: "USD",
         payment_terms: "Quarterly payments with no penalties for delays",
-        valid_until: "2024-09-21T23:59:59Z",
+        valid_until: "2026-09-21T23:59:59Z",
         prepared_by: "Jennifer Adams, Customer Success Manager",
         password_protected: false,
         brand_color: "#059669"

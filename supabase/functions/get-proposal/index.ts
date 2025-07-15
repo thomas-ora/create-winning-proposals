@@ -25,14 +25,22 @@ serve(async (req) => {
     
     const password = url.searchParams.get('password')
 
+    console.log('🔍 Get Proposal Request:', {
+      fullUrl: req.url,
+      pathParts,
+      proposalId,
+      isSlugLookup,
+      hasPassword: !!password,
+      method: req.method
+    })
+
     if (!proposalId) {
+      console.error('❌ No proposal ID provided')
       return new Response(JSON.stringify({ error: 'Proposal ID or slug is required' }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       })
     }
-
-    console.log('Looking up proposal:', { proposalId, isSlugLookup })
 
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
@@ -57,9 +65,29 @@ serve(async (req) => {
     
     const { data: proposal, error: proposalError } = await query.single()
 
+    console.log('📊 Database Query Result:', {
+      proposalFound: !!proposal,
+      error: proposalError?.message,
+      proposalId: proposal?.id,
+      clientName: proposal?.client?.name,
+      title: proposal?.title,
+      status: proposal?.status
+    })
+
     if (proposalError || !proposal) {
-      console.log('Proposal not found:', { proposalId, isSlugLookup, error: proposalError })
-      return new Response(JSON.stringify({ error: 'Proposal not found' }), {
+      console.error('❌ Proposal not found:', { 
+        searchId: proposalId, 
+        isSlugLookup, 
+        error: proposalError?.message || 'No data returned'
+      })
+      return new Response(JSON.stringify({ 
+        error: 'Proposal not found',
+        details: {
+          searchId: proposalId,
+          isSlugLookup,
+          errorMessage: proposalError?.message
+        }
+      }), {
         status: 404,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       })
@@ -67,6 +95,11 @@ serve(async (req) => {
 
     // Check if proposal has expired
     if (proposal.valid_until && new Date(proposal.valid_until) < new Date()) {
+      console.log('❌ Proposal expired:', {
+        proposalId: proposal.id,
+        validUntil: proposal.valid_until,
+        currentTime: new Date().toISOString()
+      })
       return new Response(JSON.stringify({ error: 'Proposal has expired' }), {
         status: 410,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -136,13 +169,29 @@ serve(async (req) => {
     // Remove sensitive data from response
     const { password_hash, created_by_api_key, ...safeProposal } = proposal
 
+    console.log('✅ Proposal successfully retrieved:', {
+      proposalId: proposal.id,
+      title: proposal.title,
+      clientName: proposal.client?.name,
+      hasClient: !!proposal.client,
+      hasPsychologyProfile: !!proposal.psychology_profile,
+      sectionsCount: proposal.sections?.length || 0
+    })
+
     return new Response(JSON.stringify(safeProposal), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     })
 
   } catch (error) {
-    console.error('Error in get-proposal function:', error)
-    return new Response(JSON.stringify({ error: 'Internal server error' }), {
+    console.error('💥 Critical error in get-proposal function:', {
+      error: error.message,
+      stack: error.stack,
+      name: error.name
+    })
+    return new Response(JSON.stringify({ 
+      error: 'Internal server error',
+      details: error.message 
+    }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     })

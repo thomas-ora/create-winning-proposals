@@ -50,6 +50,8 @@ const ProposalView = () => {
   }
 
   if (error || !proposal) {
+    console.error('ProposalView Error:', { error, proposalId, hasProposal: !!proposal });
+    
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30 flex items-center justify-center p-4">
         <Card className="max-w-md w-full p-8 text-center bg-card/50 backdrop-blur shadow-card">
@@ -64,8 +66,21 @@ const ProposalView = () => {
           <p className="text-muted-foreground mb-6">
             {error === "Proposal not found" 
               ? "The proposal you're looking for doesn't exist or has been removed." 
-              : "We encountered an error while loading this proposal. Please try again."}
+              : `We encountered an error while loading this proposal: ${error || 'Unknown error'}`}
           </p>
+
+          {/* Debug Information */}
+          <details className="text-left text-xs text-muted-foreground mb-6 bg-muted/50 p-3 rounded">
+            <summary className="cursor-pointer font-medium">Debug Information</summary>
+            <pre className="mt-2">
+              {JSON.stringify({
+                proposalId,
+                error,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent
+              }, null, 2)}
+            </pre>
+          </details>
           
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button 

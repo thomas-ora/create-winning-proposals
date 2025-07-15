@@ -574,20 +574,20 @@ const TestAPI: React.FC = () => {
                     </pre>
                   </div>
 
-                  {response.url && (
+                  {response.data?.url && (
                     <div className="space-y-2">
                       <Label>Generated Proposal URL:</Label>
                       <div className="flex gap-2">
-                        <Input value={response.url} readOnly />
+                        <Input value={response.data.url} readOnly />
                         <Button
                           variant="outline"
-                          onClick={() => copyToClipboard(response.url)}
+                          onClick={() => copyToClipboard(response.data.url)}
                         >
                           <Copy className="w-4 h-4" />
                         </Button>
                         <Button
                           variant="outline"
-                          onClick={() => window.open(response.url, '_blank')}
+                          onClick={() => window.open(response.data.url, '_blank')}
                         >
                           View
                         </Button>

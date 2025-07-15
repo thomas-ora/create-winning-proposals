@@ -126,55 +126,7 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'float': 'float 6s ease-in-out infinite',
 				'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
-				'grid-move': 'grid-move 20s linear infinite',
-				'parallax': 'parallax 20s linear infinite',
-				'float-up': 'float-up 0.6s ease-out',
-				'scale-in': 'scale-in 0.3s ease-out',
-			},
-			fontFamily: {
-				'mono': ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', '"Liberation Mono"', '"Courier New"', 'monospace'],
-			},
-			keyframes: {
-				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
-				},
-				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
-				},
-				'float': {
-					'0%, 100%': { transform: 'translateY(0)' },
-					'50%': { transform: 'translateY(-10px)' }
-				},
-				'glow-pulse': {
-					'0%, 100%': { boxShadow: 'var(--shadow-glow-soft)' },
-					'50%': { boxShadow: 'var(--shadow-glow)' }
-				},
-				'grid-move': {
-					'0%': { backgroundPosition: '0 0' },
-					'100%': { backgroundPosition: '30px 30px' }
-				},
-				'parallax': {
-					'0%': { transform: 'translateY(0px)' },
-					'100%': { transform: 'translateY(-20px)' },
-				},
-				'float-up': {
-					'0%': { opacity: '0', transform: 'translateY(20px)' },
-					'100%': { opacity: '1', transform: 'translateY(0)' },
-				},
-				'scale-in': {
-					'0%': { opacity: '0', transform: 'scale(0.95)' },
-					'100%': { opacity: '1', transform: 'scale(1)' },
-				},
+				'grid-move': 'grid-move 20s linear infinite'
 			}
 		}
 	},

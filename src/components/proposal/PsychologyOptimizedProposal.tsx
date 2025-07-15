@@ -237,7 +237,7 @@ export const PsychologyOptimizedProposal = ({
   ];
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-background dot-grid smooth-scroll">
+    <div ref={containerRef} className="min-h-screen bg-background">
       {/* Subtle Progress Bar */}
       <motion.div 
         className="fixed top-0 left-0 right-0 h-0.5 bg-primary z-50"
@@ -245,72 +245,43 @@ export const PsychologyOptimizedProposal = ({
         initial={{ scaleX: 0 }}
       />
 
-      {/* Enhanced Navigation */}
+      {/* Sticky Navigation */}
       <motion.nav 
-        className="fixed top-0 left-0 right-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border noise-overlay"
+        className="fixed top-0 left-0 right-0 z-40 bg-background/90 backdrop-blur-sm border-b border-border"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ delay: 1 }}
       >
         <div className="max-w-screen-xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              {proposal.logo_url ? (
-                <img 
-                  src={proposal.logo_url} 
-                  alt={`${proposal.company_name} logo`}
-                  className="w-10 h-10 rounded-lg object-contain"
-                />
-              ) : (
-                <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                  <div className="text-white text-sm font-bold">
-                    {proposal.company_name?.charAt(0) || 'O'}
-                  </div>
-                </div>
-              )}
-              <div>
-                <span className="font-semibold text-foreground">ORA Systems</span>
-                <div className="text-xs text-muted-foreground">Premium Proposal</div>
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                <div className="text-white text-sm font-bold">O</div>
               </div>
+              <span className="font-medium text-foreground">ORA Systems</span>
             </div>
             
-            {/* Enhanced Navigation dots */}
-            <div className="hidden md:flex items-center space-x-3">
+            {/* Navigation dots */}
+            <div className="hidden md:flex items-center space-x-2">
               {sections.map((section, index) => (
-                <motion.button
+                <button
                   key={section.id}
-                  className={`group relative w-3 h-3 rounded-full transition-all duration-300 ${
-                    currentSection === index 
-                      ? 'bg-primary shadow-[0_0_10px_rgba(99,102,241,0.5)]' 
-                      : 'bg-border hover:bg-primary/30'
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    currentSection === index ? 'bg-primary' : 'bg-border'
                   }`}
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.9 }}
                   onClick={() => {
                     const element = document.querySelector(`[data-section="${section.id}"]`);
                     element?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                >
-                  <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-foreground text-background text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
-                    {section.title}
-                  </span>
-                </motion.button>
+                />
               ))}
             </div>
 
-            <div className="flex items-center space-x-3">
-              <Badge variant="outline" className="text-xs px-3 py-1 rounded-full">
-                Valid until {new Date(proposal.valid_until).toLocaleDateString()}
-              </Badge>
-              <div className="text-sm text-muted-foreground hidden sm:block">
-                {proposal.company_name}
-              </div>
+            <div className="text-sm text-muted-foreground">
+              {proposal.company_name}
             </div>
           </div>
         </div>
-        
-        {/* Thin separator line */}
-        <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
       </motion.nav>
 
       {/* Clean Loss Counter */}
@@ -333,75 +304,30 @@ export const PsychologyOptimizedProposal = ({
         </div>
       </motion.div>
 
-      {/* Enhanced Hero Section */}
+      {/* Hero Section */}
       <section 
         ref={heroRef}
         data-section="hero"
-        className="relative min-h-screen flex items-center justify-center bg-background hero-gradient pt-20 overflow-hidden noise-overlay"
+        className="relative min-h-screen flex items-center justify-center bg-background pt-20 overflow-hidden"
       >
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div
-            className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl"
-            animate={{ 
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.5, 0.3]
-            }}
-            transition={{ 
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-          <motion.div
-            className="absolute bottom-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl"
-            animate={{ 
-              scale: [1.2, 1, 1.2],
-              opacity: [0.2, 0.4, 0.2]
-            }}
-            transition={{ 
-              duration: 10,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 2
-            }}
-          />
-        </div>
         <motion.div 
           className="relative z-10 text-center max-w-screen-xl mx-auto px-6"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          {/* Enhanced Company Information */}
+          {/* Company Information */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
             className="mb-12"
           >
-            {proposal.logo_url && (
-              <motion.img 
-                src={proposal.logo_url} 
-                alt={`${proposal.company_name} logo`}
-                className="w-20 h-20 mx-auto mb-6 rounded-2xl object-contain shadow-elegant"
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.4, type: "spring" }}
-              />
-            )}
             <div className="text-2xl font-light text-muted-foreground mb-2">
               {proposal.company_name}
             </div>
-            <div className="flex items-center justify-center space-x-4">
-              <Badge variant="secondary" className="rounded-full px-4 py-1">
-                Valid until {new Date(proposal.valid_until).toLocaleDateString()}
-              </Badge>
-              {proposal.prepared_by && (
-                <Badge variant="outline" className="rounded-full px-4 py-1">
-                  Prepared by {proposal.prepared_by}
-                </Badge>
-              )}
+            <div className="text-sm text-muted-foreground">
+              Valid until {new Date(proposal.valid_until).toLocaleDateString()}
             </div>
           </motion.div>
 
@@ -415,7 +341,7 @@ export const PsychologyOptimizedProposal = ({
           </motion.h1>
 
           <motion.p 
-            className="text-xl font-light text-muted-foreground mb-16 max-w-3xl mx-auto leading-relaxed drop-cap"
+            className="text-xl font-light text-muted-foreground mb-16 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
@@ -432,71 +358,41 @@ export const PsychologyOptimizedProposal = ({
             transition={{ delay: 0.9 }}
           >
             <div className="text-center">
-              <motion.div 
-                className="text-8xl font-mono font-light text-foreground mb-2"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2 }}
-              >
+              <div className="text-4xl font-bold text-foreground mb-2">
                 $<CountingNumber 
                   target={proposal.financial_amount * 2} 
                   duration={3000}
                   startCounting={isHeroInView}
                   increment={Math.max(100, Math.floor(proposal.financial_amount * 2 / 200))}
                 />
-              </motion.div>
-              <div className="text-sm text-muted-foreground font-light">Annual Savings</div>
+              </div>
+              <div className="text-sm text-muted-foreground">Annual Savings</div>
             </div>
             
             <div className="text-center">
-              <motion.div 
-                className="text-8xl font-mono font-light text-foreground mb-2"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.4 }}
-              >
-                6-12
-              </motion.div>
-              <div className="text-sm text-muted-foreground font-light">Weeks Implementation</div>
+              <div className="text-4xl font-bold text-foreground mb-2">6-12</div>
+              <div className="text-sm text-muted-foreground">Weeks Implementation</div>
             </div>
             
             <div className="text-center">
-              <motion.div 
-                className="text-8xl font-mono font-light text-foreground mb-2"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.6 }}
-              >
-                300%+
-              </motion.div>
-              <div className="text-sm text-muted-foreground font-light">ROI Guarantee</div>
+              <div className="text-4xl font-bold text-foreground mb-2">300%+</div>
+              <div className="text-sm text-muted-foreground">ROI Guarantee</div>
             </div>
           </motion.div>
         </motion.div>
       </section>
 
       {/* Executive Summary with Loss Framing */}
-      <section data-section="executive-summary" className="py-40 px-6 bg-muted relative overflow-hidden noise-overlay">
-        <div className="max-w-screen-xl mx-auto relative z-10">
+      <section data-section="executive-summary" className="py-32 px-6 bg-muted">
+        <div className="max-w-screen-xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-20"
           >
-            <motion.div
-              className="inline-flex items-center mb-6"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-            >
-              <TrendingDown className="w-6 h-6 text-primary mr-3" />
-              <Badge className="bg-primary/10 text-primary border-primary/20 rounded-full px-4 py-1">
-                Critical Analysis
-              </Badge>
-            </motion.div>
             <h2 className="text-5xl font-bold mb-8 text-foreground">The Hidden Cost of Inaction</h2>
-            <p className="text-xl font-light text-muted-foreground max-w-3xl mx-auto leading-relaxed drop-cap">
+            <p className="text-xl font-light text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               Every day you delay, you're losing money. Here's what staying with your current process is really costing you.
             </p>
           </motion.div>
@@ -508,17 +404,10 @@ export const PsychologyOptimizedProposal = ({
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
             >
-              <Card className="p-12 text-center shadow-card premium-hover rounded-2xl border-0">
-                <motion.div
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.2, type: "spring" }}
-                >
-                  <TrendingDown className="w-12 h-12 text-primary mx-auto mb-6" />
-                </motion.div>
+              <Card className="p-12 text-center shadow-card hover:shadow-card-hover transition-shadow rounded-2xl">
+                <TrendingDown className="w-12 h-12 text-muted-foreground mx-auto mb-6" />
                 <h3 className="text-2xl font-semibold mb-4 text-foreground">Daily Revenue Loss</h3>
-                <div className="text-7xl font-mono font-light text-foreground mb-4">
+                <div className="text-4xl font-bold text-foreground mb-4">
                   $<CountingNumber 
                     target={dailyLoss} 
                     duration={2000}
@@ -535,17 +424,10 @@ export const PsychologyOptimizedProposal = ({
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
             >
-              <Card className="p-12 text-center shadow-card premium-hover rounded-2xl border-0">
-                <motion.div
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3, type: "spring" }}
-                >
-                  <Clock className="w-12 h-12 text-primary mx-auto mb-6" />
-                </motion.div>
+              <Card className="p-12 text-center shadow-card hover:shadow-card-hover transition-shadow rounded-2xl">
+                <Clock className="w-12 h-12 text-muted-foreground mx-auto mb-6" />
                 <h3 className="text-2xl font-semibold mb-4 text-foreground">Time Wasted Weekly</h3>
-                <div className="text-7xl font-mono font-light text-foreground mb-4">
+                <div className="text-4xl font-bold text-foreground mb-4">
                   <CountingNumber target={32} duration={1500} increment={1} /> hrs
                 </div>
                 <p className="text-muted-foreground font-light">On manual, repetitive tasks</p>
@@ -558,17 +440,10 @@ export const PsychologyOptimizedProposal = ({
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
             >
-              <Card className="p-12 text-center shadow-card premium-hover rounded-2xl border-0">
-                <motion.div
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.4, type: "spring" }}
-                >
-                  <AlertTriangle className="w-12 h-12 text-primary mx-auto mb-6" />
-                </motion.div>
+              <Card className="p-12 text-center shadow-card hover:shadow-card-hover transition-shadow rounded-2xl">
+                <AlertTriangle className="w-12 h-12 text-muted-foreground mx-auto mb-6" />
                 <h3 className="text-2xl font-semibold mb-4 text-foreground">Error Rate</h3>
-                <div className="text-7xl font-mono font-light text-foreground mb-4">
+                <div className="text-4xl font-bold text-foreground mb-4">
                   <CountingNumber target={15} duration={1000} increment={1} />%
                 </div>
                 <p className="text-muted-foreground font-light">Requiring costly rework</p>
@@ -585,7 +460,7 @@ export const PsychologyOptimizedProposal = ({
             <h3 className="text-3xl font-bold mb-6 text-foreground">
               Cost of Waiting Just One More Month
             </h3>
-            <div className="text-8xl font-mono font-light text-foreground mb-6">
+            <div className="text-6xl font-bold text-foreground mb-6">
               $<CountingNumber 
                 target={dailyLoss * 30} 
                 duration={3000}
@@ -598,9 +473,6 @@ export const PsychologyOptimizedProposal = ({
           </motion.div>
         </div>
       </section>
-
-      {/* Section Divider */}
-      <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent mx-6" />
 
       {/* Current State Analysis */}
       <section data-section="current-state" className="py-20 px-6 bg-muted/20">
@@ -928,15 +800,15 @@ export const PsychologyOptimizedProposal = ({
               >
                 {tier.recommended && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
-                    <Badge className="bg-primary text-white px-6 py-2 rounded-full shadow-lg">
-                      POPULAR
+                    <Badge className="bg-primary text-white px-4 py-1 rounded-full">
+                      Most Popular
                     </Badge>
                   </div>
                 )}
                 
-                <Card className={`p-12 h-full relative rounded-2xl shadow-card premium-hover border-0 ${
+                <Card className={`p-12 h-full relative rounded-2xl shadow-card hover:shadow-card-hover transition-shadow ${
                   tier.recommended 
-                    ? 'ring-2 ring-primary/20' 
+                    ? 'border-primary/20' 
                     : ''
                 }`}>
                   <div className="relative">
@@ -945,10 +817,10 @@ export const PsychologyOptimizedProposal = ({
                       <p className="text-muted-foreground mb-6 font-light">{tier.subtitle}</p>
                       
                       <div className="mb-6">
-                        <div className="text-sm text-muted-foreground line-through mb-1 font-light">
+                        <div className="text-sm text-muted-foreground line-through mb-1">
                           ${tier.originalPrice.toLocaleString()}
                         </div>
-                        <div className="text-6xl font-mono font-light text-foreground mb-2">
+                        <div className="text-5xl font-bold text-foreground mb-2">
                           ${tier.price.toLocaleString()}
                         </div>
                         <div className="text-muted-foreground font-light">
@@ -1175,14 +1047,14 @@ export const PsychologyOptimizedProposal = ({
               </div>
 
               <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                    <Button 
-                      size="lg" 
-                      className="bg-primary hover:bg-primary/90 text-lg px-12 py-6 premium-hover shadow-[0_4px_14px_0_rgba(99,102,241,0.3)] rounded-xl min-h-[56px]"
-                      onClick={() => onCTAClick('accept_proposal', { urgency: 'high' })}
-                    >
-                      Accept Proposal & Start Saving
-                      <ArrowRight className="w-5 h-5 ml-2" />
-                    </Button>
+                <Button 
+                  size="lg" 
+                  className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-lg px-8 py-4"
+                  onClick={() => onCTAClick('accept_proposal', { urgency: 'high' })}
+                >
+                  Accept Proposal & Start Saving
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
                 
                 <Button 
                   variant="outline" 
@@ -1203,22 +1075,6 @@ export const PsychologyOptimizedProposal = ({
           </motion.div>
         </div>
       </section>
-
-      {/* Professional Footer */}
-      <footer className="py-12 px-6 bg-muted/20 border-t border-border noise-overlay">
-        <div className="max-w-screen-xl mx-auto text-center">
-          <motion.p 
-            className="text-sm text-muted-foreground font-light"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            Powered by <span className="font-medium text-foreground">OraSystems</span> • 
-            Proposal valid until {new Date(proposal.valid_until).toLocaleDateString()} • 
-            All pricing and guarantees subject to terms
-          </motion.p>
-        </div>
-      </footer>
     </div>
   );
 };

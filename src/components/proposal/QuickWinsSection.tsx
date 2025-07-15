@@ -68,17 +68,17 @@ export const QuickWinsSection = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
           >
-              <div className="text-center">
-                <div className="text-sm text-primary/70 font-light">Week 1 Value</div>
-                <div className="text-4xl font-mono font-light text-foreground">
-                  $<AnimatedNumber value={totalValue} format="number" />
-                </div>
+            <div className="text-center">
+              <div className="text-sm text-green-600 dark:text-green-400">Week 1 Value</div>
+              <div className="text-3xl font-bold text-green-800 dark:text-green-200">
+                $<AnimatedNumber value={totalValue} format="number" />
               </div>
-              <div className="h-12 w-px bg-border" />
-              <div className="text-center">
-                <div className="text-sm text-primary/70 font-light">Implementation</div>
-                <div className="text-4xl font-mono font-light text-foreground">7 Days</div>
-              </div>
+            </div>
+            <div className="h-12 w-px bg-green-200 dark:bg-green-700" />
+            <div className="text-center">
+              <div className="text-sm text-green-600 dark:text-green-400">Implementation</div>
+              <div className="text-3xl font-bold text-green-800 dark:text-green-200">7 Days</div>
+            </div>
           </motion.div>
         </motion.div>
 
@@ -91,18 +91,12 @@ export const QuickWinsSection = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.2 }}
             >
-              <Card className="p-12 h-full rounded-2xl shadow-card premium-hover border-0">
+              <Card className="p-12 h-full rounded-2xl shadow-card hover:shadow-card-hover transition-shadow">
                 <div className="text-center mb-8">
-                  <motion.div
-                    className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6"
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1, type: "spring" }}
-                  >
-                    <win.icon className="w-8 h-8 text-primary" />
-                  </motion.div>
-                  <Badge className="mb-4 rounded-full bg-primary/10 text-primary border-primary/20">
+                  <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
+                    <win.icon className="w-8 h-8 text-muted-foreground" />
+                  </div>
+                  <Badge variant="outline" className="mb-4 rounded-full">
                     <Clock className="w-3 h-3 mr-1" />
                     {win.timeframe}
                   </Badge>
@@ -116,8 +110,8 @@ export const QuickWinsSection = () => {
                 </p>
                 
                 <div className="text-center">
-                  <div className="text-sm text-muted-foreground font-light">Immediate Savings</div>
-                  <div className="text-4xl font-mono font-light text-foreground">
+                  <div className="text-sm text-muted-foreground">Immediate Savings</div>
+                  <div className="text-3xl font-bold text-foreground">
                     {win.value}
                   </div>
                 </div>

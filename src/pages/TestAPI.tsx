@@ -297,6 +297,16 @@ const TestAPI: React.FC = () => {
     try {
       const payload = JSON.parse(customPayload);
       
+      console.log('🚀 Sending API Request:', {
+        url: 'https://axqqqpomxdjwrpkbfawl.supabase.co/functions/v1/create-proposal',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey.substring(0, 10)}...`,
+        },
+        payload: payload
+      });
+      
       const response = await fetch('https://axqqqpomxdjwrpkbfawl.supabase.co/functions/v1/create-proposal', {
         method: 'POST',
         headers: {
@@ -306,19 +316,41 @@ const TestAPI: React.FC = () => {
         body: JSON.stringify(payload),
       });
 
+      console.log('📡 Response received:', {
+        status: response.status,
+        statusText: response.statusText,
+        headers: Object.fromEntries(response.headers.entries())
+      });
+
       const result = await response.json();
+      console.log('📦 Response data:', result);
 
       if (!response.ok) {
+        console.error('❌ API Error:', result);
         throw new Error(result.error || `HTTP ${response.status}`);
       }
 
-      setResponse(result);
+      setResponse({
+        status: response.status,
+        headers: Object.fromEntries(response.headers.entries()),
+        data: result,
+        timestamp: new Date().toISOString()
+      });
+      
       toast({
         title: 'Success',
         description: 'Proposal created successfully!',
       });
+
+      // Test the generated URL immediately
+      if (result.url) {
+        console.log('🔗 Testing generated URL:', result.url);
+        testProposalUrl(result.url, result.proposal_id);
+      }
+
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      console.error('💥 API Test Error:', error);
       setError(errorMessage);
       toast({
         title: 'Error',
@@ -327,6 +359,41 @@ const TestAPI: React.FC = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const testProposalUrl = async (url: string, proposalId: string) => {
+    try {
+      console.log('🔍 Testing proposal URL access...');
+      const testResponse = await fetch(url.replace(window.location.origin, '') + '?test=true');
+      console.log('📄 Proposal page response:', {
+        status: testResponse.status,
+        statusText: testResponse.statusText,
+        url: url
+      });
+    } catch (error) {
+      console.error('❌ Error testing proposal URL:', error);
+    }
+  };
+
+  const debugDatabase = async () => {
+    try {
+      console.log('🔍 Fetching debug data...');
+      const response = await fetch('https://axqqqpomxdjwrpkbfawl.supabase.co/functions/v1/debug-proposal');
+      const debugData = await response.json();
+      console.log('🗄️ Database Debug Data:', debugData);
+      
+      toast({
+        title: 'Debug Complete',
+        description: 'Check console for database status',
+      });
+    } catch (error) {
+      console.error('💥 Debug error:', error);
+      toast({
+        title: 'Debug Error',
+        description: 'Failed to fetch debug data',
+        variant: 'destructive',
+      });
     }
   };
 
@@ -396,10 +463,16 @@ const TestAPI: React.FC = () => {
             </p>
           </div>
           
-          <Button onClick={downloadN8NTemplate} variant="outline">
-            <Download className="w-4 h-4 mr-2" />
-            Download N8N Template
-          </Button>
+          <div className="flex gap-2">
+            <Button onClick={debugDatabase} variant="outline">
+              <AlertTriangle className="w-4 h-4 mr-2" />
+              Debug Database
+            </Button>
+            <Button onClick={downloadN8NTemplate} variant="outline">
+              <Download className="w-4 h-4 mr-2" />
+              Download N8N Template
+            </Button>
+          </div>
         </div>
 
         {/* Environment Check */}

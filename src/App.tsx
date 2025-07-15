@@ -16,6 +16,7 @@ import APIDocumentation from "./pages/APIDocumentation";
 import TestAPI from "./pages/TestAPI";
 import SystemSetup from "./pages/SystemSetup";
 import AdminDashboard from "./pages/AdminDashboard";
+import DebugProposals from "./pages/DebugProposals";
 import NotFound from "./pages/NotFound";
 import { useAdminShortcut } from "./hooks/useAdminShortcut";
 
@@ -42,6 +43,7 @@ const AppContent = () => {
       {/* Admin Routes */}
       <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/admin/setup" element={<SystemSetup />} />
+      <Route path="/debug/proposals" element={<DebugProposals />} />
       
       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
       <Route path="*" element={<NotFound />} />

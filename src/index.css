@@ -61,10 +61,16 @@ All colors MUST be HSL.
     /* Clean gradients for CTAs only */
     --gradient-primary: linear-gradient(135deg, #6366F1, #8B5CF6);
     --gradient-cta: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+    --gradient-text: linear-gradient(135deg, #6366F1, #8B5CF6);
+
+    /* Shadow effects */
+    --shadow-glow: 0 0 40px hsl(var(--primary) / 0.3);
+    --shadow-glow-soft: 0 0 20px hsl(var(--primary) / 0.2);
 
     /* Smooth transitions */
     --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-glow-pulse: all 0.3s ease-in-out;
 
     /* Typography hierarchy - exact Alter colors */
     --text-heading: 0 0% 0%;

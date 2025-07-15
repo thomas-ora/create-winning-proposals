@@ -33,7 +33,7 @@ const TestAPI: React.FC = () => {
         employee_count: 250,
         revenue_range: "$10M-$50M",
         growth_stage: "Growth",
-        consultation_date: "2024-07-20T14:00:00Z"
+        consultation_date: "2025-07-20T14:00:00Z"
       },
       psychology_profile: {
         primary_type: "Analytical",
@@ -97,7 +97,7 @@ const TestAPI: React.FC = () => {
             features: ["Enterprise platform", "AI/ML capabilities", "24/7 support", "Dedicated team", "Strategic consulting"]
           }
         },
-        valid_until: "2024-08-20T23:59:59Z",
+        valid_until: "2026-08-20T23:59:59Z",
         prepared_by: "Sarah Martinez, Solutions Architect",
         password_protected: false,
         brand_color: "#1E40AF"

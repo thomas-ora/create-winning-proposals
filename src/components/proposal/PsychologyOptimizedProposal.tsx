@@ -415,10 +415,10 @@ export const PsychologyOptimizedProposal = ({
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-text-heading mb-6">The Hidden Cost of Inaction</h2>
-            <p className="text-xl text-text-body max-w-3xl mx-auto leading-relaxed">
+            <h2 style={{ fontSize: '36px', fontWeight: '600', marginBottom: '24px' }} className="text-text-heading">The Hidden Cost of Inaction</h2>
+            <p style={{ fontSize: '16px', lineHeight: '1.7', color: '#64748B' }} className="max-w-3xl leading-relaxed">
               Every day you delay, you're losing money. Here's what staying with your current process is really costing you.
             </p>
           </motion.div>
@@ -478,7 +478,7 @@ export const PsychologyOptimizedProposal = ({
             viewport={{ once: true }}
             className="proposal-card p-10 text-center border-red-200"
           >
-            <h3 className="text-2xl font-bold mb-4 text-red-600">
+            <h3 style={{ fontSize: '24px', fontWeight: '600', marginBottom: '24px' }} className="text-red-600">
               Cost of Waiting Just One More Month
             </h3>
             <div className="text-5xl font-bold text-red-600 mb-4">
@@ -488,7 +488,7 @@ export const PsychologyOptimizedProposal = ({
                 increment={Math.max(10, Math.floor(dailyLoss * 30 / 100))}
               />
             </div>
-            <p className="text-text-body max-w-2xl mx-auto">
+            <p style={{ fontSize: '16px', lineHeight: '1.7', color: '#64748B' }} className="max-w-2xl mx-auto">
               That's money you'll never get back. Every day you wait is revenue walking out the door.
             </p>
           </motion.div>
@@ -502,10 +502,10 @@ export const PsychologyOptimizedProposal = ({
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="mb-16"
           >
-            <h2 className="text-4xl font-bold mb-6">Where You Stand Today</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <h2 style={{ fontSize: '36px', fontWeight: '600', marginBottom: '24px' }} className="text-text-heading">Where You Stand Today</h2>
+            <p style={{ fontSize: '16px', lineHeight: '1.7', color: '#64748B' }} className="max-w-2xl">
               A detailed analysis of your current operational efficiency compared to industry standards.
             </p>
           </motion.div>
@@ -517,7 +517,7 @@ export const PsychologyOptimizedProposal = ({
               viewport={{ once: true }}
             >
               <Card className="p-8">
-                <h3 className="text-2xl font-bold mb-6">Efficiency Comparison</h3>
+                <h3 style={{ fontSize: '24px', fontWeight: '600', marginBottom: '24px' }} className="text-text-heading">Efficiency Comparison</h3>
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={competitorData}>
@@ -541,7 +541,7 @@ export const PsychologyOptimizedProposal = ({
               viewport={{ once: true }}
             >
               <Card className="p-8">
-                <h3 className="text-2xl font-bold mb-6">Loss Trajectory</h3>
+                <h3 style={{ fontSize: '24px', fontWeight: '600', marginBottom: '24px' }} className="text-text-heading">Loss Trajectory</h3>
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={lossOverTimeData}>
@@ -579,10 +579,10 @@ export const PsychologyOptimizedProposal = ({
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="mb-16"
           >
-            <h2 className="text-4xl font-bold mb-6">Calculate Your ROI</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <h2 style={{ fontSize: '36px', fontWeight: '600', marginBottom: '24px' }} className="text-text-heading">Calculate Your ROI</h2>
+            <p style={{ fontSize: '16px', lineHeight: '1.7', color: '#64748B' }} className="max-w-2xl">
               See exactly how much you'll save and how quickly you'll see returns with our interactive calculator.
             </p>
           </motion.div>
@@ -801,10 +801,10 @@ export const PsychologyOptimizedProposal = ({
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-text-heading mb-6">Investment Options</h2>
-            <p className="text-xl text-text-body max-w-3xl mx-auto leading-relaxed">
+            <h2 style={{ fontSize: '36px', fontWeight: '600', marginBottom: '24px' }} className="text-text-heading">Investment Options</h2>
+            <p style={{ fontSize: '16px', lineHeight: '1.7', color: '#64748B' }} className="max-w-3xl leading-relaxed">
               Choose the solution that best fits your needs. All options include our ROI guarantee.
             </p>
           </motion.div>
@@ -916,10 +916,10 @@ export const PsychologyOptimizedProposal = ({
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="mb-16"
           >
-            <h2 className="text-4xl font-bold mb-6">Implementation Roadmap</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <h2 style={{ fontSize: '36px', fontWeight: '600', marginBottom: '24px' }} className="text-text-heading">Implementation Roadmap</h2>
+            <p style={{ fontSize: '16px', lineHeight: '1.7', color: '#64748B' }} className="max-w-2xl">
               A clear, step-by-step plan to get you from where you are to where you want to be.
             </p>
           </motion.div>
@@ -974,10 +974,10 @@ export const PsychologyOptimizedProposal = ({
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="mb-16"
           >
-            <h2 className="text-4xl font-bold mb-6">Your Success is Guaranteed</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <h2 style={{ fontSize: '36px', fontWeight: '600', marginBottom: '24px' }} className="text-text-heading">Your Success is Guaranteed</h2>
+            <p style={{ fontSize: '16px', lineHeight: '1.7', color: '#64748B' }} className="max-w-2xl">
               We're so confident in our solution that we back it with ironclad guarantees. Your investment is protected.
             </p>
           </motion.div>

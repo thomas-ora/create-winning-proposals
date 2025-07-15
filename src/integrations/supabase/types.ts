@@ -166,6 +166,7 @@ export type Database = {
           psychology_profile_id: string | null
           sections: Json | null
           settings: Json | null
+          slug: string | null
           status: string
           title: string
           total_value: number | null
@@ -192,6 +193,7 @@ export type Database = {
           psychology_profile_id?: string | null
           sections?: Json | null
           settings?: Json | null
+          slug?: string | null
           status?: string
           title: string
           total_value?: number | null
@@ -218,6 +220,7 @@ export type Database = {
           psychology_profile_id?: string | null
           sections?: Json | null
           settings?: Json | null
+          slug?: string | null
           status?: string
           title?: string
           total_value?: number | null
@@ -291,6 +294,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_unique_slug: {
+        Args: { base_slug: string; table_name: string; column_name: string }
+        Returns: string
+      }
       update_api_key_last_used: {
         Args: { key_id: string }
         Returns: undefined

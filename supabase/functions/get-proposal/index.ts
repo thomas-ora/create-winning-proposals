@@ -13,33 +13,52 @@ serve(async (req) => {
 
   try {
     const url = new URL(req.url)
-    const proposalId = url.pathname.split('/').pop()
+    const pathParts = url.pathname.split('/').filter(Boolean)
+    let proposalId = pathParts[pathParts.length - 1]
+    let isSlugLookup = false
+    
+    // Check if this is a slug lookup (path contains '/slug/')
+    if (pathParts.includes('slug')) {
+      isSlugLookup = true
+      proposalId = pathParts[pathParts.length - 1]
+    }
+    
     const password = url.searchParams.get('password')
 
     if (!proposalId) {
-      return new Response(JSON.stringify({ error: 'Proposal ID is required' }), {
+      return new Response(JSON.stringify({ error: 'Proposal ID or slug is required' }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       })
     }
+
+    console.log('Looking up proposal:', { proposalId, isSlugLookup })
 
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
 
-    // Get proposal with client data
-    const { data: proposal, error: proposalError } = await supabaseClient
+    // Build query based on lookup type
+    let query = supabaseClient
       .from('proposals')
       .select(`
         *,
         client:clients(*),
         psychology_profile:psychology_profiles(*)
       `)
-      .eq('id', proposalId)
-      .single()
+    
+    // Query by slug or ID
+    if (isSlugLookup) {
+      query = query.eq('slug', proposalId)
+    } else {
+      query = query.eq('id', proposalId)
+    }
+    
+    const { data: proposal, error: proposalError } = await query.single()
 
     if (proposalError || !proposal) {
+      console.log('Proposal not found:', { proposalId, isSlugLookup, error: proposalError })
       return new Response(JSON.stringify({ error: 'Proposal not found' }), {
         status: 404,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -91,11 +110,13 @@ serve(async (req) => {
     await supabaseClient
       .from('proposal_events')
       .insert({
-        proposal_id: proposalId,
+        proposal_id: proposal.id, // Always use the actual UUID for tracking
         event_type: 'view',
         event_data: {
           timestamp: new Date().toISOString(),
-          page: 'proposal_view'
+          page: 'proposal_view',
+          accessed_via: isSlugLookup ? 'slug' : 'id',
+          slug_used: isSlugLookup ? proposalId : null
         },
         ip_address: ipAddress,
         user_agent: userAgent
@@ -109,7 +130,7 @@ serve(async (req) => {
           status: 'viewed',
           updated_at: new Date().toISOString()
         })
-        .eq('id', proposalId)
+        .eq('id', proposal.id) // Always use the actual UUID for updates
     }
 
     // Remove sensitive data from response

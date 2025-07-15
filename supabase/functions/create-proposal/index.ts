@@ -257,6 +257,35 @@ serve(async (req) => {
       }
     }
 
+    // Generate URL-safe slug from company name and proposal title
+    function slugify(text: string): string {
+      return text
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, '') // Remove special characters
+        .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
+        .replace(/^-+|-+$/g, '') // Remove leading/trailing hyphens
+    }
+    
+    const companySlug = slugify(proposalData.client.company_name || proposalData.client.company || 'company')
+    const titleSlug = slugify(proposalData.proposal.title)
+    const baseSlug = `${companySlug}-${titleSlug}`.substring(0, 100) // Limit length
+    
+    // Generate unique slug using database function
+    const { data: uniqueSlug, error: slugError } = await supabaseClient
+      .rpc('generate_unique_slug', {
+        base_slug: baseSlug,
+        table_name: 'proposals',
+        column_name: 'slug'
+      })
+    
+    if (slugError) {
+      console.error('❌ Slug generation error:', slugError)
+      // Continue without slug if generation fails
+    }
+    
+    console.log('🔗 Generated slug:', uniqueSlug || 'none')
+
     // Hash password if provided
     let passwordHash = null
     if (proposalData.proposal.password_protected && proposalData.proposal.password) {
@@ -274,7 +303,8 @@ serve(async (req) => {
       sectionsCount: proposalData.proposal.sections.length,
       financialAmount: proposalData.proposal.financial_amount,
       currency: proposalData.proposal.financial_currency,
-      hasPassword: !!passwordHash
+      hasPassword: !!passwordHash,
+      slug: uniqueSlug
     })
     
     const { data: proposal, error: proposalError } = await supabaseClient
@@ -284,6 +314,7 @@ serve(async (req) => {
         title: proposalData.proposal.title,
         executive_summary: proposalData.proposal.executive_summary,
         sections: proposalData.proposal.sections,
+        slug: uniqueSlug || null,
         // Provide values for both old and new financial columns
         financial_amount: proposalData.proposal.financial_amount,
         financial_currency: proposalData.proposal.financial_currency,
@@ -299,7 +330,7 @@ serve(async (req) => {
         logo_url: proposalData.proposal.logo_url,
         created_by_api_key: validatedKey.id
       })
-      .select('id')
+      .select('id, slug')
       .single()
 
     if (proposalError) {
@@ -322,10 +353,13 @@ serve(async (req) => {
       .update({ last_used: new Date().toISOString() })
       .eq('id', validatedKey.id)
 
-    const proposalUrl = `${req.headers.get('origin') || 'https://your-domain.com'}/p/${proposal.id}`
+    // Use slug for URL if available, otherwise fall back to ID
+    const urlPath = proposal.slug ? `/proposal/${proposal.slug}` : `/p/${proposal.id}`
+    const proposalUrl = `${req.headers.get('origin') || 'https://your-domain.com'}${urlPath}`
     
     console.log('🚀 Proposal creation complete:', {
       proposalId: proposal.id,
+      slug: proposal.slug,
       url: proposalUrl,
       clientId: clientId,
       apiKeyUsed: validatedKey.name
@@ -334,6 +368,7 @@ serve(async (req) => {
     return new Response(JSON.stringify({
       success: true,
       proposal_id: proposal.id,
+      slug: proposal.slug,
       url: proposalUrl,
       expires_at: proposalData.proposal.valid_until
     }), {

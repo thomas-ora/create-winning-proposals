@@ -50,6 +50,7 @@ export interface CreateProposalRequest {
 export interface CreateProposalResponse {
   success: boolean;
   proposal_id: string;
+  slug?: string;
   url: string;
   expires_at: string;
 }
@@ -103,13 +104,17 @@ class ProposalService {
     });
   }
 
-  async getProposal(id: string, password?: string): Promise<any> {
+  async getProposal(idOrSlug: string, password?: string): Promise<any> {
     const params = new URLSearchParams();
     if (password) {
       params.set('password', password);
     }
 
-    return this.callEdgeFunction(`get-proposal/${id}`, {
+    // Check if it's a UUID or slug and call appropriate endpoint
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(idOrSlug);
+    const endpoint = isUuid ? `get-proposal/${idOrSlug}` : `get-proposal/slug/${idOrSlug}`;
+
+    return this.callEdgeFunction(endpoint, {
       params: params.toString() ? params : undefined,
     });
   }

@@ -109,20 +109,27 @@ export const EnhancedROICalculator = ({
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <Label className="text-lg font-semibold mb-4 block">
-              Monthly Processing Costs: ${currentCosts.monthlyProcessingCost.toLocaleString()}
-            </Label>
-            <Slider
-              value={[currentCosts.monthlyProcessingCost]}
-              onValueChange={([value]) => handleInputChange('monthlyProcessingCost', value)}
-              max={100000}
-              min={5000}
-              step={1000}
-              className="mb-4"
-            />
-            <p className="text-sm text-muted-foreground">
-              Current monthly costs for manual processing and operations
-            </p>
+                <Label className="text-lg font-semibold mb-4 block">
+                  Monthly Processing Costs
+                </Label>
+                <input
+                  type="number"
+                  value={currentCosts.monthlyProcessingCost}
+                  onChange={(e) => handleInputChange('monthlyProcessingCost', parseInt(e.target.value) || 0)}
+                  className="input-minimal w-full text-2xl font-mono mb-2"
+                  placeholder="$25,000"
+                />
+                <Slider
+                  value={[currentCosts.monthlyProcessingCost]}
+                  onValueChange={([value]) => handleInputChange('monthlyProcessingCost', value)}
+                  max={100000}
+                  min={5000}
+                  step={1000}
+                  className="mb-4"
+                />
+                <p className="text-sm text-muted-foreground">
+                  Current monthly costs for manual processing and operations
+                </p>
           </motion.div>
 
           <motion.div
@@ -216,35 +223,35 @@ export const EnhancedROICalculator = ({
             <h4 className="text-3xl font-bold mb-8 text-center text-foreground">Your ROI Results</h4>
             
             <div className="grid grid-cols-2 gap-6 mb-8">
-              <div className="text-center p-6 bg-card rounded-xl shadow-card">
-                <div className="text-sm text-muted-foreground">Monthly Savings</div>
-                <div className="text-3xl font-bold text-foreground">
+              <div className="text-center p-6 bg-card rounded-xl shadow-card premium-hover">
+                <div className="text-sm text-muted-foreground font-light">Monthly Savings</div>
+                <div className="text-5xl font-mono font-light text-foreground">
                   $<AnimatedNumber value={results.monthlySavings} format="number" />
                 </div>
               </div>
-              <div className="text-center p-6 bg-card rounded-xl shadow-card">
-                <div className="text-sm text-muted-foreground">Annual Savings</div>
-                <div className="text-3xl font-bold text-foreground">
+              <div className="text-center p-6 bg-card rounded-xl shadow-card premium-hover">
+                <div className="text-sm text-muted-foreground font-light">Annual Savings</div>
+                <div className="text-5xl font-mono font-light text-foreground">
                   $<AnimatedNumber value={results.annualSavings} format="number" />
                 </div>
               </div>
-              <div className="text-center p-6 bg-card rounded-xl shadow-card">
-                <div className="text-sm text-muted-foreground">Break-even</div>
-                <div className="text-3xl font-bold text-foreground">
-                  <AnimatedNumber value={results.breakEvenMonths} format="number" /> months
+              <div className="text-center p-6 bg-card rounded-xl shadow-card premium-hover">
+                <div className="text-sm text-muted-foreground font-light">Break-even</div>
+                <div className="text-5xl font-mono font-light text-foreground">
+                  <AnimatedNumber value={results.breakEvenMonths} format="number" /> mo
                 </div>
               </div>
-              <div className="text-center p-6 bg-card rounded-xl shadow-card">
-                <div className="text-sm text-muted-foreground">3-Year ROI</div>
-                <div className="text-3xl font-bold text-foreground">
+              <div className="text-center p-6 bg-card rounded-xl shadow-card premium-hover">
+                <div className="text-sm text-muted-foreground font-light">3-Year ROI</div>
+                <div className="text-5xl font-mono font-light text-foreground">
                   <AnimatedNumber value={results.threeYearROI} format="number" />%
                 </div>
               </div>
             </div>
 
-            <div className="text-center p-8 bg-primary text-white rounded-xl">
-              <div className="text-sm opacity-90">Total 3-Year Value</div>
-              <div className="text-4xl font-bold">
+            <div className="text-center p-8 bg-primary text-white rounded-xl premium-hover">
+              <div className="text-sm opacity-90 font-light">Total 3-Year Value</div>
+              <div className="text-6xl font-mono font-light">
                 $<AnimatedNumber value={results.netPresentValue} format="number" />
               </div>
             </div>

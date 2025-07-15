@@ -247,26 +247,32 @@ export const PsychologyOptimizedProposal = ({
 
       {/* Removed sticky navigation for cleaner header approach */}
 
-      {/* Clean Daily Loss Counter */}
+      {/* Elegant Daily Loss Counter */}
       <motion.div 
-        className="fixed top-4 right-4 z-40 proposal-card px-4 py-3"
+        className="fixed top-4 right-4 z-40 text-center"
+        style={{
+          backgroundColor: '#F7F8FA',
+          padding: '48px',
+          borderRadius: '20px',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.04)',
+          border: 'none'
+        }}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2 }}
       >
-        <div className="flex items-center space-x-3">
-          <TrendingDown className="w-4 h-4 text-red-500" />
-          <div>
-            <div className="text-xs text-text-muted">Daily Loss</div>
-            <div className="text-lg font-bold text-red-600">
-              $<CountingNumber 
-                target={dailyLoss} 
-                duration={2000} 
-                increment={Math.max(1, Math.floor(dailyLoss / 100))}
-                startCounting={timeOnPage > 3}
-              />
-            </div>
-          </div>
+        <TrendingDown className="w-6 h-6 text-red-500 mx-auto mb-3" />
+        <div className="text-sm text-gray-500 mb-2">Daily Loss</div>
+        <div 
+          className="text-red-600"
+          style={{ fontSize: '64px', fontWeight: '600', lineHeight: '1' }}
+        >
+          $<CountingNumber 
+            target={dailyLoss} 
+            duration={2000} 
+            increment={Math.max(1, Math.floor(dailyLoss / 100))}
+            startCounting={timeOnPage > 3}
+          />
         </div>
       </motion.div>
 

@@ -3,11 +3,9 @@ import { useParams, Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, AlertCircle, Home, BarChart3 } from "lucide-react";
-import { ProposalHeader } from "@/components/proposal/ProposalHeader";
-import { ProposalMeta } from "@/components/proposal/ProposalMeta";
-import { ProposalSection } from "@/components/proposal/ProposalSection";
 import { ProposalSkeleton } from "@/components/proposal/ProposalSkeleton";
 import { ErrorBoundary } from "@/components/common/ErrorBoundary";
+import { PsychologyOptimizedProposal } from "@/components/proposal/PsychologyOptimizedProposal";
 import { useProposal } from "@/hooks/useProposal";
 import { useProposalTracking } from "@/hooks/useProposalTracking";
 
@@ -17,6 +15,35 @@ const ProposalView = () => {
   
   // Initialize proposal tracking
   const tracking = useProposalTracking(proposalId || '');
+
+  // Enhanced CTA tracking with psychology triggers
+  const handleCTAClick = (action: string, data?: any) => {
+    // Map actions to valid CTA types
+    const ctaTypeMap: { [key: string]: 'accept' | 'contact' | 'download' } = {
+      'accept_proposal': 'accept',
+      'schedule_call': 'contact',
+      'select_tier': 'accept',
+      'calculator_use': 'download'
+    };
+
+    const ctaType = ctaTypeMap[action] || 'contact';
+    
+    tracking.trackCTAClick(ctaType, {
+      action,
+      ...data,
+      timestamp: Date.now(),
+      proposal_id: proposalId,
+      psychology_trigger: data?.urgency || 'medium'
+    });
+
+    // Additional interaction tracking for non-standard actions
+    if (!ctaTypeMap[action]) {
+      tracking.trackInteraction(action, {
+        ...data,
+        timestamp: Date.now()
+      });
+    }
+  };
 
   if (loading) {
     return <ProposalSkeleton />;
@@ -63,69 +90,43 @@ const ProposalView = () => {
     );
   }
 
+  // Transform proposal data for the psychology-optimized component
+  const optimizedProposal = {
+    id: proposal.id,
+    title: proposal.title,
+    client_name: proposal.client?.name || 'Valued Client',
+    company_name: proposal.client?.company || 'Your Company',
+    executive_summary: proposal.sections?.find(s => s.title.toLowerCase().includes('summary'))?.content as string || '',
+    financial_amount: proposal.financial?.amount || 50000,
+    financial_currency: proposal.financial?.currency || 'USD',
+    valid_until: proposal.timeline?.expiresAt?.toISOString() || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+    prepared_by: proposal.author?.name || 'ORA Systems',
+    logo_url: proposal.branding?.logo,
+    brand_color: proposal.branding?.primaryColor,
+    sections: proposal.sections || []
+  };
+
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
-        {/* Header */}
-        <ProposalHeader proposal={proposal} />
+      <div className="min-h-screen">
+        {/* Psychology-Optimized Proposal */}
+        <PsychologyOptimizedProposal 
+          proposal={optimizedProposal}
+          onCTAClick={handleCTAClick}
+        />
 
-        {/* Proposal Content */}
-        <div className="container mx-auto px-4 py-8">
-          <div className="max-w-4xl mx-auto">
-            {/* Proposal Meta */}
-            <ProposalMeta proposal={proposal} />
-
-            {/* Proposal Sections */}
-            <div className="space-y-6">
-              {proposal.sections
-                .sort((a, b) => a.order - b.order)
-                .map((section) => (
-                  <div
-                    key={section.id}
-                    data-section-id={section.id}
-                    data-section-title={section.title}
-                  >
-                    <ProposalSection 
-                      section={section} 
-                      onCalculatorUse={tracking.trackCalculatorUse}
-                      onLinkClick={tracking.trackLinkClick}
-                    />
-                  </div>
-                ))}
-            </div>
-
-            {/* Analytics Button */}
-            <div className="flex justify-center mb-6">
-              <Button 
-                asChild
-                variant="outline" 
-                className="flex items-center"
-              >
-                <Link to={`/proposals/${proposalId}/analytics`}>
-                  <BarChart3 className="w-4 h-4 mr-2" />
-                  View Analytics
-                </Link>
-              </Button>
-            </div>
-
-            {/* Call to Action */}
-            <Card className="p-8 bg-gradient-primary text-white mt-8 shadow-elegant">
-              <div className="text-center">
-                <h3 className="text-2xl font-bold mb-4">Ready to Get Started?</h3>
-                <p className="text-white/90 mb-6">
-                  We're excited to work with you on this project. Click below to accept this proposal and begin the process.
-                </p>
-                <Button 
-                  size="lg" 
-                  variant="secondary" 
-                  className="bg-white text-primary hover:bg-white/90"
-                  onClick={() => tracking.trackCTAClick('accept', { location: 'bottom_cta' })}
-                >
-                  Accept Proposal
-                </Button>
-              </div>
-            </Card>
-          </div>
+        {/* Analytics Button - Fixed Position */}
+        <div className="fixed bottom-6 left-6 z-40">
+          <Button 
+            asChild
+            variant="outline" 
+            className="shadow-lg bg-background/80 backdrop-blur-sm"
+          >
+            <Link to={`/proposals/${proposalId}/analytics`}>
+              <BarChart3 className="w-4 h-4 mr-2" />
+              Analytics
+            </Link>
+          </Button>
         </div>
       </div>
     </ErrorBoundary>

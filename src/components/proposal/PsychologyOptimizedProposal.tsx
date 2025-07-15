@@ -238,51 +238,71 @@ export const PsychologyOptimizedProposal = ({
 
   return (
     <div ref={containerRef} className="min-h-screen bg-proposal-bg">
-      {/* Minimal Progress Bar */}
+      {/* Fixed Progress Bar - Clean and subtle */}
       <motion.div 
         className="fixed top-0 left-0 right-0 h-0.5 bg-primary z-50"
         style={{ scaleX: scrollYProgress }}
         initial={{ scaleX: 0 }}
       />
 
-      {/* Ultra-minimal Header */}
-      <motion.header 
-        className="fixed top-6 left-6 z-40"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+      {/* Sticky Navigation */}
+      <motion.nav 
+        className="fixed top-4 left-1/2 transform -translate-x-1/2 z-40 proposal-card px-6 py-3"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1 }}
       >
-        <div className="text-text-heading font-bold text-lg">ORASYSTEMS</div>
-      </motion.header>
+        <div className="flex items-center space-x-6 text-sm">
+          {sections.slice(0, 5).map((section, index) => (
+            <button
+              key={section.id}
+              className={`transition-colors ${
+                currentSection === index ? 'text-primary font-medium' : 'text-text-body hover:text-text-heading'
+              }`}
+              onClick={() => {
+                const element = document.querySelector(`[data-section="${section.id}"]`);
+                element?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              {section.title}
+            </button>
+          ))}
+        </div>
+      </motion.nav>
 
-      {/* Minimal Loss Counter */}
+      {/* Clean Daily Loss Counter */}
       <motion.div 
-        className="fixed top-6 right-6 z-40 alter-stat-card"
+        className="fixed top-4 right-4 z-40 proposal-card px-4 py-3"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2 }}
-        style={{ padding: '16px 24px' }}
       >
-        <div className="text-xs text-text-muted mb-1">Daily Loss</div>
-        <div className="text-xl font-bold text-red-600">
-          $<CountingNumber 
-            target={dailyLoss} 
-            duration={2000} 
-            increment={Math.max(1, Math.floor(dailyLoss / 100))}
-            startCounting={timeOnPage > 3}
-          />
+        <div className="flex items-center space-x-3">
+          <TrendingDown className="w-4 h-4 text-red-500" />
+          <div>
+            <div className="text-xs text-text-muted">Daily Loss</div>
+            <div className="text-lg font-bold text-red-600">
+              $<CountingNumber 
+                target={dailyLoss} 
+                duration={2000} 
+                increment={Math.max(1, Math.floor(dailyLoss / 100))}
+                startCounting={timeOnPage > 3}
+              />
+            </div>
+          </div>
         </div>
       </motion.div>
 
-      {/* Ultra-Clean Hero Section */}
+      {/* Hero Section - Alter Style */}
       <section 
         ref={heroRef}
         data-section="hero"
-        className="relative pt-32 pb-24 px-6 bg-proposal-bg"
+        className="relative py-24 px-6 bg-proposal-bg"
       >
         <div className="alter-container text-center">
-          {/* Minimal Company Partnership */}
+          {/* Company Partnership */}
           <motion.div 
-            className="flex items-center justify-center space-x-4 mb-8"
+            className="flex items-center justify-center space-x-6 mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -291,30 +311,45 @@ export const PsychologyOptimizedProposal = ({
               <img 
                 src={proposal.logo_url} 
                 alt="Company Logo" 
-                className="h-8 object-contain opacity-70"
+                className="h-12 object-contain"
               />
             )}
-            <div className="text-text-muted text-sm font-light">{proposal.company_name}</div>
+            <div className="text-text-subtle text-lg">×</div>
+            <div className="text-text-heading font-bold text-lg">ORASYSTEMS</div>
           </motion.div>
 
-          {/* Clean Title */}
-          <motion.h1 
-            className="text-5xl md:text-6xl font-bold text-text-heading mb-6 leading-tight"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+          {/* Proposal Badge */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
+            className="mb-8"
           >
-            {proposal.title}
-          </motion.h1>
+            <div className="inline-flex items-center px-4 py-2 bg-proposal-card rounded-full text-sm text-text-body border border-border">
+              <Clock className="w-4 h-4 mr-2" />
+              Valid until {new Date(proposal.valid_until).toLocaleDateString()}
+            </div>
+          </motion.div>
 
-          {/* Simple Subtitle */}
-          <motion.p 
-            className="text-lg text-text-body mb-16 max-w-2xl mx-auto font-light leading-relaxed"
+          {/* Main Headline - Clean & Bold */}
+          <motion.h1 
+            className="text-5xl md:text-6xl font-bold text-text-heading mb-8 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
           >
-            A comprehensive automation solution designed specifically for {proposal.company_name}.
+            {proposal.title}
+          </motion.h1>
+
+          {/* Subtitle */}
+          <motion.p 
+            className="text-xl text-text-body mb-12 max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+          >
+            A comprehensive automation solution designed specifically for {proposal.company_name} 
+            to eliminate inefficiencies and maximize productivity.
           </motion.p>
 
           {/* EXACT Alter Stats Cards */}
@@ -325,11 +360,11 @@ export const PsychologyOptimizedProposal = ({
             transition={{ delay: 1 }}
           >
             <div className="alter-stat-card text-center relative">
-              <DollarSign className="w-5 h-5 text-primary absolute top-6 left-6" />
-              <div className="text-sm text-text-muted mb-3" style={{ color: '#64748B', fontSize: '14px' }}>
+              <DollarSign className="w-6 h-6 text-primary absolute top-8 left-8" />
+              <div className="text-sm text-text-muted" style={{ color: '#64748B', fontSize: '14px' }}>
                 Potential Annual Savings
               </div>
-              <div className="font-semibold" style={{ fontSize: '64px', fontWeight: '600', lineHeight: '1' }}>
+              <div className="font-semibold mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
                 $<CountingNumber 
                   target={proposal.financial_amount * 2} 
                   duration={3000}
@@ -340,30 +375,30 @@ export const PsychologyOptimizedProposal = ({
             </div>
 
             <div className="alter-stat-card text-center relative">
-              <Clock className="w-5 h-5 text-primary absolute top-6 left-6" />
-              <div className="text-sm text-text-muted mb-3" style={{ color: '#64748B', fontSize: '14px' }}>
-                Implementation
+              <Clock className="w-6 h-6 text-primary absolute top-8 left-8" />
+              <div className="text-sm text-text-muted" style={{ color: '#64748B', fontSize: '14px' }}>
+                Implementation Time
               </div>
-              <div className="font-semibold" style={{ fontSize: '64px', fontWeight: '600', lineHeight: '1' }}>
+              <div className="font-semibold mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
                 6-12
               </div>
-              <div className="text-sm mt-2" style={{ color: '#64748B', fontSize: '14px' }}>weeks</div>
+              <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>weeks</div>
             </div>
 
             <div className="alter-stat-card text-center relative">
-              <TrendingUp className="w-5 h-5 text-primary absolute top-6 left-6" />
-              <div className="text-sm text-text-muted mb-3" style={{ color: '#64748B', fontSize: '14px' }}>
+              <TrendingUp className="w-6 h-6 text-primary absolute top-8 left-8" />
+              <div className="text-sm text-text-muted" style={{ color: '#64748B', fontSize: '14px' }}>
                 ROI Guarantee
               </div>
-              <div className="font-semibold" style={{ fontSize: '64px', fontWeight: '600', lineHeight: '1' }}>
+              <div className="font-semibold mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
                 300%+
               </div>
             </div>
           </motion.div>
 
-          {/* Ultra-simple CTA */}
+          {/* Clean CTA */}
           <motion.div 
-            className="mt-16"
+            className="flex flex-col sm:flex-row justify-center gap-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2 }}
@@ -375,6 +410,15 @@ export const PsychologyOptimizedProposal = ({
               View Full Proposal
               <ArrowRight className="w-4 h-4 ml-2" />
             </button>
+            
+            <Button 
+              variant="outline" 
+              size="lg"
+              className="px-8 py-3"
+              onClick={() => onCTAClick('schedule_call', { section: 'hero' })}
+            >
+              Schedule Call
+            </Button>
           </motion.div>
         </div>
       </section>
@@ -402,9 +446,9 @@ export const PsychologyOptimizedProposal = ({
               transition={{ delay: 0.1 }}
               className="alter-stat-card text-center relative"
             >
-              <TrendingDown className="w-5 h-5 text-red-500 absolute top-6 left-6" />
-              <div className="text-sm mb-3" style={{ color: '#64748B', fontSize: '14px' }}>Daily Revenue Loss</div>
-              <div className="font-semibold text-red-600" style={{ fontSize: '64px', fontWeight: '600', lineHeight: '1' }}>
+              <TrendingDown className="w-6 h-6 text-red-500 absolute top-8 left-8" />
+              <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>Daily Revenue Loss</div>
+              <div className="font-semibold text-red-600 mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
                 $<CountingNumber 
                   target={dailyLoss} 
                   duration={2000}
@@ -791,8 +835,8 @@ export const PsychologyOptimizedProposal = ({
                 className="proposal-card group hover:shadow-hover transition-all duration-200"
               >
                 {tier.recommended && (
-                  <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 z-10">
-                    <div style={{ backgroundColor: '#5046E5', fontSize: '12px' }} className="text-white px-3 py-1 rounded-full font-medium">
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
+                    <div style={{ backgroundColor: '#5046E5' }} className="text-white px-4 py-2 rounded-full text-sm font-medium">
                       POPULAR
                     </div>
                   </div>

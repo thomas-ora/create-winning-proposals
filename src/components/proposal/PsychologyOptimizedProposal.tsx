@@ -237,27 +237,29 @@ export const PsychologyOptimizedProposal = ({
   ];
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-background">
-      {/* Fixed Progress Bar */}
+    <div ref={containerRef} className="min-h-screen bg-background animated-grid">
+      {/* Premium Progress Bar with Glow */}
       <motion.div 
-        className="fixed top-0 left-0 right-0 h-1 bg-primary z-50"
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-primary z-50 shadow-glow-soft"
         style={{ scaleX: scrollYProgress }}
         initial={{ scaleX: 0 }}
       />
 
-      {/* Fixed Daily Loss Counter with Real-time Counting */}
+      {/* Premium Daily Loss Counter */}
       <motion.div 
-        className="fixed top-4 right-4 z-40 bg-red-500 text-white px-6 py-3 rounded-lg shadow-xl"
+        className="fixed top-6 right-6 z-40 glass-premium px-8 py-4 rounded-2xl border border-red-500/30 hover-glow"
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2 }}
-        whileHover={{ scale: 1.05 }}
+        whileHover={{ scale: 1.02, y: -2 }}
       >
-        <div className="flex items-center space-x-2">
-          <TrendingDown className="w-5 h-5" />
+        <div className="flex items-center space-x-3">
+          <div className="p-2 bg-red-500/20 rounded-lg">
+            <TrendingDown className="w-5 h-5 text-red-400" />
+          </div>
           <div>
-            <div className="text-xs opacity-90">Daily Loss</div>
-            <div className="text-lg font-bold">
+            <div className="text-xs text-red-400 font-medium tracking-wide">DAILY LOSS</div>
+            <div className="text-2xl font-bold text-white text-shadow-soft">
               $<CountingNumber 
                 target={dailyLoss} 
                 duration={2000} 
@@ -269,146 +271,195 @@ export const PsychologyOptimizedProposal = ({
         </div>
       </motion.div>
 
-      {/* Hero Section */}
+      {/* Premium Hero Section */}
       <section 
         ref={heroRef}
         data-section="hero"
-        className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-muted/30 overflow-hidden"
+        className="relative min-h-screen flex items-center justify-center bg-gradient-hero overflow-hidden section-spacing-large"
       >
-        {/* Animated Background with Parallax */}
+        {/* Premium Animated Background */}
         <motion.div 
-          className="absolute inset-0 bg-grid opacity-50" 
-          style={{ y: useTransform(scrollYProgress, [0, 1], [0, -100]) }}
+          className="absolute inset-0 bg-mesh opacity-30" 
+          style={{ y: useTransform(scrollYProgress, [0, 1], [0, -200]) }}
         />
         
+        {/* Floating particles effect */}
+        <div className="absolute inset-0">
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-primary/20 rounded-full"
+              style={{
+                left: `${20 + i * 15}%`,
+                top: `${30 + i * 10}%`,
+              }}
+              animate={{
+                y: [-20, 20, -20],
+                opacity: [0.3, 0.8, 0.3],
+              }}
+              transition={{
+                duration: 4 + i * 0.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+        </div>
+        
         <motion.div 
-          className="relative z-10 text-center max-w-4xl mx-auto px-6"
-          initial={{ opacity: 0, y: 50 }}
+          className="relative z-10 text-center max-w-6xl mx-auto px-6"
+          initial={{ opacity: 0, y: 80 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
         >
-          {/* Company Logos */}
-          <div className="flex items-center justify-center space-x-8 mb-8">
+          {/* Premium Company Logos */}
+          <motion.div 
+            className="flex items-center justify-center space-x-12 mb-12"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+          >
             {proposal.logo_url && (
-              <img 
-                src={proposal.logo_url} 
-                alt="Company Logo" 
-                className="h-16 object-contain"
-              />
+              <div className="glass-card p-4 rounded-2xl">
+                <img 
+                  src={proposal.logo_url} 
+                  alt="Company Logo" 
+                  className="h-20 object-contain filter brightness-110"
+                />
+              </div>
             )}
-            <div className="text-muted-foreground text-2xl">×</div>
-            <div className="h-16 w-32 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center text-white font-bold text-xl">
-              ORASYSTEMS
+            <div className="text-muted-foreground/60 text-3xl font-light">×</div>
+            <div className="glass-premium p-6 rounded-2xl glow-hover">
+              <div className="h-20 w-40 bg-gradient-primary rounded-xl flex items-center justify-center text-white font-bold text-2xl tracking-wide">
+                ORASYSTEMS
+              </div>
             </div>
-          </div>
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="mb-6"
+            className="mb-8"
           >
-            <Badge variant="secondary" className="mb-4">
-              <Clock className="w-4 h-4 mr-2" />
-              Valid until {new Date(proposal.valid_until).toLocaleDateString()}
-            </Badge>
+            <div className="glass-card px-6 py-3 rounded-full inline-flex items-center border-primary/30">
+              <Clock className="w-4 h-4 mr-2 text-primary" />
+              <span className="text-sm font-medium text-white/90">
+                Valid until {new Date(proposal.valid_until).toLocaleDateString()}
+              </span>
+            </div>
           </motion.div>
 
           <motion.h1 
-            className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent mb-6"
-            initial={{ opacity: 0, y: 20 }}
+            className="text-headline gradient-text-large mb-8 text-shadow-soft"
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
+            transition={{ delay: 0.7, duration: 1 }}
           >
             {proposal.title}
           </motion.h1>
 
           <motion.p 
-            className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
+            className="text-2xl text-white/80 mb-12 max-w-3xl mx-auto leading-relaxed font-light"
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9 }}
+            transition={{ delay: 0.9, duration: 1 }}
           >
-            A comprehensive automation solution designed specifically for {proposal.company_name} 
-            to eliminate inefficiencies and maximize productivity.
+            A sophisticated automation solution engineered specifically for {proposal.company_name} 
+            to eliminate operational inefficiencies and amplify productivity at scale.
           </motion.p>
 
           <motion.div 
-            className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6"
-            initial={{ opacity: 0, y: 20 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1 }}
+            transition={{ delay: 1.1, duration: 1 }}
           >
-              <div className="text-center">
-                <div className="text-sm text-muted-foreground">Potential Annual Savings</div>
-                <div className="text-3xl font-bold text-green-600">
-                  $<CountingNumber 
-                    target={proposal.financial_amount * 2} 
-                    duration={3000}
-                    startCounting={isHeroInView}
-                    increment={Math.max(100, Math.floor(proposal.financial_amount * 2 / 200))}
-                  />
-                </div>
+            <motion.div 
+              className="glass-premium p-8 rounded-2xl hover-float text-center border-green-500/20"
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="text-sm text-green-400 font-medium tracking-wider mb-2">ANNUAL SAVINGS</div>
+              <div className="text-4xl font-bold text-white mb-2">
+                $<CountingNumber 
+                  target={proposal.financial_amount * 2} 
+                  duration={3000}
+                  startCounting={isHeroInView}
+                  increment={Math.max(100, Math.floor(proposal.financial_amount * 2 / 200))}
+                />
               </div>
-            <div className="hidden sm:block w-px h-12 bg-border" />
-            <div className="text-center">
-              <div className="text-sm text-muted-foreground">Implementation Time</div>
-              <div className="text-3xl font-bold text-blue-600">6-12 weeks</div>
-            </div>
-            <div className="hidden sm:block w-px h-12 bg-border" />
-            <div className="text-center">
-              <div className="text-sm text-muted-foreground">ROI Guarantee</div>
-              <div className="text-3xl font-bold text-purple-600">300%+</div>
-            </div>
+              <div className="text-green-400/80 text-sm">Projected first year</div>
+            </motion.div>
+
+            <motion.div 
+              className="glass-premium p-8 rounded-2xl hover-float text-center border-blue-500/20"
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="text-sm text-blue-400 font-medium tracking-wider mb-2">IMPLEMENTATION</div>
+              <div className="text-4xl font-bold text-white mb-2">6-12</div>
+              <div className="text-blue-400/80 text-sm">Weeks to full deployment</div>
+            </motion.div>
+
+            <motion.div 
+              className="glass-premium p-8 rounded-2xl hover-float text-center border-purple-500/20"
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="text-sm text-purple-400 font-medium tracking-wider mb-2">ROI GUARANTEE</div>
+              <div className="text-4xl font-bold text-white mb-2">300%+</div>
+              <div className="text-purple-400/80 text-sm">Or money back</div>
+            </motion.div>
           </motion.div>
 
           <motion.div 
-            className="mt-12"
+            className="mt-16"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5 }}
           >
-            <ChevronDown className="w-8 h-8 mx-auto text-muted-foreground animate-bounce" />
+            <div className="glass-card p-4 rounded-full inline-block">
+              <ChevronDown className="w-6 h-6 text-primary animate-bounce" />
+            </div>
           </motion.div>
         </motion.div>
       </section>
 
-      {/* Executive Summary with Loss Framing */}
-      <section data-section="executive-summary" className="py-20 px-6">
-        <div className="max-w-4xl mx-auto">
+      {/* Premium Executive Summary with Loss Framing */}
+      <section data-section="executive-summary" className="section-spacing px-6">
+        <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
-            <h2 className="text-4xl font-bold mb-6">The Hidden Cost of Inaction</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Every day you delay, you're losing money. Here's what staying with your current process is really costing you.
+            <h2 className="text-display gradient-text mb-8">The Hidden Cost of Inaction</h2>
+            <p className="text-2xl text-white/70 max-w-3xl mx-auto font-light leading-relaxed">
+              Every moment you delay costs real money. Here's the sophisticated analysis of what 
+              maintaining your current operational state is actually costing you.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <div className="grid md:grid-cols-3 gap-8 mb-20">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
             >
-              <Card className="p-6 bg-gradient-to-br from-red-500/10 to-red-500/5 border-red-500/20">
-                  <div className="text-center">
-                    <TrendingDown className="w-12 h-12 text-red-500 mx-auto mb-4" />
-                    <h3 className="text-xl font-bold mb-2">Daily Revenue Loss</h3>
-                    <div className="text-3xl font-bold text-red-600 mb-2">
-                      $<CountingNumber 
-                        target={dailyLoss} 
-                        duration={2000}
-                        increment={Math.max(1, Math.floor(dailyLoss / 50))}
-                      />
-                    </div>
-                    <p className="text-sm text-muted-foreground">Due to inefficient processes</p>
-                  </div>
-              </Card>
+              <div className="glass-premium p-8 rounded-3xl hover-float border-red-500/20 text-center">
+                <div className="w-16 h-16 mx-auto mb-6 glass-card rounded-2xl flex items-center justify-center">
+                  <TrendingDown className="w-8 h-8 text-red-400" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-white">Daily Revenue Loss</h3>
+                <div className="text-4xl font-bold text-red-400 mb-3">
+                  $<CountingNumber 
+                    target={dailyLoss} 
+                    duration={2000}
+                    increment={Math.max(1, Math.floor(dailyLoss / 50))}
+                  />
+                </div>
+                <p className="text-sm text-white/60 font-light">Due to operational inefficiencies</p>
+              </div>
             </motion.div>
 
             <motion.div
@@ -417,16 +468,16 @@ export const PsychologyOptimizedProposal = ({
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
             >
-              <Card className="p-6 bg-gradient-to-br from-orange-500/10 to-orange-500/5 border-orange-500/20">
-                  <div className="text-center">
-                    <Clock className="w-12 h-12 text-orange-500 mx-auto mb-4" />
-                    <h3 className="text-xl font-bold mb-2">Time Wasted Weekly</h3>
-                    <div className="text-3xl font-bold text-orange-600 mb-2">
-                      <CountingNumber target={32} duration={1500} increment={1} /> hrs
-                    </div>
-                    <p className="text-sm text-muted-foreground">On manual, repetitive tasks</p>
-                  </div>
-              </Card>
+              <div className="glass-premium p-8 rounded-3xl hover-float border-orange-500/20 text-center">
+                <div className="w-16 h-16 mx-auto mb-6 glass-card rounded-2xl flex items-center justify-center">
+                  <Clock className="w-8 h-8 text-orange-400" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-white">Time Wasted Weekly</h3>
+                <div className="text-4xl font-bold text-orange-400 mb-3">
+                  <CountingNumber target={32} duration={1500} increment={1} /> hrs
+                </div>
+                <p className="text-sm text-white/60 font-light">On manual, repetitive processes</p>
+              </div>
             </motion.div>
 
             <motion.div
@@ -435,16 +486,16 @@ export const PsychologyOptimizedProposal = ({
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
             >
-              <Card className="p-6 bg-gradient-to-br from-yellow-500/10 to-yellow-500/5 border-yellow-500/20">
-                  <div className="text-center">
-                    <AlertTriangle className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
-                    <h3 className="text-xl font-bold mb-2">Error Rate</h3>
-                    <div className="text-3xl font-bold text-yellow-600 mb-2">
-                      <CountingNumber target={15} duration={1000} increment={1} />%
-                    </div>
-                    <p className="text-sm text-muted-foreground">Requiring costly rework</p>
-                  </div>
-              </Card>
+              <div className="glass-premium p-8 rounded-3xl hover-float border-yellow-500/20 text-center">
+                <div className="w-16 h-16 mx-auto mb-6 glass-card rounded-2xl flex items-center justify-center">
+                  <AlertTriangle className="w-8 h-8 text-yellow-400" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-white">Error Rate</h3>
+                <div className="text-4xl font-bold text-yellow-400 mb-3">
+                  <CountingNumber target={15} duration={1000} increment={1} />%
+                </div>
+                <p className="text-sm text-white/60 font-light">Requiring expensive rework</p>
+              </div>
             </motion.div>
           </div>
 
@@ -452,20 +503,21 @@ export const PsychologyOptimizedProposal = ({
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-r from-red-50 to-red-100 dark:from-red-950/20 dark:to-red-900/20 rounded-2xl p-8 text-center"
+            className="glass-premium p-12 rounded-3xl text-center border-red-500/30 bg-gradient-to-br from-red-500/10 to-red-600/5"
           >
-            <h3 className="text-2xl font-bold mb-4 text-red-700 dark:text-red-400">
+            <h3 className="text-3xl font-bold mb-6 text-red-400">
               Cost of Waiting Just One More Month
             </h3>
-            <div className="text-5xl font-bold text-red-600 mb-4">
+            <div className="text-6xl font-bold text-white mb-6 text-shadow-soft">
               $<CountingNumber 
                 target={dailyLoss * 30} 
                 duration={3000}
                 increment={Math.max(10, Math.floor(dailyLoss * 30 / 100))}
               />
             </div>
-            <p className="text-red-600 dark:text-red-400">
-              That's money you'll never get back. Every day you wait is revenue walking out the door.
+            <p className="text-xl text-red-400/90 font-light max-w-2xl mx-auto">
+              Revenue that vanishes forever. Every moment of hesitation is profit walking out your door—
+              profit your competitors are capturing while you deliberate.
             </p>
           </motion.div>
         </div>

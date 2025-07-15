@@ -259,14 +259,16 @@ serve(async (req) => {
         title: proposalData.proposal.title,
         executive_summary: proposalData.proposal.executive_summary,
         sections: proposalData.proposal.sections,
+        // Provide values for both old and new financial columns
         financial_amount: proposalData.proposal.financial_amount,
         financial_currency: proposalData.proposal.financial_currency,
+        total_value: proposalData.proposal.financial_amount, // Map to old column
+        currency: proposalData.proposal.financial_currency, // Map to old column
         payment_terms: proposalData.proposal.payment_terms,
         pricing_tiers: proposalData.proposal.pricing_tiers,
         valid_until: proposalData.proposal.valid_until,
         prepared_by: proposalData.proposal.prepared_by,
         status: 'sent',
-        password_protected: proposalData.proposal.password_protected || false,
         password_hash: passwordHash,
         brand_color: proposalData.proposal.brand_color,
         logo_url: proposalData.proposal.logo_url,

@@ -237,51 +237,29 @@ export const PsychologyOptimizedProposal = ({
   ];
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-proposal-bg">
-      {/* Fixed Progress Bar - Clean and subtle */}
+    <div ref={containerRef} className="min-h-screen bg-background animated-grid">
+      {/* Premium Progress Bar with Glow */}
       <motion.div 
-        className="fixed top-0 left-0 right-0 h-0.5 bg-primary z-50"
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-primary z-50 shadow-glow-soft"
         style={{ scaleX: scrollYProgress }}
         initial={{ scaleX: 0 }}
       />
 
-      {/* Sticky Navigation */}
-      <motion.nav 
-        className="fixed top-4 left-1/2 transform -translate-x-1/2 z-40 proposal-card px-6 py-3"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1 }}
-      >
-        <div className="flex items-center space-x-6 text-sm">
-          {sections.slice(0, 5).map((section, index) => (
-            <button
-              key={section.id}
-              className={`transition-colors ${
-                currentSection === index ? 'text-primary font-medium' : 'text-text-body hover:text-text-heading'
-              }`}
-              onClick={() => {
-                const element = document.querySelector(`[data-section="${section.id}"]`);
-                element?.scrollIntoView({ behavior: 'smooth' });
-              }}
-            >
-              {section.title}
-            </button>
-          ))}
-        </div>
-      </motion.nav>
-
-      {/* Clean Daily Loss Counter */}
+      {/* Premium Daily Loss Counter */}
       <motion.div 
-        className="fixed top-4 right-4 z-40 proposal-card px-4 py-3"
-        initial={{ opacity: 0, y: -20 }}
+        className="fixed top-6 right-6 z-40 glass-premium px-8 py-4 rounded-2xl border border-red-500/30 hover-glow"
+        initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2 }}
+        whileHover={{ scale: 1.02, y: -2 }}
       >
         <div className="flex items-center space-x-3">
-          <TrendingDown className="w-4 h-4 text-red-500" />
+          <div className="p-2 bg-red-500/20 rounded-lg">
+            <TrendingDown className="w-5 h-5 text-red-400" />
+          </div>
           <div>
-            <div className="text-xs text-text-muted">Daily Loss</div>
-            <div className="text-lg font-bold text-red-600">
+            <div className="text-xs text-red-400 font-medium tracking-wide">DAILY LOSS</div>
+            <div className="text-2xl font-bold text-white text-shadow-soft">
               $<CountingNumber 
                 target={dailyLoss} 
                 duration={2000} 
@@ -293,75 +271,116 @@ export const PsychologyOptimizedProposal = ({
         </div>
       </motion.div>
 
-      {/* Hero Section - Clean & Centered */}
+      {/* Premium Hero Section */}
       <section 
         ref={heroRef}
         data-section="hero"
-        className="relative py-24 px-6 bg-proposal-bg"
+        className="relative min-h-screen flex items-center justify-center bg-gradient-hero overflow-hidden section-spacing-large"
       >
-        <div className="max-w-5xl mx-auto text-center">
-          {/* Company Partnership */}
+        {/* Premium Animated Background */}
+        <motion.div 
+          className="absolute inset-0 bg-mesh opacity-30" 
+          style={{ y: useTransform(scrollYProgress, [0, 1], [0, -200]) }}
+        />
+        
+        {/* Floating particles effect */}
+        <div className="absolute inset-0">
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-primary/20 rounded-full"
+              style={{
+                left: `${20 + i * 15}%`,
+                top: `${30 + i * 10}%`,
+              }}
+              animate={{
+                y: [-20, 20, -20],
+                opacity: [0.3, 0.8, 0.3],
+              }}
+              transition={{
+                duration: 4 + i * 0.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+        </div>
+        
+        <motion.div 
+          className="relative z-10 text-center max-w-6xl mx-auto px-6"
+          initial={{ opacity: 0, y: 80 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+        >
+          {/* Premium Company Logos */}
           <motion.div 
-            className="flex items-center justify-center space-x-6 mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            className="flex items-center justify-center space-x-12 mb-12"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
           >
             {proposal.logo_url && (
-              <img 
-                src={proposal.logo_url} 
-                alt="Company Logo" 
-                className="h-12 object-contain"
-              />
+              <div className="glass-card p-4 rounded-2xl">
+                <img 
+                  src={proposal.logo_url} 
+                  alt="Company Logo" 
+                  className="h-20 object-contain filter brightness-110"
+                />
+              </div>
             )}
-            <div className="text-text-subtle text-lg">×</div>
-            <div className="text-text-heading font-bold text-lg">ORASYSTEMS</div>
-          </motion.div>
-
-          {/* Proposal Badge */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="mb-8"
-          >
-            <div className="inline-flex items-center px-4 py-2 bg-proposal-card rounded-full text-sm text-text-body border border-border">
-              <Clock className="w-4 h-4 mr-2" />
-              Valid until {new Date(proposal.valid_until).toLocaleDateString()}
+            <div className="text-muted-foreground/60 text-3xl font-light">×</div>
+            <div className="glass-premium p-6 rounded-2xl glow-hover">
+              <div className="h-20 w-40 bg-gradient-primary rounded-xl flex items-center justify-center text-white font-bold text-2xl tracking-wide">
+                ORASYSTEMS
+              </div>
             </div>
           </motion.div>
 
-          {/* Main Headline - Clean & Bold */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="mb-8"
+          >
+            <div className="glass-card px-6 py-3 rounded-full inline-flex items-center border-primary/30">
+              <Clock className="w-4 h-4 mr-2 text-primary" />
+              <span className="text-sm font-medium text-white/90">
+                Valid until {new Date(proposal.valid_until).toLocaleDateString()}
+              </span>
+            </div>
+          </motion.div>
+
           <motion.h1 
-            className="text-5xl md:text-6xl font-bold text-text-heading mb-8 leading-tight"
-            initial={{ opacity: 0, y: 20 }}
+            className="text-headline gradient-text-large mb-8 text-shadow-soft"
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
+            transition={{ delay: 0.7, duration: 1 }}
           >
             {proposal.title}
           </motion.h1>
 
-          {/* Subtitle */}
           <motion.p 
-            className="text-xl text-text-body mb-12 max-w-3xl mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-          >
-            A comprehensive automation solution designed specifically for {proposal.company_name} 
-            to eliminate inefficiencies and maximize productivity.
-          </motion.p>
-
-          {/* Key Stats Cards - Like Alter */}
-          <motion.div 
-            className="grid md:grid-cols-3 gap-6 mb-16"
+            className="text-2xl text-white/80 mb-12 max-w-3xl mx-auto leading-relaxed font-light"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1 }}
+            transition={{ delay: 0.9, duration: 1 }}
           >
-            <div className="proposal-card p-6 text-center">
-              <div className="text-sm text-text-muted mb-2">Potential Annual Savings</div>
-              <div className="text-3xl font-bold text-primary mb-1">
+            A sophisticated automation solution engineered specifically for {proposal.company_name} 
+            to eliminate operational inefficiencies and amplify productivity at scale.
+          </motion.p>
+
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.1, duration: 1 }}
+          >
+            <motion.div 
+              className="glass-premium p-8 rounded-2xl hover-float text-center border-green-500/20"
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="text-sm text-green-400 font-medium tracking-wider mb-2">ANNUAL SAVINGS</div>
+              <div className="text-4xl font-bold text-white mb-2">
                 $<CountingNumber 
                   target={proposal.financial_amount * 2} 
                   duration={3000}
@@ -369,134 +388,136 @@ export const PsychologyOptimizedProposal = ({
                   increment={Math.max(100, Math.floor(proposal.financial_amount * 2 / 200))}
                 />
               </div>
-              <div className="text-xs text-text-subtle">vs current process</div>
-            </div>
+              <div className="text-green-400/80 text-sm">Projected first year</div>
+            </motion.div>
 
-            <div className="proposal-card p-6 text-center">
-              <div className="text-sm text-text-muted mb-2">Implementation Time</div>
-              <div className="text-3xl font-bold text-text-heading mb-1">6-12 weeks</div>
-              <div className="text-xs text-text-subtle">full deployment</div>
-            </div>
+            <motion.div 
+              className="glass-premium p-8 rounded-2xl hover-float text-center border-blue-500/20"
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="text-sm text-blue-400 font-medium tracking-wider mb-2">IMPLEMENTATION</div>
+              <div className="text-4xl font-bold text-white mb-2">6-12</div>
+              <div className="text-blue-400/80 text-sm">Weeks to full deployment</div>
+            </motion.div>
 
-            <div className="proposal-card p-6 text-center">
-              <div className="text-sm text-text-muted mb-2">ROI Guarantee</div>
-              <div className="text-3xl font-bold text-primary mb-1">300%+</div>
-              <div className="text-xs text-text-subtle">within 12 months</div>
-            </div>
+            <motion.div 
+              className="glass-premium p-8 rounded-2xl hover-float text-center border-purple-500/20"
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="text-sm text-purple-400 font-medium tracking-wider mb-2">ROI GUARANTEE</div>
+              <div className="text-4xl font-bold text-white mb-2">300%+</div>
+              <div className="text-purple-400/80 text-sm">Or money back</div>
+            </motion.div>
           </motion.div>
 
-          {/* Clean CTA */}
           <motion.div 
-            className="flex flex-col sm:flex-row justify-center gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2 }}
+            className="mt-16"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5 }}
           >
-            <Button 
-              size="lg"
-              className="bg-gradient-to-r from-primary to-primary hover:opacity-90 text-white px-8 py-3"
-              onClick={() => onCTAClick('view_proposal', { section: 'hero' })}
-            >
-              View Full Proposal
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="px-8 py-3"
-              onClick={() => onCTAClick('schedule_call', { section: 'hero' })}
-            >
-              Schedule Call
-            </Button>
+            <div className="glass-card p-4 rounded-full inline-block">
+              <ChevronDown className="w-6 h-6 text-primary animate-bounce" />
+            </div>
           </motion.div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* Executive Summary - Clean Cards Style */}
-      <section data-section="executive-summary" className="py-24 px-6 bg-proposal-section">
-        <div className="max-w-5xl mx-auto">
+      {/* Premium Executive Summary with Loss Framing */}
+      <section data-section="executive-summary" className="section-spacing px-6">
+        <div className="max-w-6xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-text-heading mb-6">The Hidden Cost of Inaction</h2>
-            <p className="text-xl text-text-body max-w-3xl mx-auto leading-relaxed">
-              Every day you delay, you're losing money. Here's what staying with your current process is really costing you.
+            <h2 className="text-display gradient-text mb-8">The Hidden Cost of Inaction</h2>
+            <p className="text-2xl text-white/70 max-w-3xl mx-auto font-light leading-relaxed">
+              Every moment you delay costs real money. Here's the sophisticated analysis of what 
+              maintaining your current operational state is actually costing you.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6 mb-16">
+          <div className="grid md:grid-cols-3 gap-8 mb-20">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="proposal-card p-8 text-center"
             >
-              <TrendingDown className="w-8 h-8 text-red-500 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-text-heading mb-3">Daily Revenue Loss</h3>
-              <div className="text-3xl font-bold text-red-600 mb-2">
-                $<CountingNumber 
-                  target={dailyLoss} 
-                  duration={2000}
-                  increment={Math.max(1, Math.floor(dailyLoss / 50))}
-                />
+              <div className="glass-premium p-8 rounded-3xl hover-float border-red-500/20 text-center">
+                <div className="w-16 h-16 mx-auto mb-6 glass-card rounded-2xl flex items-center justify-center">
+                  <TrendingDown className="w-8 h-8 text-red-400" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-white">Daily Revenue Loss</h3>
+                <div className="text-4xl font-bold text-red-400 mb-3">
+                  $<CountingNumber 
+                    target={dailyLoss} 
+                    duration={2000}
+                    increment={Math.max(1, Math.floor(dailyLoss / 50))}
+                  />
+                </div>
+                <p className="text-sm text-white/60 font-light">Due to operational inefficiencies</p>
               </div>
-              <p className="text-sm text-text-muted">Due to inefficient processes</p>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="proposal-card p-8 text-center"
             >
-              <Clock className="w-8 h-8 text-orange-500 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-text-heading mb-3">Time Wasted Weekly</h3>
-              <div className="text-3xl font-bold text-orange-600 mb-2">
-                <CountingNumber target={32} duration={1500} increment={1} /> hrs
+              <div className="glass-premium p-8 rounded-3xl hover-float border-orange-500/20 text-center">
+                <div className="w-16 h-16 mx-auto mb-6 glass-card rounded-2xl flex items-center justify-center">
+                  <Clock className="w-8 h-8 text-orange-400" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-white">Time Wasted Weekly</h3>
+                <div className="text-4xl font-bold text-orange-400 mb-3">
+                  <CountingNumber target={32} duration={1500} increment={1} /> hrs
+                </div>
+                <p className="text-sm text-white/60 font-light">On manual, repetitive processes</p>
               </div>
-              <p className="text-sm text-text-muted">On manual, repetitive tasks</p>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="proposal-card p-8 text-center"
             >
-              <AlertTriangle className="w-8 h-8 text-yellow-500 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-text-heading mb-3">Error Rate</h3>
-              <div className="text-3xl font-bold text-yellow-600 mb-2">
-                <CountingNumber target={15} duration={1000} increment={1} />%
+              <div className="glass-premium p-8 rounded-3xl hover-float border-yellow-500/20 text-center">
+                <div className="w-16 h-16 mx-auto mb-6 glass-card rounded-2xl flex items-center justify-center">
+                  <AlertTriangle className="w-8 h-8 text-yellow-400" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-white">Error Rate</h3>
+                <div className="text-4xl font-bold text-yellow-400 mb-3">
+                  <CountingNumber target={15} duration={1000} increment={1} />%
+                </div>
+                <p className="text-sm text-white/60 font-light">Requiring expensive rework</p>
               </div>
-              <p className="text-sm text-text-muted">Requiring costly rework</p>
             </motion.div>
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="proposal-card p-10 text-center border-red-200"
+            className="glass-premium p-12 rounded-3xl text-center border-red-500/30 bg-gradient-to-br from-red-500/10 to-red-600/5"
           >
-            <h3 className="text-2xl font-bold mb-4 text-red-600">
+            <h3 className="text-3xl font-bold mb-6 text-red-400">
               Cost of Waiting Just One More Month
             </h3>
-            <div className="text-5xl font-bold text-red-600 mb-4">
+            <div className="text-6xl font-bold text-white mb-6 text-shadow-soft">
               $<CountingNumber 
                 target={dailyLoss * 30} 
                 duration={3000}
                 increment={Math.max(10, Math.floor(dailyLoss * 30 / 100))}
               />
             </div>
-            <p className="text-text-body max-w-2xl mx-auto">
-              That's money you'll never get back. Every day you wait is revenue walking out the door.
+            <p className="text-xl text-red-400/90 font-light max-w-2xl mx-auto">
+              Revenue that vanishes forever. Every moment of hesitation is profit walking out your door—
+              profit your competitors are capturing while you deliberate.
             </p>
           </motion.div>
         </div>
@@ -801,113 +822,122 @@ export const PsychologyOptimizedProposal = ({
       {/* Risk Reversal Section */}
       <RiskReversalSection />
 
-      {/* Pricing Section - Clean Alter Style */}
-      <section data-section="pricing" className="py-24 px-6 bg-proposal-bg">
+      {/* Pricing Section */}
+      <section data-section="pricing" className="py-20 px-6 bg-muted/20">
         <div className="max-w-6xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-text-heading mb-6">Investment Options</h2>
-            <p className="text-xl text-text-body max-w-3xl mx-auto leading-relaxed">
+            <h2 className="text-4xl font-bold mb-6">Investment Options</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Choose the solution that best fits your needs. All options include our ROI guarantee.
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-3 gap-6">
+          <div className="grid lg:grid-cols-3 gap-8">
             {pricingTiers.map((tier, index) => (
               <motion.div
                 key={tier.name}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="proposal-card group hover:shadow-hover transition-all duration-200"
+                className={`relative ${tier.recommended ? 'lg:-mt-4 lg:mb-4' : ''}`}
               >
                 {tier.recommended && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                    <div className="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+                    <Badge className="bg-gradient-to-r from-primary to-accent text-white px-4 py-1">
+                      <Star className="w-4 h-4 mr-1" />
                       Most Popular
-                    </div>
+                    </Badge>
                   </div>
                 )}
                 
-                <div className={`p-8 h-full ${tier.recommended ? 'border-2 border-primary' : ''}`}>
-                  <div className="text-center mb-8">
-                    <h3 className="text-2xl font-bold text-text-heading mb-2">{tier.name}</h3>
-                    <p className="text-text-muted mb-6">{tier.subtitle}</p>
-                    
-                    <div className="mb-6">
-                      <div className="text-sm text-text-subtle line-through mb-1">
-                        ${tier.originalPrice.toLocaleString()}
+                <Card className={`p-8 h-full relative overflow-hidden ${
+                  tier.recommended 
+                    ? 'border-primary shadow-2xl bg-gradient-to-br from-primary/5 to-accent/5' 
+                    : 'hover:shadow-xl transition-shadow'
+                }`}>
+                  {tier.recommended && (
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full -translate-y-16 translate-x-16" />
+                  )}
+                  
+                  <div className="relative">
+                    <div className="text-center mb-6">
+                      <h3 className="text-2xl font-bold mb-2">{tier.name}</h3>
+                      <p className="text-muted-foreground mb-4">{tier.subtitle}</p>
+                      
+                      <div className="mb-4">
+                        <div className="text-sm text-muted-foreground line-through">
+                          ${tier.originalPrice.toLocaleString()}
+                        </div>
+                        <div className="text-4xl font-bold text-primary">
+                          ${tier.price.toLocaleString()}
+                        </div>
+                        <div className="text-green-600 font-semibold">
+                          Save ${tier.savings.toLocaleString()}
+                        </div>
                       </div>
-                      <div className="text-4xl font-bold text-text-heading mb-2">
-                        ${tier.price.toLocaleString()}
-                      </div>
-                      <div className="text-sm font-medium text-primary">
-                        Save ${tier.savings.toLocaleString()}
+
+                      <div className="flex items-center justify-center space-x-4 text-sm mb-6">
+                        <div className="flex items-center text-green-600">
+                          <Clock className="w-4 h-4 mr-1" />
+                          {tier.payback} payback
+                        </div>
+                        <div className="flex items-center text-blue-600">
+                          <Gauge className="w-4 h-4 mr-1" />
+                          {tier.percentage} solution
+                        </div>
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-center gap-4 text-sm text-text-muted mb-6">
-                      <div className="flex items-center">
-                        <Clock className="w-4 h-4 mr-1" />
-                        {tier.payback} payback
-                      </div>
-                      <div className="w-1 h-1 bg-text-subtle rounded-full"></div>
-                      <div className="flex items-center">
-                        <Gauge className="w-4 h-4 mr-1" />
-                        {tier.percentage} solution
-                      </div>
-                    </div>
+                    <ul className="space-y-3 mb-8">
+                      {tier.features.map((feature, featureIndex) => (
+                        <li key={featureIndex} className="flex items-start">
+                          <CheckCircle2 className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                          <span className="text-sm">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <Button 
+                      className={`w-full ${
+                        tier.recommended 
+                          ? 'bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90' 
+                          : ''
+                      }`}
+                      size="lg"
+                      onClick={() => onCTAClick('select_tier', { tier: tier.name, price: tier.price })}
+                    >
+                      Select {tier.name}
+                    </Button>
                   </div>
-
-                  <ul className="space-y-4 mb-8">
-                    {tier.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-start">
-                        <CheckCircle2 className="w-4 h-4 text-primary mr-3 mt-0.5 flex-shrink-0" />
-                        <span className="text-sm text-text-body">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <Button 
-                    className={`w-full transition-all ${
-                      tier.recommended 
-                        ? 'bg-primary hover:bg-primary/90 text-white' 
-                        : 'border border-border hover:shadow-card'
-                    }`}
-                    variant={tier.recommended ? "default" : "outline"}
-                    size="lg"
-                    onClick={() => onCTAClick('select_tier', { tier: tier.name, price: tier.price })}
-                  >
-                    Select {tier.name}
-                  </Button>
-                </div>
+                </Card>
               </motion.div>
             ))}
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mt-12"
           >
-            <div className="proposal-card p-8 border-primary/20 bg-primary/5">
-              <h3 className="text-xl font-bold mb-4 text-text-heading">
-                Limited Time Offer: 30% Savings
+            <Card className="p-8 bg-gradient-to-r from-green-50 to-green-100 dark:from-green-950/20 dark:to-green-900/20 border-green-200 dark:border-green-800">
+              <h3 className="text-xl font-bold mb-4 text-green-700 dark:text-green-400">
+                💰 Limited Time Offer: 30% Savings
               </h3>
-              <p className="text-text-body mb-4">
+              <p className="text-green-600 dark:text-green-400 mb-4">
                 Act before {new Date(proposal.valid_until).toLocaleDateString()} to lock in these special rates. 
                 Prices increase by 30% after this date.
               </p>
-              <div className="text-sm text-text-muted font-medium">
-                Offer expires in: {Math.ceil((new Date(proposal.valid_until).getTime() - Date.now()) / (1000 * 60 * 60 * 24))} days
+              <div className="text-sm text-green-600 dark:text-green-400 font-semibold">
+                ⏰ Offer expires in: {Math.ceil((new Date(proposal.valid_until).getTime() - Date.now()) / (1000 * 60 * 60 * 24))} days
               </div>
-            </div>
+            </Card>
           </motion.div>
         </div>
       </section>

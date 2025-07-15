@@ -658,7 +658,7 @@ export const PsychologyOptimizedProposal = ({
       )}
 
       {decisionStyle === 'driver' && (
-        <section data-section="competitive-advantage" className="proposal-section bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20">
+        <section data-section="competitive-advantage" className="proposal-section">
           <div className="alter-container">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
@@ -703,7 +703,7 @@ export const PsychologyOptimizedProposal = ({
       )}
 
       {decisionStyle === 'expressive' && (
-        <section data-section="vision" className="proposal-section bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20">
+        <section data-section="vision" className="proposal-section">
           <div className="alter-container text-center">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
@@ -727,7 +727,7 @@ export const PsychologyOptimizedProposal = ({
       )}
 
       {decisionStyle === 'amiable' && (
-        <section data-section="support" className="proposal-section bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20">
+        <section data-section="support" className="proposal-section">
           <div className="alter-container">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
@@ -929,18 +929,14 @@ export const PsychologyOptimizedProposal = ({
             <div className="absolute left-1/2 transform -translate-x-0.5 w-1 h-full bg-border" />
             
             {timelineData.map((phase, index) => (
-              <motion.div
+              <div
                 key={phase.phase}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.2 }}
                 className={`relative flex items-center mb-16 ${
                   index % 2 === 0 ? 'justify-start' : 'justify-end'
                 }`}
               >
                 <div className={`w-5/12 ${index % 2 === 0 ? 'pr-8' : 'pl-8'}`}>
-                  <Card className="p-6">
+                  <Card className="p-6" style={{ backgroundColor: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
                     <div className={`flex items-center mb-4 ${index % 2 === 0 ? '' : 'flex-row-reverse'}`}>
                       <div 
                         className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold"
@@ -960,8 +956,11 @@ export const PsychologyOptimizedProposal = ({
                   </Card>
                 </div>
                 
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background" />
-              </motion.div>
+                <div 
+                  className="absolute left-1/2 transform -translate-x-1/2 rounded-full border-4 border-background" 
+                  style={{ width: '8px', height: '8px', backgroundColor: '#E5E7EB' }}
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -983,13 +982,8 @@ export const PsychologyOptimizedProposal = ({
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-            >
-              <Card className="p-8 text-center bg-gradient-to-br from-green-500/10 to-green-500/5 border-green-500/20">
+            <div>
+              <Card className="p-8 text-center" style={{ backgroundColor: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
                 <Shield className="w-16 h-16 text-green-500 mx-auto mb-6" />
                 <h3 className="text-xl font-bold mb-4">ROI Guarantee</h3>
                 <p className="text-muted-foreground mb-4">
@@ -997,15 +991,10 @@ export const PsychologyOptimizedProposal = ({
                 </p>
                 <div className="text-2xl font-bold text-green-600">300%+ ROI</div>
               </Card>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-            >
-              <Card className="p-8 text-center bg-gradient-to-br from-blue-500/10 to-blue-500/5 border-blue-500/20">
+            <div>
+              <Card className="p-8 text-center" style={{ backgroundColor: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
                 <Trophy className="w-16 h-16 text-blue-500 mx-auto mb-6" />
                 <h3 className="text-xl font-bold mb-4">Performance Promise</h3>
                 <p className="text-muted-foreground mb-4">
@@ -1013,15 +1002,10 @@ export const PsychologyOptimizedProposal = ({
                 </p>
                 <div className="text-2xl font-bold text-blue-600">60% Better</div>
               </Card>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-            >
-              <Card className="p-8 text-center bg-gradient-to-br from-purple-500/10 to-purple-500/5 border-purple-500/20">
+            <div>
+              <Card className="p-8 text-center" style={{ backgroundColor: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
                 <Zap className="w-16 h-16 text-purple-500 mx-auto mb-6" />
                 <h3 className="text-xl font-bold mb-4">Fast Implementation</h3>
                 <p className="text-muted-foreground mb-4">
@@ -1029,7 +1013,7 @@ export const PsychologyOptimizedProposal = ({
                 </p>
                 <div className="text-2xl font-bold text-purple-600">30 Days</div>
               </Card>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>

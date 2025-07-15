@@ -86,7 +86,7 @@ export const EnhancedROICalculator = ({
   };
 
   return (
-    <Card className="p-8 bg-gradient-to-br from-background to-muted/20">
+    <div className="proposal-card p-8">
       <div className="text-center mb-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -95,7 +95,7 @@ export const EnhancedROICalculator = ({
         >
           <Calculator className="w-16 h-16 mx-auto mb-4 text-primary" />
           <h3 className="text-3xl font-bold mb-4">Interactive ROI Calculator</h3>
-          <p className="text-muted-foreground">
+          <p className="text-text-body">
             Adjust the values below to see your personalized return on investment
           </p>
         </motion.div>
@@ -109,20 +109,28 @@ export const EnhancedROICalculator = ({
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <Label className="text-lg font-semibold mb-4 block">
-              Monthly Processing Costs: ${currentCosts.monthlyProcessingCost.toLocaleString()}
-            </Label>
-            <Slider
-              value={[currentCosts.monthlyProcessingCost]}
-              onValueChange={([value]) => handleInputChange('monthlyProcessingCost', value)}
-              max={100000}
-              min={5000}
-              step={1000}
-              className="mb-4"
-            />
-            <p className="text-sm text-muted-foreground">
-              Current monthly costs for manual processing and operations
-            </p>
+            <div className="p-6 bg-white border border-border rounded-xl">
+              <Label className="text-lg font-semibold mb-4 block text-text-heading">
+                Monthly Processing Costs: ${currentCosts.monthlyProcessingCost.toLocaleString()}
+              </Label>
+              <div className="relative">
+                <input
+                  type="range"
+                  value={currentCosts.monthlyProcessingCost}
+                  onChange={(e) => handleInputChange('monthlyProcessingCost', Number(e.target.value))}
+                  max={100000}
+                  min={5000}
+                  step={1000}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                  style={{
+                    background: `linear-gradient(to right, #5046E5 0%, #5046E5 ${(currentCosts.monthlyProcessingCost - 5000) / (100000 - 5000) * 100}%, #e5e7eb ${(currentCosts.monthlyProcessingCost - 5000) / (100000 - 5000) * 100}%, #e5e7eb 100%)`
+                  }}
+                />
+              </div>
+              <p className="text-sm text-text-muted mt-2">
+                Current monthly costs for manual processing and operations
+              </p>
+            </div>
           </motion.div>
 
           <motion.div
@@ -216,27 +224,28 @@ export const EnhancedROICalculator = ({
             <h4 className="text-2xl font-bold mb-6 text-center">Your ROI Results</h4>
             
             <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="text-center p-4 bg-white dark:bg-background rounded-lg">
-                <div className="text-sm text-muted-foreground">Monthly Savings</div>
-                <div className="text-2xl font-bold text-green-600">
+              <div className="alter-stat-card text-center relative">
+                <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>Monthly Savings</div>
+                <div className="font-semibold text-green-600 mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
                   $<AnimatedNumber value={results.monthlySavings} format="number" />
                 </div>
               </div>
-              <div className="text-center p-4 bg-white dark:bg-background rounded-lg">
-                <div className="text-sm text-muted-foreground">Annual Savings</div>
-                <div className="text-2xl font-bold text-green-600">
+              <div className="alter-stat-card text-center relative">
+                <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>Annual Savings</div>
+                <div className="font-semibold text-green-600 mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
                   $<AnimatedNumber value={results.annualSavings} format="number" />
                 </div>
               </div>
-              <div className="text-center p-4 bg-white dark:bg-background rounded-lg">
-                <div className="text-sm text-muted-foreground">Break-even</div>
-                <div className="text-2xl font-bold text-blue-600">
-                  <AnimatedNumber value={results.breakEvenMonths} format="number" /> months
+              <div className="alter-stat-card text-center relative">
+                <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>Break-even</div>
+                <div className="font-semibold text-blue-600 mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
+                  <AnimatedNumber value={results.breakEvenMonths} format="number" />
                 </div>
+                <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>months</div>
               </div>
-              <div className="text-center p-4 bg-white dark:bg-background rounded-lg">
-                <div className="text-sm text-muted-foreground">3-Year ROI</div>
-                <div className="text-2xl font-bold text-purple-600">
+              <div className="alter-stat-card text-center relative">
+                <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>3-Year ROI</div>
+                <div className="font-semibold text-purple-600 mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
                   <AnimatedNumber value={results.threeYearROI} format="number" />%
                 </div>
               </div>
@@ -335,6 +344,6 @@ export const EnhancedROICalculator = ({
           You'll break even in {results.breakEvenMonths.toFixed(1)} months, then enjoy pure profit.
         </p>
       </motion.div>
-    </Card>
+    </div>
   );
 };

@@ -6,6 +6,7 @@ import { FileText, AlertCircle, Home, BarChart3 } from "lucide-react";
 import { ProposalSkeleton } from "@/components/proposal/ProposalSkeleton";
 import { ErrorBoundary } from "@/components/common/ErrorBoundary";
 import { PsychologyOptimizedProposal } from "@/components/proposal/PsychologyOptimizedProposal";
+import { SimpleProposalHeader } from "@/components/proposal/SimpleProposalHeader";
 import { useProposal } from "@/hooks/useProposal";
 import { useProposalTracking } from "@/hooks/useProposalTracking";
 
@@ -124,6 +125,12 @@ const ProposalView = () => {
   return (
     <ErrorBoundary>
       <div className="min-h-screen">
+        {/* Simplified Header for Proposals */}
+        <SimpleProposalHeader 
+          clientName={proposal.client?.name}
+          logoUrl={proposal.branding?.logo}
+        />
+        
         {/* Psychology-Optimized Proposal */}
         <PsychologyOptimizedProposal 
           proposal={optimizedProposal}

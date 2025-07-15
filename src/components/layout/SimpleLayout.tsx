@@ -7,7 +7,9 @@ interface SimpleLayoutProps {
 const SimpleLayout = ({ children }: SimpleLayoutProps) => {
   return (
     <div className="min-h-screen bg-background">
-      {children}
+      <main className="min-h-screen">
+        {children}
+      </main>
     </div>
   );
 };

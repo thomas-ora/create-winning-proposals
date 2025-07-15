@@ -65,8 +65,6 @@ export default {
 				'text-body': 'hsl(var(--text-body))',
 				'text-muted': 'hsl(var(--text-muted))',
 				'text-subtle': 'hsl(var(--text-subtle))',
-				// Alter-specific colors
-				'alter-primary': '#5046E5',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

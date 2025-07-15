@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* EXACT Alter design system colors */
+    /* Clean light mode inspired by Alter */
     --background: 0 0% 100%;
     --foreground: 0 0% 0%;
 
@@ -18,8 +18,8 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 0%;
 
-    /* Alter's exact primary purple: #5046E5 */
-    --primary: 248 75% 58%;
+    /* Refined purple accent like Alter */
+    --primary: 225 81% 66%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 210 20% 98%;
@@ -28,16 +28,16 @@ All colors MUST be HSL.
     --muted: 210 20% 97%;
     --muted-foreground: 0 0% 40%;
 
-    --accent: 248 75% 58%;
+    --accent: 225 81% 66%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    /* Alter's exact border color: #E5E7EB */
-    --border: 218 11% 91%;
-    --input: 218 11% 91%;
-    --ring: 248 75% 58%;
+    /* Subtle borders like Alter */
+    --border: 0 0% 0% / 0.08;
+    --input: 0 0% 0% / 0.08;
+    --ring: 225 81% 66%;
 
     --radius: 0.75rem;
 
@@ -47,16 +47,15 @@ All colors MUST be HSL.
     --surface-2: 220 9% 97%;
     --surface-3: 220 9% 96%;
     
-    /* Alter's exact stat card background: #F8F9FB */
-    --proposal-bg: 0 0% 100%;
+    /* Proposal-specific surfaces */
+    --proposal-bg: 220 9% 98%;
     --proposal-card: 0 0% 100%;
-    --proposal-section: 0 0% 100%;
-    --alter-stat-card: 220 25% 98%;
+    --proposal-section: 220 9% 97%;
 
-  /* Consistent shadows for premium feel */
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --shadow-hover: 0 2px 6px rgba(0, 0, 0, 0.12);
-  --shadow-elegant: 0 1px 3px rgba(0, 0, 0, 0.1);
+    /* Refined shadows like Alter */
+    --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-elegant: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 
     /* Clean gradients for CTAs only */
     --gradient-primary: linear-gradient(135deg, #6366F1, #8B5CF6);
@@ -66,10 +65,10 @@ All colors MUST be HSL.
     --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 
-    /* Typography hierarchy - exact Alter colors */
+    /* Typography hierarchy */
     --text-heading: 0 0% 0%;
-    --text-body: 215 14% 40%;
-    --text-muted: 215 16% 47%; /* #64748B exact from Alter */
+    --text-body: 0 0% 40%;
+    --text-muted: 0 0% 60%;
     --text-subtle: 0 0% 75%;
 
     /* Sidebar tokens for light mode */
@@ -146,39 +145,20 @@ All colors MUST be HSL.
     background: hsl(var(--proposal-bg));
   }
 
-  /* Alter-exact proposal utilities */
+  /* Proposal-specific utilities */
   .proposal-card {
     background: hsl(var(--proposal-card));
     box-shadow: var(--shadow-card);
-    border: 1px solid hsl(var(--border));
-    border-radius: 16px; /* Alter's exact 16px */
-    transition: all 0.3s ease;
+    border-radius: 12px;
+    transition: var(--transition-smooth);
   }
 
   .proposal-card:hover {
-    transform: scale(1.02);
-    box-shadow: var(--shadow-hover);
-  }
-
-  /* Alter's exact stat card styling */
-  .alter-stat-card {
-    background: hsl(var(--alter-stat-card));
-    border-radius: 20px; /* Alter's exact 20px */
-    padding: 32px; /* Alter's exact 32px */
-    border: 1px solid hsl(var(--border));
-    box-shadow: var(--shadow-card);
-    transition: all 0.3s ease;
-  }
-
-  .alter-stat-card:hover {
-    transform: scale(1.02);
     box-shadow: var(--shadow-hover);
   }
 
   .proposal-section {
     background: hsl(var(--proposal-section));
-    padding-top: 120px; /* More breathing room */
-    padding-bottom: 120px;
   }
 
   .text-heading {
@@ -309,44 +289,5 @@ All colors MUST be HSL.
 
   .ease-smooth {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* Alter button styles - exact copy */
-  .alter-button-primary {
-    background: #5046E5; /* Alter's exact primary color */
-    padding: 12px 24px; /* Alter's exact padding */
-    border-radius: 10px; /* Alter's exact border radius */
-    font-size: 15px; /* Alter's exact font size */
-    font-weight: 500; /* Alter's exact font weight */
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); /* Alter's exact shadow */
-    transition: all 0.3s ease;
-    color: white;
-    border: none;
-  }
-
-  .alter-button-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 12px -1px rgba(0,0,0,0.15);
-  }
-
-  /* Alter container styles - Updated for more breathing room */
-  .alter-container {
-    max-width: 1000px; /* Narrower for better focus */
-    margin: 0 auto;
-    padding-left: 48px; /* More padding on desktop */
-    padding-right: 48px;
-  }
-
-  /* Mobile responsive padding */
-  @media (max-width: 768px) {
-    .alter-container {
-      padding-left: 24px;
-      padding-right: 24px;
-    }
-    
-    .proposal-section {
-      padding-top: 80px;
-      padding-bottom: 80px;
-    }
   }
 }

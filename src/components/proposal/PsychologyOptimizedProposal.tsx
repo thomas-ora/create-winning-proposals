@@ -817,17 +817,23 @@ export const PsychologyOptimizedProposal = ({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="proposal-card group hover:shadow-hover transition-all duration-200"
+                className="relative"
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: '16px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                  border: 'none'
+                }}
               >
                 {tier.recommended && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                    <div style={{ backgroundColor: '#5046E5' }} className="text-white px-4 py-2 rounded-full text-sm font-medium">
-                      POPULAR
+                  <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 z-10">
+                    <div className="text-gray-600 text-xs font-medium">
+                      Recommended
                     </div>
                   </div>
                 )}
                 
-                <div className={`p-8 h-full ${tier.recommended ? 'border-2 border-primary' : ''}`}>
+                <div style={{ padding: '40px' }} className="h-full">
                   <div className="text-center mb-8">
                     <h3 className="text-2xl font-bold text-text-heading mb-2">{tier.name}</h3>
                     <p className="text-text-muted mb-6">{tier.subtitle}</p>
@@ -836,7 +842,7 @@ export const PsychologyOptimizedProposal = ({
                       <div className="text-sm text-text-subtle line-through mb-1">
                         ${tier.originalPrice.toLocaleString()}
                       </div>
-                      <div className="text-4xl font-bold text-text-heading mb-2">
+                      <div className="font-bold text-text-heading mb-2" style={{ fontSize: '48px', lineHeight: '1.1' }}>
                         ${tier.price.toLocaleString()}
                       </div>
                       <div className="text-sm font-medium text-primary">

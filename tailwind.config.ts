@@ -56,6 +56,15 @@ export default {
 				'surface-1': 'hsl(var(--surface-1))',
 				'surface-2': 'hsl(var(--surface-2))',
 				'surface-3': 'hsl(var(--surface-3))',
+				// Proposal-specific colors
+				'proposal-bg': 'hsl(var(--proposal-bg))',
+				'proposal-card': 'hsl(var(--proposal-card))',
+				'proposal-section': 'hsl(var(--proposal-section))',
+				// Typography colors
+				'text-heading': 'hsl(var(--text-heading))',
+				'text-body': 'hsl(var(--text-body))',
+				'text-muted': 'hsl(var(--text-muted))',
+				'text-subtle': 'hsl(var(--text-subtle))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -74,25 +83,21 @@ export default {
 			},
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',
-				'gradient-hero': 'var(--gradient-hero)', 
-				'gradient-mesh': 'var(--gradient-mesh)',
-				'gradient-border': 'var(--gradient-border)',
+				'gradient-hero': 'var(--gradient-hero)',
+				'gradient-text': 'var(--gradient-text)',
 			},
 			boxShadow: {
-				'glow': 'var(--shadow-glow)',
-				'glow-soft': 'var(--shadow-glow-soft)',
-				'glass': 'var(--shadow-glass)',
-				'premium': 'var(--shadow-premium)',
+				'elegant': 'var(--shadow-elegant)',
+				'card': 'var(--shadow-card)',
+				'hover': 'var(--shadow-hover)',
 			},
 			transitionTimingFunction: {
 				'smooth': 'var(--transition-smooth)',
-				'spring': 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-				'premium': 'cubic-bezier(0.23, 1, 0.32, 1)',
+				'fast': 'var(--transition-fast)',
 			},
 			backdropBlur: {
 				'glass': '20px',
-				'premium': '24px',
-				'ultra': '30px',
+				'glass-light': '10px',
 			},
 			keyframes: {
 				'accordion-down': {

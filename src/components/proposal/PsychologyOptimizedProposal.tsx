@@ -285,7 +285,7 @@ export const PsychologyOptimizedProposal = ({
       <section 
         ref={heroRef}
         data-section="hero"
-        style={{ backgroundColor: '#FAFBFC', paddingTop: '80px', paddingBottom: '80px' }}
+        style={{ backgroundColor: '#FAFBFC', paddingTop: '200px', paddingBottom: '120px' }}
         className="relative px-6"
       >
         <div className="alter-container text-center">
@@ -513,7 +513,7 @@ export const PsychologyOptimizedProposal = ({
       </section>
 
       {/* Current State Analysis */}
-      <section data-section="current-state" className="proposal-section bg-muted/20">
+      <section data-section="current-state" className="proposal-section">
         <div className="alter-container">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -533,7 +533,7 @@ export const PsychologyOptimizedProposal = ({
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <Card className="p-8">
+              <Card className="p-8" style={{ backgroundColor: '#FFFFFF', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: 'none' }}>
                 <h3 style={{ fontSize: '24px', fontWeight: '600', marginBottom: '24px' }} className="text-text-heading">Efficiency Comparison</h3>
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
@@ -557,7 +557,7 @@ export const PsychologyOptimizedProposal = ({
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <Card className="p-8">
+              <Card className="p-8" style={{ backgroundColor: '#FFFFFF', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: 'none' }}>
                 <h3 style={{ fontSize: '24px', fontWeight: '600', marginBottom: '24px' }} className="text-text-heading">Loss Trajectory</h3>
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
@@ -626,7 +626,7 @@ export const PsychologyOptimizedProposal = ({
             </motion.div>
 
             <div className="grid md:grid-cols-2 gap-8">
-              <Card className="p-6">
+              <Card className="p-6" style={{ backgroundColor: '#FFFFFF', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: 'none' }}>
                 <h3 className="text-xl font-bold mb-4">Performance Metrics Comparison</h3>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
@@ -648,7 +648,7 @@ export const PsychologyOptimizedProposal = ({
                 </div>
               </Card>
 
-              <Card className="p-6">
+              <Card className="p-6" style={{ backgroundColor: '#FFFFFF', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: 'none' }}>
                 <h3 className="text-xl font-bold mb-4">Risk Assessment Matrix</h3>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
@@ -958,7 +958,7 @@ export const PsychologyOptimizedProposal = ({
                 }`}
               >
                 <div className={`w-5/12 ${index % 2 === 0 ? 'pr-8' : 'pl-8'}`}>
-                  <Card className="p-6" style={{ backgroundColor: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+                  <Card className="p-6" style={{ backgroundColor: '#FFFFFF', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: 'none' }}>
                     <div className={`flex items-center mb-4 ${index % 2 === 0 ? '' : 'flex-row-reverse'}`}>
                       <div 
                         className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold"
@@ -989,7 +989,7 @@ export const PsychologyOptimizedProposal = ({
       </section>
 
       {/* Guarantees and Risk Reversal */}
-      <section className="proposal-section bg-muted/20">
+      <section className="proposal-section">
         <div className="alter-container">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -1005,7 +1005,7 @@ export const PsychologyOptimizedProposal = ({
 
           <div className="grid md:grid-cols-3 gap-8">
             <div>
-              <Card className="p-8 text-center" style={{ backgroundColor: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+              <Card className="p-8 text-center" style={{ backgroundColor: '#FFFFFF', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: 'none' }}>
                 <Shield className="w-16 h-16 text-green-500 mx-auto mb-6" />
                 <h3 className="text-xl font-bold mb-4">ROI Guarantee</h3>
                 <p className="text-muted-foreground mb-4">
@@ -1016,7 +1016,7 @@ export const PsychologyOptimizedProposal = ({
             </div>
 
             <div>
-              <Card className="p-8 text-center" style={{ backgroundColor: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+              <Card className="p-8 text-center" style={{ backgroundColor: '#FFFFFF', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: 'none' }}>
                 <Trophy className="w-16 h-16 text-blue-500 mx-auto mb-6" />
                 <h3 className="text-xl font-bold mb-4">Performance Promise</h3>
                 <p className="text-muted-foreground mb-4">

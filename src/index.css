@@ -53,10 +53,10 @@ All colors MUST be HSL.
     --proposal-section: 0 0% 100%;
     --alter-stat-card: 220 25% 98%;
 
-    /* Alter's exact shadows and spacing */
-    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1);
-    --shadow-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-elegant: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  /* Consistent shadows for premium feel */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 2px 6px rgba(0, 0, 0, 0.12);
+  --shadow-elegant: 0 1px 3px rgba(0, 0, 0, 0.1);
 
     /* Clean gradients for CTAs only */
     --gradient-primary: linear-gradient(135deg, #6366F1, #8B5CF6);
@@ -342,6 +342,11 @@ All colors MUST be HSL.
     .alter-container {
       padding-left: 24px;
       padding-right: 24px;
+    }
+    
+    .proposal-section {
+      padding-top: 80px;
+      padding-bottom: 80px;
     }
   }
 }

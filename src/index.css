@@ -53,20 +53,14 @@ All colors MUST be HSL.
     --proposal-section: 0 0% 100%;
     --alter-stat-card: 220 25% 98%;
 
-    /* Alter's exact shadows and spacing */
-    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1);
-    --shadow-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-elegant: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  /* Consistent shadows for premium feel */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 2px 6px rgba(0, 0, 0, 0.12);
+  --shadow-elegant: 0 1px 3px rgba(0, 0, 0, 0.1);
 
     /* Clean gradients for CTAs only */
     --gradient-primary: linear-gradient(135deg, #6366F1, #8B5CF6);
     --gradient-cta: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
-    --gradient-text: linear-gradient(135deg, #6366F1, #8B5CF6);
-    --gradient-hero: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
-
-    /* Glow effects */
-    --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.3);
-    --shadow-glow-soft: 0 0 20px rgba(99, 102, 241, 0.2);
 
     /* Smooth transitions */
     --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -129,10 +123,6 @@ All colors MUST be HSL.
     --glass-card: 240 5.9% 10% / 0.8;
     --glass-border: 262 83% 58% / 0.2;
     --glass-glow: 262 83% 58% / 0.3;
-
-    /* Glow effects for dark mode */
-    --shadow-glow: 0 0 40px rgba(168, 85, 247, 0.4);
-    --shadow-glow-soft: 0 0 20px rgba(168, 85, 247, 0.3);
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 0 0% 98%;
@@ -216,27 +206,17 @@ All colors MUST be HSL.
 
   /* Glass morphism utilities */
   .glass-sidebar {
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--glass-sidebar);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(99, 102, 241, 0.1);
+    border: 1px solid var(--glass-border);
   }
 
   .glass-card {
-    background: rgba(255, 255, 255, 0.6);
+    background: var(--glass-card);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(99, 102, 241, 0.1);
-  }
-
-  .dark .glass-sidebar {
-    background: rgba(36, 42, 66, 0.95);
-    border: 1px solid rgba(168, 85, 247, 0.2);
-  }
-
-  .dark .glass-card {
-    background: rgba(36, 42, 66, 0.8);
-    border: 1px solid rgba(168, 85, 247, 0.2);
+    border: 1px solid var(--glass-border);
   }
 
   .glow-primary {
@@ -257,27 +237,6 @@ All colors MUST be HSL.
   @keyframes grid-move {
     0% { background-position: 0 0; }
     100% { background-position: 30px 30px; }
-  }
-
-  /* Float animation */
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    33% { transform: translateY(-10px) rotate(1deg); }
-    66% { transform: translateY(5px) rotate(-1deg); }
-  }
-
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  /* Glow pulse animation */
-  @keyframes glow-pulse {
-    0%, 100% { box-shadow: var(--shadow-glow-soft); }
-    50% { box-shadow: var(--shadow-glow); }
-  }
-
-  .animate-glow-pulse {
-    animation: glow-pulse 2s ease-in-out infinite;
   }
 
   /* Hover animations */
@@ -383,6 +342,11 @@ All colors MUST be HSL.
     .alter-container {
       padding-left: 24px;
       padding-right: 24px;
+    }
+    
+    .proposal-section {
+      padding-top: 80px;
+      padding-bottom: 80px;
     }
   }
 }

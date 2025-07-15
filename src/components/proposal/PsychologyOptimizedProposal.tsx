@@ -293,13 +293,13 @@ export const PsychologyOptimizedProposal = ({
         </div>
       </motion.div>
 
-      {/* Hero Section - Clean & Centered */}
+      {/* Hero Section - Alter Style */}
       <section 
         ref={heroRef}
         data-section="hero"
         className="relative py-24 px-6 bg-proposal-bg"
       >
-        <div className="max-w-5xl mx-auto text-center">
+        <div className="alter-container text-center">
           {/* Company Partnership */}
           <motion.div 
             className="flex items-center justify-center space-x-6 mb-12"
@@ -352,16 +352,19 @@ export const PsychologyOptimizedProposal = ({
             to eliminate inefficiencies and maximize productivity.
           </motion.p>
 
-          {/* Key Stats Cards - Like Alter */}
+          {/* EXACT Alter Stats Cards */}
           <motion.div 
-            className="grid md:grid-cols-3 gap-6 mb-16"
+            className="grid md:grid-cols-3 gap-8 mb-16"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1 }}
           >
-            <div className="proposal-card p-6 text-center">
-              <div className="text-sm text-text-muted mb-2">Potential Annual Savings</div>
-              <div className="text-3xl font-bold text-primary mb-1">
+            <div className="alter-stat-card text-center relative">
+              <DollarSign className="w-6 h-6 text-primary absolute top-8 left-8" />
+              <div className="text-sm text-text-muted" style={{ color: '#64748B', fontSize: '14px' }}>
+                Potential Annual Savings
+              </div>
+              <div className="font-semibold mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
                 $<CountingNumber 
                   target={proposal.financial_amount * 2} 
                   duration={3000}
@@ -369,19 +372,27 @@ export const PsychologyOptimizedProposal = ({
                   increment={Math.max(100, Math.floor(proposal.financial_amount * 2 / 200))}
                 />
               </div>
-              <div className="text-xs text-text-subtle">vs current process</div>
             </div>
 
-            <div className="proposal-card p-6 text-center">
-              <div className="text-sm text-text-muted mb-2">Implementation Time</div>
-              <div className="text-3xl font-bold text-text-heading mb-1">6-12 weeks</div>
-              <div className="text-xs text-text-subtle">full deployment</div>
+            <div className="alter-stat-card text-center relative">
+              <Clock className="w-6 h-6 text-primary absolute top-8 left-8" />
+              <div className="text-sm text-text-muted" style={{ color: '#64748B', fontSize: '14px' }}>
+                Implementation Time
+              </div>
+              <div className="font-semibold mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
+                6-12
+              </div>
+              <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>weeks</div>
             </div>
 
-            <div className="proposal-card p-6 text-center">
-              <div className="text-sm text-text-muted mb-2">ROI Guarantee</div>
-              <div className="text-3xl font-bold text-primary mb-1">300%+</div>
-              <div className="text-xs text-text-subtle">within 12 months</div>
+            <div className="alter-stat-card text-center relative">
+              <TrendingUp className="w-6 h-6 text-primary absolute top-8 left-8" />
+              <div className="text-sm text-text-muted" style={{ color: '#64748B', fontSize: '14px' }}>
+                ROI Guarantee
+              </div>
+              <div className="font-semibold mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
+                300%+
+              </div>
             </div>
           </motion.div>
 
@@ -392,14 +403,13 @@ export const PsychologyOptimizedProposal = ({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2 }}
           >
-            <Button 
-              size="lg"
-              className="bg-gradient-to-r from-primary to-primary hover:opacity-90 text-white px-8 py-3"
+            <button 
+              className="alter-button-primary inline-flex items-center"
               onClick={() => onCTAClick('view_proposal', { section: 'hero' })}
             >
               View Full Proposal
               <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
+            </button>
             
             <Button 
               variant="outline" 
@@ -413,9 +423,9 @@ export const PsychologyOptimizedProposal = ({
         </div>
       </section>
 
-      {/* Executive Summary - Clean Cards Style */}
-      <section data-section="executive-summary" className="py-24 px-6 bg-proposal-section">
-        <div className="max-w-5xl mx-auto">
+      {/* Executive Summary - Alter Style */}
+      <section data-section="executive-summary" className="proposal-section">
+        <div className="alter-container">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -428,24 +438,23 @@ export const PsychologyOptimizedProposal = ({
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6 mb-16">
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="proposal-card p-8 text-center"
+              className="alter-stat-card text-center relative"
             >
-              <TrendingDown className="w-8 h-8 text-red-500 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-text-heading mb-3">Daily Revenue Loss</h3>
-              <div className="text-3xl font-bold text-red-600 mb-2">
+              <TrendingDown className="w-6 h-6 text-red-500 absolute top-8 left-8" />
+              <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>Daily Revenue Loss</div>
+              <div className="font-semibold text-red-600 mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
                 $<CountingNumber 
                   target={dailyLoss} 
                   duration={2000}
                   increment={Math.max(1, Math.floor(dailyLoss / 50))}
                 />
               </div>
-              <p className="text-sm text-text-muted">Due to inefficient processes</p>
             </motion.div>
 
             <motion.div
@@ -453,14 +462,14 @@ export const PsychologyOptimizedProposal = ({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="proposal-card p-8 text-center"
+              className="alter-stat-card text-center relative"
             >
-              <Clock className="w-8 h-8 text-orange-500 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-text-heading mb-3">Time Wasted Weekly</h3>
-              <div className="text-3xl font-bold text-orange-600 mb-2">
-                <CountingNumber target={32} duration={1500} increment={1} /> hrs
+              <Clock className="w-6 h-6 text-orange-500 absolute top-8 left-8" />
+              <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>Time Wasted Weekly</div>
+              <div className="font-semibold text-orange-600 mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
+                <CountingNumber target={32} duration={1500} increment={1} />
               </div>
-              <p className="text-sm text-text-muted">On manual, repetitive tasks</p>
+              <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>hours</div>
             </motion.div>
 
             <motion.div
@@ -468,14 +477,13 @@ export const PsychologyOptimizedProposal = ({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="proposal-card p-8 text-center"
+              className="alter-stat-card text-center relative"
             >
-              <AlertTriangle className="w-8 h-8 text-yellow-500 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-text-heading mb-3">Error Rate</h3>
-              <div className="text-3xl font-bold text-yellow-600 mb-2">
+              <AlertTriangle className="w-6 h-6 text-yellow-500 absolute top-8 left-8" />
+              <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>Error Rate</div>
+              <div className="font-semibold text-yellow-600 mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
                 <CountingNumber target={15} duration={1000} increment={1} />%
               </div>
-              <p className="text-sm text-text-muted">Requiring costly rework</p>
             </motion.div>
           </div>
 
@@ -828,8 +836,8 @@ export const PsychologyOptimizedProposal = ({
               >
                 {tier.recommended && (
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                    <div className="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
-                      Most Popular
+                    <div style={{ backgroundColor: '#5046E5' }} className="text-white px-4 py-2 rounded-full text-sm font-medium">
+                      POPULAR
                     </div>
                   </div>
                 )}
@@ -873,18 +881,16 @@ export const PsychologyOptimizedProposal = ({
                     ))}
                   </ul>
 
-                  <Button 
+                  <button 
                     className={`w-full transition-all ${
                       tier.recommended 
-                        ? 'bg-primary hover:bg-primary/90 text-white' 
-                        : 'border border-border hover:shadow-card'
+                        ? 'alter-button-primary' 
+                        : 'px-6 py-3 border border-border hover:shadow-card rounded-lg bg-white'
                     }`}
-                    variant={tier.recommended ? "default" : "outline"}
-                    size="lg"
                     onClick={() => onCTAClick('select_tier', { tier: tier.name, price: tier.price })}
                   >
                     Select {tier.name}
-                  </Button>
+                  </button>
                 </div>
               </motion.div>
             ))}

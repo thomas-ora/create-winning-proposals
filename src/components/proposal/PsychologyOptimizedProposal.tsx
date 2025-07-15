@@ -247,26 +247,32 @@ export const PsychologyOptimizedProposal = ({
 
       {/* Removed sticky navigation for cleaner header approach */}
 
-      {/* Clean Daily Loss Counter */}
+      {/* Elegant Daily Loss Counter */}
       <motion.div 
-        className="fixed top-4 right-4 z-40 proposal-card px-4 py-3"
+        className="fixed top-4 right-4 z-40 text-center"
+        style={{
+          backgroundColor: '#F7F8FA',
+          padding: '48px',
+          borderRadius: '20px',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.04)',
+          border: 'none'
+        }}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2 }}
       >
-        <div className="flex items-center space-x-3">
-          <TrendingDown className="w-4 h-4 text-red-500" />
-          <div>
-            <div className="text-xs text-text-muted">Daily Loss</div>
-            <div className="text-lg font-bold text-red-600">
-              $<CountingNumber 
-                target={dailyLoss} 
-                duration={2000} 
-                increment={Math.max(1, Math.floor(dailyLoss / 100))}
-                startCounting={timeOnPage > 3}
-              />
-            </div>
-          </div>
+        <TrendingDown className="w-6 h-6 text-red-500 mx-auto mb-3" />
+        <div className="text-sm text-gray-500 mb-2">Daily Loss</div>
+        <div 
+          className="text-red-600"
+          style={{ fontSize: '64px', fontWeight: '600', lineHeight: '1' }}
+        >
+          $<CountingNumber 
+            target={dailyLoss} 
+            duration={2000} 
+            increment={Math.max(1, Math.floor(dailyLoss / 100))}
+            startCounting={timeOnPage > 3}
+          />
         </div>
       </motion.div>
 
@@ -490,8 +496,8 @@ export const PsychologyOptimizedProposal = ({
       </section>
 
       {/* Current State Analysis */}
-      <section data-section="current-state" className="py-20 px-6 bg-muted/20">
-        <div className="max-w-6xl mx-auto">
+      <section data-section="current-state" className="proposal-section bg-muted/20">
+        <div className="alter-container">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -567,8 +573,8 @@ export const PsychologyOptimizedProposal = ({
       </section>
 
       {/* ROI Calculator Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-6xl mx-auto">
+      <section className="proposal-section">
+        <div className="alter-container">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -587,8 +593,8 @@ export const PsychologyOptimizedProposal = ({
 
       {/* Psychology-Adapted Content */}
       {decisionStyle === 'analytical' && (
-        <section data-section="detailed-analysis" className="py-20 px-6">
-          <div className="max-w-6xl mx-auto">
+        <section data-section="detailed-analysis" className="proposal-section">
+          <div className="alter-container">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -652,8 +658,8 @@ export const PsychologyOptimizedProposal = ({
       )}
 
       {decisionStyle === 'driver' && (
-        <section data-section="competitive-advantage" className="py-20 px-6 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20">
-          <div className="max-w-6xl mx-auto">
+        <section data-section="competitive-advantage" className="proposal-section bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20">
+          <div className="alter-container">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -697,8 +703,8 @@ export const PsychologyOptimizedProposal = ({
       )}
 
       {decisionStyle === 'expressive' && (
-        <section data-section="vision" className="py-20 px-6 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20">
-          <div className="max-w-6xl mx-auto text-center">
+        <section data-section="vision" className="proposal-section bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20">
+          <div className="alter-container text-center">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -721,8 +727,8 @@ export const PsychologyOptimizedProposal = ({
       )}
 
       {decisionStyle === 'amiable' && (
-        <section data-section="support" className="py-20 px-6 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20">
-          <div className="max-w-6xl mx-auto">
+        <section data-section="support" className="proposal-section bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20">
+          <div className="alter-container">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -789,8 +795,8 @@ export const PsychologyOptimizedProposal = ({
       <RiskReversalSection />
 
       {/* Pricing Section - Clean Alter Style */}
-      <section data-section="pricing" className="py-24 px-6 bg-proposal-bg">
-        <div className="max-w-6xl mx-auto">
+      <section data-section="pricing" className="proposal-section bg-proposal-bg">
+        <div className="alter-container">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -898,8 +904,8 @@ export const PsychologyOptimizedProposal = ({
       </section>
 
       {/* Implementation Timeline */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto">
+      <section className="proposal-section">
+        <div className="alter-container">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -956,8 +962,8 @@ export const PsychologyOptimizedProposal = ({
       </section>
 
       {/* Guarantees and Risk Reversal */}
-      <section className="py-20 px-6 bg-muted/20">
-        <div className="max-w-4xl mx-auto">
+      <section className="proposal-section bg-muted/20">
+        <div className="alter-container">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1023,8 +1029,8 @@ export const PsychologyOptimizedProposal = ({
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto">
+      <section className="proposal-section">
+        <div className="alter-container">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}

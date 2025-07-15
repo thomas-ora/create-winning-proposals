@@ -177,7 +177,7 @@ All colors MUST be HSL.
 
   .proposal-section {
     background: hsl(var(--proposal-section));
-    padding-top: 120px; /* Alter's exact spacing */
+    padding-top: 120px; /* More breathing room */
     padding-bottom: 120px;
   }
 
@@ -329,11 +329,19 @@ All colors MUST be HSL.
     box-shadow: 0 6px 12px -1px rgba(0,0,0,0.15);
   }
 
-  /* Alter container styles */
+  /* Alter container styles - Updated for more breathing room */
   .alter-container {
-    max-width: 1140px; /* Alter's exact max-width */
+    max-width: 1000px; /* Narrower for better focus */
     margin: 0 auto;
-    padding-left: 24px; /* Alter's exact side padding */
-    padding-right: 24px;
+    padding-left: 48px; /* More padding on desktop */
+    padding-right: 48px;
+  }
+
+  /* Mobile responsive padding */
+  @media (max-width: 768px) {
+    .alter-container {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
   }
 }

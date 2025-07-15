@@ -237,8 +237,8 @@ export const PsychologyOptimizedProposal = ({
   ];
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-proposal-bg">
-      {/* Fixed Progress Bar - Clean and subtle */}
+    <div ref={containerRef} className="min-h-screen bg-background">
+      {/* Subtle Progress Bar */}
       <motion.div 
         className="fixed top-0 left-0 right-0 h-0.5 bg-primary z-50"
         style={{ scaleX: scrollYProgress }}
@@ -247,121 +247,118 @@ export const PsychologyOptimizedProposal = ({
 
       {/* Sticky Navigation */}
       <motion.nav 
-        className="fixed top-4 left-1/2 transform -translate-x-1/2 z-40 proposal-card px-6 py-3"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
+        className="fixed top-0 left-0 right-0 z-40 bg-background/90 backdrop-blur-sm border-b border-border"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
         transition={{ delay: 1 }}
       >
-        <div className="flex items-center space-x-6 text-sm">
-          {sections.slice(0, 5).map((section, index) => (
-            <button
-              key={section.id}
-              className={`transition-colors ${
-                currentSection === index ? 'text-primary font-medium' : 'text-text-body hover:text-text-heading'
-              }`}
-              onClick={() => {
-                const element = document.querySelector(`[data-section="${section.id}"]`);
-                element?.scrollIntoView({ behavior: 'smooth' });
-              }}
-            >
-              {section.title}
-            </button>
-          ))}
+        <div className="max-w-screen-xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                <div className="text-white text-sm font-bold">O</div>
+              </div>
+              <span className="font-medium text-foreground">ORA Systems</span>
+            </div>
+            
+            {/* Navigation dots */}
+            <div className="hidden md:flex items-center space-x-2">
+              {sections.map((section, index) => (
+                <button
+                  key={section.id}
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    currentSection === index ? 'bg-primary' : 'bg-border'
+                  }`}
+                  onClick={() => {
+                    const element = document.querySelector(`[data-section="${section.id}"]`);
+                    element?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                />
+              ))}
+            </div>
+
+            <div className="text-sm text-muted-foreground">
+              {proposal.company_name}
+            </div>
+          </div>
         </div>
       </motion.nav>
 
-      {/* Clean Daily Loss Counter */}
+      {/* Clean Loss Counter */}
       <motion.div 
-        className="fixed top-4 right-4 z-40 proposal-card px-4 py-3"
-        initial={{ opacity: 0, y: -20 }}
+        className="fixed top-20 right-6 z-30 bg-card border border-border rounded-2xl shadow-card p-4"
+        initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2 }}
       >
-        <div className="flex items-center space-x-3">
-          <TrendingDown className="w-4 h-4 text-red-500" />
-          <div>
-            <div className="text-xs text-text-muted">Daily Loss</div>
-            <div className="text-lg font-bold text-red-600">
-              $<CountingNumber 
-                target={dailyLoss} 
-                duration={2000} 
-                increment={Math.max(1, Math.floor(dailyLoss / 100))}
-                startCounting={timeOnPage > 3}
-              />
-            </div>
+        <div className="text-center">
+          <div className="text-xs text-muted-foreground mb-1">Daily Loss</div>
+          <div className="text-lg font-semibold text-foreground">
+            $<CountingNumber 
+              target={dailyLoss} 
+              duration={2000} 
+              increment={Math.max(1, Math.floor(dailyLoss / 100))}
+              startCounting={timeOnPage > 3}
+            />
           </div>
         </div>
       </motion.div>
 
-      {/* Hero Section - Clean & Centered */}
+      {/* Hero Section */}
       <section 
         ref={heroRef}
         data-section="hero"
-        className="relative py-24 px-6 bg-proposal-bg"
+        className="relative min-h-screen flex items-center justify-center bg-background pt-20 overflow-hidden"
       >
-        <div className="max-w-5xl mx-auto text-center">
-          {/* Company Partnership */}
-          <motion.div 
-            className="flex items-center justify-center space-x-6 mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            {proposal.logo_url && (
-              <img 
-                src={proposal.logo_url} 
-                alt="Company Logo" 
-                className="h-12 object-contain"
-              />
-            )}
-            <div className="text-text-subtle text-lg">×</div>
-            <div className="text-text-heading font-bold text-lg">ORASYSTEMS</div>
-          </motion.div>
-
-          {/* Proposal Badge */}
+        <motion.div 
+          className="relative z-10 text-center max-w-screen-xl mx-auto px-6"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          {/* Company Information */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="mb-8"
+            transition={{ delay: 0.3 }}
+            className="mb-12"
           >
-            <div className="inline-flex items-center px-4 py-2 bg-proposal-card rounded-full text-sm text-text-body border border-border">
-              <Clock className="w-4 h-4 mr-2" />
+            <div className="text-2xl font-light text-muted-foreground mb-2">
+              {proposal.company_name}
+            </div>
+            <div className="text-sm text-muted-foreground">
               Valid until {new Date(proposal.valid_until).toLocaleDateString()}
             </div>
           </motion.div>
 
-          {/* Main Headline - Clean & Bold */}
           <motion.h1 
-            className="text-5xl md:text-6xl font-bold text-text-heading mb-8 leading-tight"
+            className="text-6xl md:text-7xl font-bold text-foreground mb-8 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
+            transition={{ delay: 0.5 }}
           >
             {proposal.title}
           </motion.h1>
 
-          {/* Subtitle */}
           <motion.p 
-            className="text-xl text-text-body mb-12 max-w-3xl mx-auto leading-relaxed"
+            className="text-xl font-light text-muted-foreground mb-16 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
+            transition={{ delay: 0.7 }}
           >
             A comprehensive automation solution designed specifically for {proposal.company_name} 
             to eliminate inefficiencies and maximize productivity.
           </motion.p>
 
-          {/* Key Stats Cards - Like Alter */}
+          {/* Clean Stats Grid */}
           <motion.div 
-            className="grid md:grid-cols-3 gap-6 mb-16"
-            initial={{ opacity: 0, y: 30 }}
+            className="grid grid-cols-3 gap-12 max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1 }}
+            transition={{ delay: 0.9 }}
           >
-            <div className="proposal-card p-6 text-center">
-              <div className="text-sm text-text-muted mb-2">Potential Annual Savings</div>
-              <div className="text-3xl font-bold text-primary mb-1">
+            <div className="text-center">
+              <div className="text-4xl font-bold text-foreground mb-2">
                 $<CountingNumber 
                   target={proposal.financial_amount * 2} 
                   duration={3000}
@@ -369,133 +366,108 @@ export const PsychologyOptimizedProposal = ({
                   increment={Math.max(100, Math.floor(proposal.financial_amount * 2 / 200))}
                 />
               </div>
-              <div className="text-xs text-text-subtle">vs current process</div>
+              <div className="text-sm text-muted-foreground">Annual Savings</div>
             </div>
-
-            <div className="proposal-card p-6 text-center">
-              <div className="text-sm text-text-muted mb-2">Implementation Time</div>
-              <div className="text-3xl font-bold text-text-heading mb-1">6-12 weeks</div>
-              <div className="text-xs text-text-subtle">full deployment</div>
-            </div>
-
-            <div className="proposal-card p-6 text-center">
-              <div className="text-sm text-text-muted mb-2">ROI Guarantee</div>
-              <div className="text-3xl font-bold text-primary mb-1">300%+</div>
-              <div className="text-xs text-text-subtle">within 12 months</div>
-            </div>
-          </motion.div>
-
-          {/* Clean CTA */}
-          <motion.div 
-            className="flex flex-col sm:flex-row justify-center gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2 }}
-          >
-            <Button 
-              size="lg"
-              className="bg-gradient-to-r from-primary to-primary hover:opacity-90 text-white px-8 py-3"
-              onClick={() => onCTAClick('view_proposal', { section: 'hero' })}
-            >
-              View Full Proposal
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
             
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="px-8 py-3"
-              onClick={() => onCTAClick('schedule_call', { section: 'hero' })}
-            >
-              Schedule Call
-            </Button>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-foreground mb-2">6-12</div>
+              <div className="text-sm text-muted-foreground">Weeks Implementation</div>
+            </div>
+            
+            <div className="text-center">
+              <div className="text-4xl font-bold text-foreground mb-2">300%+</div>
+              <div className="text-sm text-muted-foreground">ROI Guarantee</div>
+            </div>
           </motion.div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* Executive Summary - Clean Cards Style */}
-      <section data-section="executive-summary" className="py-24 px-6 bg-proposal-section">
-        <div className="max-w-5xl mx-auto">
+      {/* Executive Summary with Loss Framing */}
+      <section data-section="executive-summary" className="py-32 px-6 bg-muted">
+        <div className="max-w-screen-xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-text-heading mb-6">The Hidden Cost of Inaction</h2>
-            <p className="text-xl text-text-body max-w-3xl mx-auto leading-relaxed">
+            <h2 className="text-5xl font-bold mb-8 text-foreground">The Hidden Cost of Inaction</h2>
+            <p className="text-xl font-light text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               Every day you delay, you're losing money. Here's what staying with your current process is really costing you.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6 mb-16">
+          <div className="grid md:grid-cols-3 gap-12 mb-20">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="proposal-card p-8 text-center"
             >
-              <TrendingDown className="w-8 h-8 text-red-500 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-text-heading mb-3">Daily Revenue Loss</h3>
-              <div className="text-3xl font-bold text-red-600 mb-2">
-                $<CountingNumber 
-                  target={dailyLoss} 
-                  duration={2000}
-                  increment={Math.max(1, Math.floor(dailyLoss / 50))}
-                />
-              </div>
-              <p className="text-sm text-text-muted">Due to inefficient processes</p>
+              <Card className="p-12 text-center shadow-card hover:shadow-card-hover transition-shadow rounded-2xl">
+                <TrendingDown className="w-12 h-12 text-muted-foreground mx-auto mb-6" />
+                <h3 className="text-2xl font-semibold mb-4 text-foreground">Daily Revenue Loss</h3>
+                <div className="text-4xl font-bold text-foreground mb-4">
+                  $<CountingNumber 
+                    target={dailyLoss} 
+                    duration={2000}
+                    increment={Math.max(1, Math.floor(dailyLoss / 50))}
+                  />
+                </div>
+                <p className="text-muted-foreground font-light">Due to inefficient processes</p>
+              </Card>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="proposal-card p-8 text-center"
             >
-              <Clock className="w-8 h-8 text-orange-500 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-text-heading mb-3">Time Wasted Weekly</h3>
-              <div className="text-3xl font-bold text-orange-600 mb-2">
-                <CountingNumber target={32} duration={1500} increment={1} /> hrs
-              </div>
-              <p className="text-sm text-text-muted">On manual, repetitive tasks</p>
+              <Card className="p-12 text-center shadow-card hover:shadow-card-hover transition-shadow rounded-2xl">
+                <Clock className="w-12 h-12 text-muted-foreground mx-auto mb-6" />
+                <h3 className="text-2xl font-semibold mb-4 text-foreground">Time Wasted Weekly</h3>
+                <div className="text-4xl font-bold text-foreground mb-4">
+                  <CountingNumber target={32} duration={1500} increment={1} /> hrs
+                </div>
+                <p className="text-muted-foreground font-light">On manual, repetitive tasks</p>
+              </Card>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="proposal-card p-8 text-center"
             >
-              <AlertTriangle className="w-8 h-8 text-yellow-500 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-text-heading mb-3">Error Rate</h3>
-              <div className="text-3xl font-bold text-yellow-600 mb-2">
-                <CountingNumber target={15} duration={1000} increment={1} />%
-              </div>
-              <p className="text-sm text-text-muted">Requiring costly rework</p>
+              <Card className="p-12 text-center shadow-card hover:shadow-card-hover transition-shadow rounded-2xl">
+                <AlertTriangle className="w-12 h-12 text-muted-foreground mx-auto mb-6" />
+                <h3 className="text-2xl font-semibold mb-4 text-foreground">Error Rate</h3>
+                <div className="text-4xl font-bold text-foreground mb-4">
+                  <CountingNumber target={15} duration={1000} increment={1} />%
+                </div>
+                <p className="text-muted-foreground font-light">Requiring costly rework</p>
+              </Card>
             </motion.div>
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="proposal-card p-10 text-center border-red-200"
+            className="bg-card rounded-2xl p-16 text-center shadow-card border border-border"
           >
-            <h3 className="text-2xl font-bold mb-4 text-red-600">
+            <h3 className="text-3xl font-bold mb-6 text-foreground">
               Cost of Waiting Just One More Month
             </h3>
-            <div className="text-5xl font-bold text-red-600 mb-4">
+            <div className="text-6xl font-bold text-foreground mb-6">
               $<CountingNumber 
                 target={dailyLoss * 30} 
                 duration={3000}
                 increment={Math.max(10, Math.floor(dailyLoss * 30 / 100))}
               />
             </div>
-            <p className="text-text-body max-w-2xl mx-auto">
+            <p className="text-xl font-light text-muted-foreground max-w-2xl mx-auto">
               That's money you'll never get back. Every day you wait is revenue walking out the door.
             </p>
           </motion.div>
@@ -801,113 +773,117 @@ export const PsychologyOptimizedProposal = ({
       {/* Risk Reversal Section */}
       <RiskReversalSection />
 
-      {/* Pricing Section - Clean Alter Style */}
-      <section data-section="pricing" className="py-24 px-6 bg-proposal-bg">
-        <div className="max-w-6xl mx-auto">
+      {/* Pricing Section */}
+      <section data-section="pricing" className="py-40 px-6">
+        <div className="max-w-screen-xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-text-heading mb-6">Investment Options</h2>
-            <p className="text-xl text-text-body max-w-3xl mx-auto leading-relaxed">
+            <h2 className="text-5xl font-bold mb-8 text-foreground">Investment Options</h2>
+            <p className="text-xl font-light text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               Choose the solution that best fits your needs. All options include our ROI guarantee.
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-3 gap-6">
+          <div className="grid lg:grid-cols-3 gap-12">
             {pricingTiers.map((tier, index) => (
               <motion.div
                 key={tier.name}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="proposal-card group hover:shadow-hover transition-all duration-200"
+                className={`relative ${tier.recommended ? 'lg:-mt-4 lg:mb-4' : ''}`}
               >
                 {tier.recommended && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                    <div className="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+                    <Badge className="bg-primary text-white px-4 py-1 rounded-full">
                       Most Popular
-                    </div>
+                    </Badge>
                   </div>
                 )}
                 
-                <div className={`p-8 h-full ${tier.recommended ? 'border-2 border-primary' : ''}`}>
-                  <div className="text-center mb-8">
-                    <h3 className="text-2xl font-bold text-text-heading mb-2">{tier.name}</h3>
-                    <p className="text-text-muted mb-6">{tier.subtitle}</p>
-                    
-                    <div className="mb-6">
-                      <div className="text-sm text-text-subtle line-through mb-1">
-                        ${tier.originalPrice.toLocaleString()}
+                <Card className={`p-12 h-full relative rounded-2xl shadow-card hover:shadow-card-hover transition-shadow ${
+                  tier.recommended 
+                    ? 'border-primary/20' 
+                    : ''
+                }`}>
+                  <div className="relative">
+                    <div className="text-center mb-8">
+                      <h3 className="text-2xl font-semibold mb-2 text-foreground">{tier.name}</h3>
+                      <p className="text-muted-foreground mb-6 font-light">{tier.subtitle}</p>
+                      
+                      <div className="mb-6">
+                        <div className="text-sm text-muted-foreground line-through mb-1">
+                          ${tier.originalPrice.toLocaleString()}
+                        </div>
+                        <div className="text-5xl font-bold text-foreground mb-2">
+                          ${tier.price.toLocaleString()}
+                        </div>
+                        <div className="text-muted-foreground font-light">
+                          Save ${tier.savings.toLocaleString()}
+                        </div>
                       </div>
-                      <div className="text-4xl font-bold text-text-heading mb-2">
-                        ${tier.price.toLocaleString()}
-                      </div>
-                      <div className="text-sm font-medium text-primary">
-                        Save ${tier.savings.toLocaleString()}
+
+                      <div className="flex items-center justify-center space-x-4 text-sm mb-6">
+                        <div className="flex items-center text-green-600">
+                          <Clock className="w-4 h-4 mr-1" />
+                          {tier.payback} payback
+                        </div>
+                        <div className="flex items-center text-blue-600">
+                          <Gauge className="w-4 h-4 mr-1" />
+                          {tier.percentage} solution
+                        </div>
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-center gap-4 text-sm text-text-muted mb-6">
-                      <div className="flex items-center">
-                        <Clock className="w-4 h-4 mr-1" />
-                        {tier.payback} payback
-                      </div>
-                      <div className="w-1 h-1 bg-text-subtle rounded-full"></div>
-                      <div className="flex items-center">
-                        <Gauge className="w-4 h-4 mr-1" />
-                        {tier.percentage} solution
-                      </div>
-                    </div>
+                    <ul className="space-y-3 mb-8">
+                      {tier.features.map((feature, featureIndex) => (
+                        <li key={featureIndex} className="flex items-start">
+                          <CheckCircle2 className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                          <span className="text-sm">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <Button 
+                      className={`w-full rounded-xl py-4 font-medium ${
+                        tier.recommended 
+                          ? 'bg-primary hover:bg-primary/90' 
+                          : 'bg-accent hover:bg-accent/80 text-foreground'
+                      }`}
+                      size="lg"
+                      onClick={() => onCTAClick('select_tier', { tier: tier.name, price: tier.price })}
+                    >
+                      Select {tier.name}
+                    </Button>
                   </div>
-
-                  <ul className="space-y-4 mb-8">
-                    {tier.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-start">
-                        <CheckCircle2 className="w-4 h-4 text-primary mr-3 mt-0.5 flex-shrink-0" />
-                        <span className="text-sm text-text-body">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <Button 
-                    className={`w-full transition-all ${
-                      tier.recommended 
-                        ? 'bg-primary hover:bg-primary/90 text-white' 
-                        : 'border border-border hover:shadow-card'
-                    }`}
-                    variant={tier.recommended ? "default" : "outline"}
-                    size="lg"
-                    onClick={() => onCTAClick('select_tier', { tier: tier.name, price: tier.price })}
-                  >
-                    Select {tier.name}
-                  </Button>
-                </div>
+                </Card>
               </motion.div>
             ))}
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mt-12"
+            className="text-center mt-16"
           >
-            <div className="proposal-card p-8 border-primary/20 bg-primary/5">
-              <h3 className="text-xl font-bold mb-4 text-text-heading">
+            <Card className="p-12 rounded-2xl shadow-card">
+              <h3 className="text-2xl font-semibold mb-4 text-foreground">
                 Limited Time Offer: 30% Savings
               </h3>
-              <p className="text-text-body mb-4">
+              <p className="text-muted-foreground mb-4 font-light">
                 Act before {new Date(proposal.valid_until).toLocaleDateString()} to lock in these special rates. 
                 Prices increase by 30% after this date.
               </p>
-              <div className="text-sm text-text-muted font-medium">
+              <div className="text-sm text-muted-foreground">
                 Offer expires in: {Math.ceil((new Date(proposal.valid_until).getTime() - Date.now()) / (1000 * 60 * 60 * 24))} days
               </div>
-            </div>
+            </Card>
           </motion.div>
         </div>
       </section>

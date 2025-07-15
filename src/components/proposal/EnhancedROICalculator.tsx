@@ -86,16 +86,16 @@ export const EnhancedROICalculator = ({
   };
 
   return (
-    <Card className="p-8 bg-gradient-to-br from-background to-muted/20">
-      <div className="text-center mb-8">
+    <Card className="p-16 rounded-2xl shadow-card">
+      <div className="text-center mb-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <Calculator className="w-16 h-16 mx-auto mb-4 text-primary" />
-          <h3 className="text-3xl font-bold mb-4">Interactive ROI Calculator</h3>
-          <p className="text-muted-foreground">
+          <Calculator className="w-12 h-12 mx-auto mb-6 text-muted-foreground" />
+          <h3 className="text-4xl font-bold mb-6 text-foreground">Interactive ROI Calculator</h3>
+          <p className="text-xl font-light text-muted-foreground max-w-2xl mx-auto">
             Adjust the values below to see your personalized return on investment
           </p>
         </motion.div>
@@ -211,40 +211,40 @@ export const EnhancedROICalculator = ({
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-2xl p-6"
+            className="bg-muted rounded-2xl p-8"
           >
-            <h4 className="text-2xl font-bold mb-6 text-center">Your ROI Results</h4>
+            <h4 className="text-3xl font-bold mb-8 text-center text-foreground">Your ROI Results</h4>
             
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="text-center p-4 bg-white dark:bg-background rounded-lg">
+            <div className="grid grid-cols-2 gap-6 mb-8">
+              <div className="text-center p-6 bg-card rounded-xl shadow-card">
                 <div className="text-sm text-muted-foreground">Monthly Savings</div>
-                <div className="text-2xl font-bold text-green-600">
+                <div className="text-3xl font-bold text-foreground">
                   $<AnimatedNumber value={results.monthlySavings} format="number" />
                 </div>
               </div>
-              <div className="text-center p-4 bg-white dark:bg-background rounded-lg">
+              <div className="text-center p-6 bg-card rounded-xl shadow-card">
                 <div className="text-sm text-muted-foreground">Annual Savings</div>
-                <div className="text-2xl font-bold text-green-600">
+                <div className="text-3xl font-bold text-foreground">
                   $<AnimatedNumber value={results.annualSavings} format="number" />
                 </div>
               </div>
-              <div className="text-center p-4 bg-white dark:bg-background rounded-lg">
+              <div className="text-center p-6 bg-card rounded-xl shadow-card">
                 <div className="text-sm text-muted-foreground">Break-even</div>
-                <div className="text-2xl font-bold text-blue-600">
+                <div className="text-3xl font-bold text-foreground">
                   <AnimatedNumber value={results.breakEvenMonths} format="number" /> months
                 </div>
               </div>
-              <div className="text-center p-4 bg-white dark:bg-background rounded-lg">
+              <div className="text-center p-6 bg-card rounded-xl shadow-card">
                 <div className="text-sm text-muted-foreground">3-Year ROI</div>
-                <div className="text-2xl font-bold text-purple-600">
+                <div className="text-3xl font-bold text-foreground">
                   <AnimatedNumber value={results.threeYearROI} format="number" />%
                 </div>
               </div>
             </div>
 
-            <div className="text-center p-6 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl">
+            <div className="text-center p-8 bg-primary text-white rounded-xl">
               <div className="text-sm opacity-90">Total 3-Year Value</div>
-              <div className="text-3xl font-bold">
+              <div className="text-4xl font-bold">
                 $<AnimatedNumber value={results.netPresentValue} format="number" />
               </div>
             </div>

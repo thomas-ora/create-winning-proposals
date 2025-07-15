@@ -41,22 +41,22 @@ export const QuickWinsSection = () => {
   const totalValue = 7400;
 
   return (
-    <section className="py-20 px-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20">
-      <div className="max-w-6xl mx-auto">
+    <section className="py-40 px-6 bg-muted">
+      <div className="max-w-screen-xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <Badge className="mb-4 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+          <Badge className="mb-6 bg-accent text-foreground rounded-full px-6 py-2">
             <Zap className="w-4 h-4 mr-2" />
             Immediate Impact
           </Badge>
-          <h2 className="text-4xl font-bold mb-6 text-green-800 dark:text-green-200">
+          <h2 className="text-5xl font-bold mb-8 text-foreground">
             See Results in Your First Week
           </h2>
-          <p className="text-xl text-green-700 dark:text-green-300 max-w-2xl mx-auto mb-8">
+          <p className="text-xl font-light text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed">
             Don't wait months for ROI. These quick wins will show immediate value 
             and pay for themselves in the first 7 days.
           </p>
@@ -91,29 +91,27 @@ export const QuickWinsSection = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.2 }}
             >
-              <Card className="p-6 h-full bg-white dark:bg-green-900/20 border-green-200 dark:border-green-800 hover:shadow-lg transition-shadow">
-                <div className="flex items-start space-x-4 mb-4">
-                  <div className="w-12 h-12 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center">
-                    <win.icon className="w-6 h-6 text-green-600 dark:text-green-400" />
+              <Card className="p-12 h-full rounded-2xl shadow-card hover:shadow-card-hover transition-shadow">
+                <div className="text-center mb-8">
+                  <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
+                    <win.icon className="w-8 h-8 text-muted-foreground" />
                   </div>
-                  <div className="flex-1">
-                    <Badge variant="outline" className="mb-2 text-green-600 border-green-300">
-                      <Clock className="w-3 h-3 mr-1" />
-                      {win.timeframe}
-                    </Badge>
-                    <h3 className="text-xl font-bold mb-2 text-green-800 dark:text-green-200">
-                      {win.title}
-                    </h3>
-                  </div>
+                  <Badge variant="outline" className="mb-4 rounded-full">
+                    <Clock className="w-3 h-3 mr-1" />
+                    {win.timeframe}
+                  </Badge>
+                  <h3 className="text-2xl font-semibold mb-4 text-foreground">
+                    {win.title}
+                  </h3>
                 </div>
                 
-                <p className="text-green-700 dark:text-green-300 mb-4">
+                <p className="text-muted-foreground mb-6 font-light text-center">
                   {win.description}
                 </p>
                 
-                <div className="mt-auto">
-                  <div className="text-sm text-green-600 dark:text-green-400">Immediate Savings</div>
-                  <div className="text-2xl font-bold text-green-800 dark:text-green-200">
+                <div className="text-center">
+                  <div className="text-sm text-muted-foreground">Immediate Savings</div>
+                  <div className="text-3xl font-bold text-foreground">
                     {win.value}
                   </div>
                 </div>

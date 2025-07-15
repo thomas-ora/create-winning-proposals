@@ -16,19 +16,25 @@ export const useProposal = (proposalId: string | undefined): UseProposalReturn =
 
   const fetchProposal = useCallback(async () => {
     if (!proposalId) {
+      console.error('❌ No proposal ID provided');
       setError("No proposal ID provided");
       setProposal(null);
       setLoading(false);
       return;
     }
 
+    console.log('🔍 Fetching proposal:', proposalId);
+
     try {
       setLoading(true);
       setError(null);
       
+      console.log('📡 Calling proposalService.getProposal with:', proposalId);
       const proposalData = await proposalService.getProposal(proposalId);
+      console.log('📦 Raw proposal data received:', proposalData);
       
       if (!proposalData) {
+        console.error('❌ No proposal data returned from service');
         setError("Proposal not found");
         setProposal(null);
       } else {
@@ -67,10 +73,15 @@ export const useProposal = (proposalId: string | undefined): UseProposalReturn =
             lastViewed: undefined,
           },
         };
+        console.log('✅ Transformed proposal data:', transformedProposal);
         setProposal(transformedProposal);
       }
     } catch (error) {
-      console.error("Error fetching proposal:", error);
+      console.error("❌ Error fetching proposal:", {
+        proposalId,
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined
+      });
       setError(error instanceof Error ? error.message : "Failed to load proposal");
       setProposal(null);
     } finally {

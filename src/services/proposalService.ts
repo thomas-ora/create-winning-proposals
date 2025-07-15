@@ -77,6 +77,8 @@ class ProposalService {
       url += `?${params.toString()}`;
     }
 
+    console.log('🌐 Making request to:', { url, method, hasBody: !!body });
+
     const response = await fetch(url, {
       method,
       headers: {
@@ -86,12 +88,17 @@ class ProposalService {
       body: body ? JSON.stringify(body) : undefined,
     });
 
+    console.log('📡 Response status:', response.status, response.statusText);
+
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
+      console.error('❌ HTTP Error Response:', { status: response.status, errorData });
       throw new Error(errorData.error || `HTTP ${response.status}`);
     }
 
-    return response.json();
+    const responseData = await response.json();
+    console.log('📋 Response data:', responseData);
+    return responseData;
   }
 
   async createProposal(data: CreateProposalRequest, apiKey: string): Promise<CreateProposalResponse> {
@@ -105,6 +112,8 @@ class ProposalService {
   }
 
   async getProposal(idOrSlug: string, password?: string): Promise<any> {
+    console.log('🔎 ProposalService.getProposal called with:', { idOrSlug, hasPassword: !!password });
+    
     const params = new URLSearchParams();
     if (password) {
       params.set('password', password);
@@ -114,9 +123,18 @@ class ProposalService {
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(idOrSlug);
     const endpoint = isUuid ? `get-proposal/${idOrSlug}` : `get-proposal/slug/${idOrSlug}`;
 
-    return this.callEdgeFunction(endpoint, {
-      params: params.toString() ? params : undefined,
-    });
+    console.log('🛣️ Using endpoint:', { endpoint, isUuid });
+
+    try {
+      const result = await this.callEdgeFunction(endpoint, {
+        params: params.toString() ? params : undefined,
+      });
+      console.log('✅ Edge function response:', result);
+      return result;
+    } catch (error) {
+      console.error('❌ Edge function error:', error);
+      throw error;
+    }
   }
 
   async getProposals(): Promise<ProposalData[]> {

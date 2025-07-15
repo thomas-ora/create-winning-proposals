@@ -8,9 +8,9 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Premium light theme inspired by Alter */
-    --background: 0 0% 100%;    /* Pure white */
-    --foreground: 0 0% 0%;      /* Pure black for headlines */
+    /* Clean light mode inspired by Alter */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
 
     --card: 0 0% 100%;
     --card-foreground: 0 0% 0%;
@@ -18,53 +18,58 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 0%;
 
-    --primary: 243 75% 59%;      /* #6366F1 - refined purple */
+    /* Refined purple accent like Alter */
+    --primary: 225 81% 66%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 9% 46%;     /* #666 - clean gray for body text */
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 210 20% 98%;
+    --secondary-foreground: 0 0% 40%;
 
-    --muted: 220 13% 97%;        /* #F8F9FA - light gray background */
-    --muted-foreground: 220 9% 46%;  /* #666 - gray text */
+    --muted: 210 20% 97%;
+    --muted-foreground: 0 0% 40%;
 
-    --accent: 220 14% 96%;       /* #F5F6F7 - subtle card background */
-    --accent-foreground: 0 0% 0%;
+    --accent: 225 81% 66%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 0% / 0.08;    /* rgba(0,0,0,0.08) - subtle borders */
-    --input: 220 13% 97%;
-    --ring: 243 75% 59%;
+    /* Subtle borders like Alter */
+    --border: 0 0% 0% / 0.08;
+    --input: 0 0% 0% / 0.08;
+    --ring: 225 81% 66%;
 
-    --radius: 0.75rem;           /* 12px default radius */
+    --radius: 0.75rem;
 
-    /* Surface colors for backgrounds */
+    /* Clean surface hierarchy */
     --surface-0: 0 0% 100%;
-    --surface-1: 0 0% 96%;
-    --surface-2: 0 0% 92%;
-    --surface-3: 0 0% 88%;
+    --surface-1: 220 9% 98%;
+    --surface-2: 220 9% 97%;
+    --surface-3: 220 9% 96%;
     
-    /* Glass morphism design tokens for light mode */
-    --glass-sidebar: 0 0% 100% / 0.95;
-    --glass-card: 0 0% 100% / 0.8;
-    --glass-border: 262 83% 58% / 0.2;
-    --glass-glow: 262 83% 58% / 0.3;
+    /* Proposal-specific surfaces */
+    --proposal-bg: 220 9% 98%;
+    --proposal-card: 0 0% 100%;
+    --proposal-section: 220 9% 97%;
 
-    /* Enhanced gradients */
-    --gradient-primary: linear-gradient(135deg, #7B7FEB, #9D7FE6);
-    --gradient-hero: linear-gradient(135deg, #7B7FEB 0%, #9D7FE6 50%, #B87FE6 100%);
-    --gradient-text: linear-gradient(135deg, #7B7FEB, #9D7FE6);
+    /* Refined shadows like Alter */
+    --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-elegant: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 
-    /* Subtle shadows for premium feel */
-    --shadow-elegant: 0 1px 3px rgba(0, 0, 0, 0.1);
-    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1);
-    --shadow-card-hover: 0 2px 8px rgba(0, 0, 0, 0.04);
-    --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.1);
+    /* Clean gradients for CTAs only */
+    --gradient-primary: linear-gradient(135deg, #6366F1, #8B5CF6);
+    --gradient-cta: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
 
-    /* Animation timing */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Smooth transitions */
+    --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Typography hierarchy */
+    --text-heading: 0 0% 0%;
+    --text-body: 0 0% 40%;
+    --text-muted: 0 0% 60%;
+    --text-subtle: 0 0% 75%;
 
     /* Sidebar tokens for light mode */
     --sidebar-background: 0 0% 98%;
@@ -136,7 +141,47 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-    background: radial-gradient(ellipse at top, rgba(123, 127, 235, 0.1) 0%, transparent 50%);
+    /* Clean light background like Alter */
+    background: hsl(var(--proposal-bg));
+  }
+
+  /* Proposal-specific utilities */
+  .proposal-card {
+    background: hsl(var(--proposal-card));
+    box-shadow: var(--shadow-card);
+    border-radius: 12px;
+    transition: var(--transition-smooth);
+  }
+
+  .proposal-card:hover {
+    box-shadow: var(--shadow-hover);
+  }
+
+  .proposal-section {
+    background: hsl(var(--proposal-section));
+  }
+
+  .text-heading {
+    color: hsl(var(--text-heading));
+  }
+
+  .text-body {
+    color: hsl(var(--text-body));
+  }
+
+  .text-muted {
+    color: hsl(var(--text-muted));
+  }
+
+  .text-subtle {
+    color: hsl(var(--text-subtle));
+  }
+
+  /* Dotted connection lines like Alter */
+  .dotted-line {
+    border-style: dotted;
+    border-width: 1px;
+    border-color: hsl(var(--text-subtle));
   }
 
   /* Glass morphism utilities */

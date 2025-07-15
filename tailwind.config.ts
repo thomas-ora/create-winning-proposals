@@ -14,7 +14,7 @@ export default {
 			center: true,
 			padding: '2rem',
 			screens: {
-				'2xl': '1200px'  /* Max width for centered content like Alter */
+				'2xl': '1400px'
 			}
 		},
 		extend: {
@@ -56,6 +56,15 @@ export default {
 				'surface-1': 'hsl(var(--surface-1))',
 				'surface-2': 'hsl(var(--surface-2))',
 				'surface-3': 'hsl(var(--surface-3))',
+				// Proposal-specific colors
+				'proposal-bg': 'hsl(var(--proposal-bg))',
+				'proposal-card': 'hsl(var(--proposal-card))',
+				'proposal-section': 'hsl(var(--proposal-section))',
+				// Typography colors
+				'text-heading': 'hsl(var(--text-heading))',
+				'text-body': 'hsl(var(--text-body))',
+				'text-muted': 'hsl(var(--text-muted))',
+				'text-subtle': 'hsl(var(--text-subtle))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -80,8 +89,7 @@ export default {
 			boxShadow: {
 				'elegant': 'var(--shadow-elegant)',
 				'card': 'var(--shadow-card)',
-				'card-hover': 'var(--shadow-card-hover)',
-				'glow': 'var(--shadow-glow)',
+				'hover': 'var(--shadow-hover)',
 			},
 			transitionTimingFunction: {
 				'smooth': 'var(--transition-smooth)',

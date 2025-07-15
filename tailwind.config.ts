@@ -14,7 +14,7 @@ export default {
 			center: true,
 			padding: '2rem',
 			screens: {
-				'2xl': '1400px'
+				'2xl': '1200px'  /* Max width for centered content like Alter */
 			}
 		},
 		extend: {
@@ -80,8 +80,8 @@ export default {
 			boxShadow: {
 				'elegant': 'var(--shadow-elegant)',
 				'card': 'var(--shadow-card)',
+				'card-hover': 'var(--shadow-card-hover)',
 				'glow': 'var(--shadow-glow)',
-				'glow-soft': 'var(--shadow-glow-soft)',
 			},
 			transitionTimingFunction: {
 				'smooth': 'var(--transition-smooth)',

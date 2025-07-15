@@ -8,36 +8,36 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Light mode colors by default */
-    --background: 0 0% 98%;
-    --foreground: 0 0% 3.9%;
+    /* Premium light theme inspired by Alter */
+    --background: 0 0% 100%;    /* Pure white */
+    --foreground: 0 0% 0%;      /* Pure black for headlines */
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
+    --card-foreground: 0 0% 0%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
+    --popover-foreground: 0 0% 0%;
 
-    --primary: 262 83% 58%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 243 75% 59%;      /* #6366F1 - refined purple */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
+    --secondary: 220 9% 46%;     /* #666 - clean gray for body text */
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 13% 97%;        /* #F8F9FA - light gray background */
+    --muted-foreground: 220 9% 46%;  /* #666 - gray text */
 
-    --accent: 262 83% 58%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 220 14% 96%;       /* #F5F6F7 - subtle card background */
+    --accent-foreground: 0 0% 0%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 262 83% 58%;
+    --border: 0 0% 0% / 0.08;    /* rgba(0,0,0,0.08) - subtle borders */
+    --input: 220 13% 97%;
+    --ring: 243 75% 59%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;           /* 12px default radius */
 
     /* Surface colors for backgrounds */
     --surface-0: 0 0% 100%;
@@ -56,11 +56,11 @@ All colors MUST be HSL.
     --gradient-hero: linear-gradient(135deg, #7B7FEB 0%, #9D7FE6 50%, #B87FE6 100%);
     --gradient-text: linear-gradient(135deg, #7B7FEB, #9D7FE6);
 
-    /* Enhanced shadows */
-    --shadow-elegant: 0 10px 30px -10px rgba(123, 127, 235, 0.3);
-    --shadow-card: 0 4px 12px -2px rgba(0, 0, 0, 0.2);
-    --shadow-glow: 0 0 40px rgba(123, 127, 235, 0.3);
-    --shadow-glow-soft: 0 0 20px rgba(123, 127, 235, 0.2);
+    /* Subtle shadows for premium feel */
+    --shadow-elegant: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-card-hover: 0 2px 8px rgba(0, 0, 0, 0.04);
+    --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.1);
 
     /* Animation timing */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

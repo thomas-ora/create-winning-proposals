@@ -262,10 +262,15 @@ export const PsychologyOptimizedProposal = ({
         transition={{ delay: 2 }}
       >
         <TrendingDown className="w-6 h-6 text-red-500 mx-auto mb-3" />
-        <div className="text-sm text-gray-500 mb-2">Daily Loss</div>
+        <div className="text-xs text-gray-400 mb-2">Daily Loss</div>
         <div 
           className="text-red-600"
-          style={{ fontSize: '64px', fontWeight: '600', lineHeight: '1' }}
+          style={{ 
+            fontSize: '72px', 
+            fontWeight: '500', 
+            lineHeight: '1',
+            fontFeatureSettings: '"tnum"'
+          }}
         >
           $<CountingNumber 
             target={dailyLoss} 
@@ -346,10 +351,14 @@ export const PsychologyOptimizedProposal = ({
           >
             <div className="alter-stat-card text-center relative">
               <DollarSign className="w-6 h-6 text-primary absolute top-8 left-8" />
-              <div className="text-sm text-text-muted" style={{ color: '#64748B', fontSize: '14px' }}>
+              <div className="text-xs" style={{ color: '#9CA3AF' }}>
                 Potential Annual Savings
               </div>
-              <div className="font-semibold mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
+              <div className="mt-2" style={{ 
+                fontSize: '64px', 
+                fontWeight: '500',
+                fontFeatureSettings: '"tnum"'
+              }}>
                 $<CountingNumber 
                   target={proposal.financial_amount * 2} 
                   duration={3000}
@@ -361,21 +370,29 @@ export const PsychologyOptimizedProposal = ({
 
             <div className="alter-stat-card text-center relative">
               <Clock className="w-6 h-6 text-primary absolute top-8 left-8" />
-              <div className="text-sm text-text-muted" style={{ color: '#64748B', fontSize: '14px' }}>
+              <div className="text-xs" style={{ color: '#9CA3AF' }}>
                 Implementation Time
               </div>
-              <div className="font-semibold mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
+              <div className="mt-2" style={{ 
+                fontSize: '64px', 
+                fontWeight: '500',
+                fontFeatureSettings: '"tnum"'
+              }}>
                 6-12
               </div>
-              <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>weeks</div>
+              <div className="text-xs" style={{ color: '#9CA3AF' }}>weeks</div>
             </div>
 
             <div className="alter-stat-card text-center relative">
               <TrendingUp className="w-6 h-6 text-primary absolute top-8 left-8" />
-              <div className="text-sm text-text-muted" style={{ color: '#64748B', fontSize: '14px' }}>
+              <div className="text-xs" style={{ color: '#9CA3AF' }}>
                 ROI Guarantee
               </div>
-              <div className="font-semibold mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
+              <div className="mt-2" style={{ 
+                fontSize: '64px', 
+                fontWeight: '500',
+                fontFeatureSettings: '"tnum"'
+              }}>
                 300%+
               </div>
             </div>
@@ -839,13 +856,18 @@ export const PsychologyOptimizedProposal = ({
                     <p className="text-text-muted mb-6">{tier.subtitle}</p>
                     
                     <div className="mb-6">
-                      <div className="text-sm text-text-subtle line-through mb-1">
+                      <div className="text-xs text-gray-400 line-through mb-1">
                         ${tier.originalPrice.toLocaleString()}
                       </div>
-                      <div className="font-bold text-text-heading mb-2" style={{ fontSize: '48px', lineHeight: '1.1' }}>
+                      <div className="font-bold text-text-heading mb-2" style={{ 
+                        fontSize: '56px', 
+                        fontWeight: '500', 
+                        lineHeight: '1.1',
+                        fontFeatureSettings: '"tnum"'
+                      }}>
                         ${tier.price.toLocaleString()}
                       </div>
-                      <div className="text-sm font-medium text-primary">
+                      <div className="text-xs font-medium text-primary">
                         Save ${tier.savings.toLocaleString()}
                       </div>
                     </div>

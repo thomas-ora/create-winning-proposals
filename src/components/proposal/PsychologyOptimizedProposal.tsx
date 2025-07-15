@@ -245,28 +245,41 @@ export const PsychologyOptimizedProposal = ({
         initial={{ scaleX: 0 }}
       />
 
-      {/* Sticky Navigation */}
+      {/* Enhanced Navigation */}
       <motion.nav 
-        className="fixed top-0 left-0 right-0 z-40 bg-background/90 backdrop-blur-sm border-b border-border"
+        className="fixed top-0 left-0 right-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border noise-overlay"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ delay: 1 }}
       >
         <div className="max-w-screen-xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                <div className="text-white text-sm font-bold">O</div>
+            <div className="flex items-center space-x-3">
+              {proposal.logo_url ? (
+                <img 
+                  src={proposal.logo_url} 
+                  alt={`${proposal.company_name} logo`}
+                  className="w-10 h-10 rounded-lg object-contain"
+                />
+              ) : (
+                <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                  <div className="text-white text-sm font-bold">
+                    {proposal.company_name?.charAt(0) || 'O'}
+                  </div>
+                </div>
+              )}
+              <div>
+                <span className="font-semibold text-foreground">ORA Systems</span>
+                <div className="text-xs text-muted-foreground">Premium Proposal</div>
               </div>
-              <span className="font-medium text-foreground">ORA Systems</span>
             </div>
             
-            {/* Navigation dots */}
+            {/* Enhanced Navigation dots */}
             <div className="hidden md:flex items-center space-x-3">
               {sections.map((section, index) => (
                 <motion.button
                   key={section.id}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  className={`group relative w-3 h-3 rounded-full transition-all duration-300 ${
                     currentSection === index 
                       ? 'bg-primary shadow-[0_0_10px_rgba(99,102,241,0.5)]' 
                       : 'bg-border hover:bg-primary/30'
@@ -277,15 +290,27 @@ export const PsychologyOptimizedProposal = ({
                     const element = document.querySelector(`[data-section="${section.id}"]`);
                     element?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                />
+                >
+                  <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-foreground text-background text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
+                    {section.title}
+                  </span>
+                </motion.button>
               ))}
             </div>
 
-            <div className="text-sm text-muted-foreground">
-              {proposal.company_name}
+            <div className="flex items-center space-x-3">
+              <Badge variant="outline" className="text-xs px-3 py-1 rounded-full">
+                Valid until {new Date(proposal.valid_until).toLocaleDateString()}
+              </Badge>
+              <div className="text-sm text-muted-foreground hidden sm:block">
+                {proposal.company_name}
+              </div>
             </div>
           </div>
         </div>
+        
+        {/* Thin separator line */}
+        <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
       </motion.nav>
 
       {/* Clean Loss Counter */}
@@ -308,30 +333,75 @@ export const PsychologyOptimizedProposal = ({
         </div>
       </motion.div>
 
-      {/* Hero Section */}
+      {/* Enhanced Hero Section */}
       <section 
         ref={heroRef}
         data-section="hero"
-        className="relative min-h-screen flex items-center justify-center bg-background pt-20 overflow-hidden"
+        className="relative min-h-screen flex items-center justify-center bg-background hero-gradient pt-20 overflow-hidden noise-overlay"
       >
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div
+            className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl"
+            animate={{ 
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.5, 0.3]
+            }}
+            transition={{ 
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          <motion.div
+            className="absolute bottom-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl"
+            animate={{ 
+              scale: [1.2, 1, 1.2],
+              opacity: [0.2, 0.4, 0.2]
+            }}
+            transition={{ 
+              duration: 10,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 2
+            }}
+          />
+        </div>
         <motion.div 
           className="relative z-10 text-center max-w-screen-xl mx-auto px-6"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          {/* Company Information */}
+          {/* Enhanced Company Information */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
             className="mb-12"
           >
+            {proposal.logo_url && (
+              <motion.img 
+                src={proposal.logo_url} 
+                alt={`${proposal.company_name} logo`}
+                className="w-20 h-20 mx-auto mb-6 rounded-2xl object-contain shadow-elegant"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.4, type: "spring" }}
+              />
+            )}
             <div className="text-2xl font-light text-muted-foreground mb-2">
               {proposal.company_name}
             </div>
-            <div className="text-sm text-muted-foreground">
-              Valid until {new Date(proposal.valid_until).toLocaleDateString()}
+            <div className="flex items-center justify-center space-x-4">
+              <Badge variant="secondary" className="rounded-full px-4 py-1">
+                Valid until {new Date(proposal.valid_until).toLocaleDateString()}
+              </Badge>
+              {proposal.prepared_by && (
+                <Badge variant="outline" className="rounded-full px-4 py-1">
+                  Prepared by {proposal.prepared_by}
+                </Badge>
+              )}
             </div>
           </motion.div>
 
@@ -345,7 +415,7 @@ export const PsychologyOptimizedProposal = ({
           </motion.h1>
 
           <motion.p 
-            className="text-xl font-light text-muted-foreground mb-16 max-w-3xl mx-auto leading-relaxed"
+            className="text-xl font-light text-muted-foreground mb-16 max-w-3xl mx-auto leading-relaxed drop-cap"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
@@ -405,11 +475,8 @@ export const PsychologyOptimizedProposal = ({
         </motion.div>
       </section>
 
-      {/* Section Divider */}
-      <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent mx-6" />
-
       {/* Executive Summary with Loss Framing */}
-      <section data-section="executive-summary" className="py-40 px-6 bg-muted relative overflow-hidden">
+      <section data-section="executive-summary" className="py-40 px-6 bg-muted relative overflow-hidden noise-overlay">
         <div className="max-w-screen-xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -429,7 +496,7 @@ export const PsychologyOptimizedProposal = ({
               </Badge>
             </motion.div>
             <h2 className="text-5xl font-bold mb-8 text-foreground">The Hidden Cost of Inaction</h2>
-            <p className="text-xl font-light text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl font-light text-muted-foreground max-w-3xl mx-auto leading-relaxed drop-cap">
               Every day you delay, you're losing money. Here's what staying with your current process is really costing you.
             </p>
           </motion.div>
@@ -1110,7 +1177,7 @@ export const PsychologyOptimizedProposal = ({
               <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                     <Button 
                       size="lg" 
-                      className="bg-primary hover:bg-primary/90 text-lg px-12 py-6 premium-hover shadow-[0_4px_14px_0_rgba(99,102,241,0.3)]"
+                      className="bg-primary hover:bg-primary/90 text-lg px-12 py-6 premium-hover shadow-[0_4px_14px_0_rgba(99,102,241,0.3)] rounded-xl min-h-[56px]"
                       onClick={() => onCTAClick('accept_proposal', { urgency: 'high' })}
                     >
                       Accept Proposal & Start Saving
@@ -1138,13 +1205,18 @@ export const PsychologyOptimizedProposal = ({
       </section>
 
       {/* Professional Footer */}
-      <footer className="py-12 px-6 bg-muted/20 border-t border-border">
+      <footer className="py-12 px-6 bg-muted/20 border-t border-border noise-overlay">
         <div className="max-w-screen-xl mx-auto text-center">
-          <p className="text-sm text-muted-foreground font-light">
+          <motion.p 
+            className="text-sm text-muted-foreground font-light"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
             Powered by <span className="font-medium text-foreground">OraSystems</span> • 
             Proposal valid until {new Date(proposal.valid_until).toLocaleDateString()} • 
             All pricing and guarantees subject to terms
-          </p>
+          </motion.p>
         </div>
       </footer>
     </div>

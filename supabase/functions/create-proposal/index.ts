@@ -175,6 +175,16 @@ serve(async (req) => {
     })
 
     const proposalData: ProposalRequest = await req.json()
+    
+    console.log('📝 Proposal Request Data:', {
+      clientEmail: proposalData.client.email,
+      proposalTitle: proposalData.proposal.title,
+      financialAmount: proposalData.proposal.financial_amount,
+      financialCurrency: proposalData.proposal.financial_currency,
+      sectionsCount: proposalData.proposal.sections.length,
+      hasPassword: !!proposalData.proposal.password_protected,
+      hasLogo: !!proposalData.proposal.logo_url
+    })
 
     // Create or get client
     let clientId: string
@@ -186,6 +196,7 @@ serve(async (req) => {
 
     if (existingClient) {
       clientId = existingClient.id
+      console.log('🔄 Updating existing client:', clientId)
       // Update existing client
       await supabaseClient
         .from('clients')
@@ -198,6 +209,7 @@ serve(async (req) => {
         .eq('id', clientId)
     } else {
       // Create new client
+      console.log('➕ Creating new client for email:', proposalData.client.email)
       const { data: newClient, error: clientError } = await supabaseClient
         .from('clients')
         .insert({
@@ -209,17 +221,19 @@ serve(async (req) => {
         .single()
 
       if (clientError) {
-        console.error('Client creation error:', clientError)
-        return new Response(JSON.stringify({ error: 'Failed to create client' }), {
+        console.error('❌ Client creation error:', clientError)
+        return new Response(JSON.stringify({ error: 'Failed to create client', details: clientError.message }), {
           status: 500,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         })
       }
+      console.log('✅ Client created with ID:', newClient.id)
       clientId = newClient.id
     }
 
     // Create or update psychology profile if provided
     if (proposalData.psychology_profile) {
+      console.log('🧠 Processing psychology profile for client:', clientId)
       const { data: existingProfile } = await supabaseClient
         .from('psychology_profiles')
         .select('id')
@@ -227,11 +241,13 @@ serve(async (req) => {
         .single()
 
       if (existingProfile) {
+        console.log('🔄 Updating existing psychology profile')
         await supabaseClient
           .from('psychology_profiles')
           .update(proposalData.psychology_profile)
           .eq('client_id', clientId)
       } else {
+        console.log('➕ Creating new psychology profile')
         await supabaseClient
           .from('psychology_profiles')
           .insert({
@@ -252,6 +268,15 @@ serve(async (req) => {
     }
 
     // Create proposal
+    console.log('📄 Creating proposal with data:', {
+      clientId,
+      title: proposalData.proposal.title,
+      sectionsCount: proposalData.proposal.sections.length,
+      financialAmount: proposalData.proposal.financial_amount,
+      currency: proposalData.proposal.financial_currency,
+      hasPassword: !!passwordHash
+    })
+    
     const { data: proposal, error: proposalError } = await supabaseClient
       .from('proposals')
       .insert({
@@ -278,12 +303,18 @@ serve(async (req) => {
       .single()
 
     if (proposalError) {
-      console.error('Proposal creation error:', proposalError)
-      return new Response(JSON.stringify({ error: 'Failed to create proposal' }), {
+      console.error('❌ Proposal creation error:', proposalError)
+      return new Response(JSON.stringify({ 
+        error: 'Failed to create proposal', 
+        details: proposalError.message,
+        code: proposalError.code 
+      }), {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       })
     }
+    
+    console.log('✅ Proposal created successfully with ID:', proposal.id)
 
     // Update API key last_used timestamp
     await supabaseClient
@@ -292,6 +323,13 @@ serve(async (req) => {
       .eq('id', validatedKey.id)
 
     const proposalUrl = `${req.headers.get('origin') || 'https://your-domain.com'}/p/${proposal.id}`
+    
+    console.log('🚀 Proposal creation complete:', {
+      proposalId: proposal.id,
+      url: proposalUrl,
+      clientId: clientId,
+      apiKeyUsed: validatedKey.name
+    })
 
     return new Response(JSON.stringify({
       success: true,
@@ -307,8 +345,15 @@ serve(async (req) => {
     })
 
   } catch (error) {
-    console.error('Error in create-proposal function:', error)
-    return new Response(JSON.stringify({ error: 'Internal server error' }), {
+    console.error('💥 Critical error in create-proposal function:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name
+    })
+    return new Response(JSON.stringify({ 
+      error: 'Internal server error',
+      details: error.message 
+    }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     })

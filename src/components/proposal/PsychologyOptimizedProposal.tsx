@@ -270,57 +270,59 @@ export const PsychologyOptimizedProposal = ({
         </div>
       </motion.div>
 
-      {/* Hero Section - Alter Style */}
+      {/* Hero Section - Simplified */}
       <section 
         ref={heroRef}
         data-section="hero"
-        className="relative py-24 px-6 bg-proposal-bg"
+        style={{ backgroundColor: '#FAFBFC', paddingTop: '80px', paddingBottom: '80px' }}
+        className="relative px-6"
       >
         <div className="alter-container text-center">
-          {/* Company Partnership */}
-          <motion.div 
-            className="flex items-center justify-center space-x-6 mb-12"
+          {/* Valid Until Badge - Subtle positioning */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="mb-8"
+          >
+            <div className="inline-flex items-center px-3 py-1 bg-white rounded-full text-xs text-gray-500 border border-gray-200">
+              <Clock className="w-3 h-3 mr-1" />
+              Valid until {new Date(proposal.valid_until).toLocaleDateString()}
+            </div>
+          </motion.div>
+
+          {/* Main Headline - Smaller and centered */}
+          <motion.h1 
+            className="font-bold text-text-heading mb-8 leading-tight mx-auto max-w-4xl"
+            style={{ fontSize: '48px' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            transition={{ delay: 0.4 }}
+          >
+            {proposal.title}
+          </motion.h1>
+
+          {/* Company Partnership - Simplified */}
+          <motion.div 
+            className="flex items-center justify-center space-x-4 mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
           >
             {proposal.logo_url && (
               <img 
                 src={proposal.logo_url} 
                 alt="Company Logo" 
-                className="h-12 object-contain"
+                className="h-8 object-contain"
               />
             )}
-            <div className="text-text-subtle text-lg">×</div>
-            <div className="text-text-heading font-bold text-lg">ORASYSTEMS</div>
+            <div className="text-gray-400 text-sm">×</div>
+            <div className="text-gray-700 font-medium text-sm">ORASYSTEMS</div>
           </motion.div>
-
-          {/* Proposal Badge */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="mb-8"
-          >
-            <div className="inline-flex items-center px-4 py-2 bg-proposal-card rounded-full text-sm text-text-body border border-border">
-              <Clock className="w-4 h-4 mr-2" />
-              Valid until {new Date(proposal.valid_until).toLocaleDateString()}
-            </div>
-          </motion.div>
-
-          {/* Main Headline - Clean & Bold */}
-          <motion.h1 
-            className="text-5xl md:text-6xl font-bold text-text-heading mb-8 leading-tight"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-          >
-            {proposal.title}
-          </motion.h1>
 
           {/* Subtitle */}
           <motion.p 
-            className="text-xl text-text-body mb-12 max-w-3xl mx-auto leading-relaxed"
+            className="text-lg text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}

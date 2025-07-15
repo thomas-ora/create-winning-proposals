@@ -245,30 +245,7 @@ export const PsychologyOptimizedProposal = ({
         initial={{ scaleX: 0 }}
       />
 
-      {/* Sticky Navigation */}
-      <motion.nav 
-        className="fixed top-4 left-1/2 transform -translate-x-1/2 z-40 proposal-card px-6 py-3"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1 }}
-      >
-        <div className="flex items-center space-x-6 text-sm">
-          {sections.slice(0, 5).map((section, index) => (
-            <button
-              key={section.id}
-              className={`transition-colors ${
-                currentSection === index ? 'text-primary font-medium' : 'text-text-body hover:text-text-heading'
-              }`}
-              onClick={() => {
-                const element = document.querySelector(`[data-section="${section.id}"]`);
-                element?.scrollIntoView({ behavior: 'smooth' });
-              }}
-            >
-              {section.title}
-            </button>
-          ))}
-        </div>
-      </motion.nav>
+      {/* Removed sticky navigation for cleaner header approach */}
 
       {/* Clean Daily Loss Counter */}
       <motion.div 

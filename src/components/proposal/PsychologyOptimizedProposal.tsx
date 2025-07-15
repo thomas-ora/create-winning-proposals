@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { 
   TrendingDown, 
   Clock, 
@@ -15,7 +15,11 @@ import {
   Star,
   ChevronDown,
   AlertTriangle,
-  Gauge
+  Gauge,
+  Users,
+  Brain,
+  TrendingUp,
+  Timer
 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -23,6 +27,12 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { ROICalculator } from './ROICalculator';
 import { AnimatedNumber } from './AnimatedNumber';
+import { CountingNumber } from './CountingNumber';
+import { ComparisonMatrix } from './ComparisonMatrix';
+import { QuickWinsSection } from './QuickWinsSection';
+import { RiskReversalSection } from './RiskReversalSection';
+import { EnhancedROICalculator } from './EnhancedROICalculator';
+import { SmartCTA } from './SmartCTA';
 import { 
   LineChart, 
   Line, 
@@ -52,6 +62,11 @@ interface PsychologyOptimizedProposalProps {
     brand_color?: string;
     pricing_tiers?: any;
     sections: any[];
+    psychology_profile?: {
+      decision_making_style?: string;
+      risk_tolerance?: string;
+      communication_preference?: string;
+    };
   };
   onCTAClick: (action: string, data?: any) => void;
 }
@@ -62,7 +77,13 @@ export const PsychologyOptimizedProposal = ({
 }: PsychologyOptimizedProposalProps) => {
   const [currentSection, setCurrentSection] = useState(0);
   const [dailyLoss, setDailyLoss] = useState(0);
+  const [scrollDepth, setScrollDepth] = useState(0);
+  const [timeOnPage, setTimeOnPage] = useState(0);
+  const [sectionsViewed, setSectionsViewed] = useState<string[]>([]);
+  const [startTime] = useState(Date.now());
   const containerRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const isHeroInView = useInView(heroRef);
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -70,6 +91,12 @@ export const PsychologyOptimizedProposal = ({
   });
 
   const readingProgress = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  
+  // Psychology profile detection
+  const psychologyProfile = proposal.psychology_profile || {};
+  const decisionStyle = psychologyProfile.decision_making_style || 'balanced';
+  const riskTolerance = psychologyProfile.risk_tolerance || 'medium';
+  const communicationStyle = psychologyProfile.communication_preference || 'balanced';
 
   // Calculate daily loss from financial data
   useEffect(() => {
@@ -78,6 +105,43 @@ export const PsychologyOptimizedProposal = ({
     const dailyAmount = annualLoss / 365;
     setDailyLoss(dailyAmount);
   }, [proposal.financial_amount]);
+
+  // Track time on page and scroll depth
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeOnPage(Math.floor((Date.now() - startTime) / 1000));
+    }, 1000);
+
+    const handleScroll = () => {
+      const scrolled = Math.round(
+        (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+      );
+      setScrollDepth(Math.max(scrollDepth, scrolled));
+
+      // Track section views
+      const sections = document.querySelectorAll('[data-section]');
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        const isInView = rect.top < window.innerHeight && rect.bottom > 0;
+        const sectionId = section.getAttribute('data-section');
+        
+        if (isInView && sectionId && !sectionsViewed.includes(sectionId)) {
+          setSectionsViewed(prev => [...prev, sectionId]);
+          onCTAClick('section_view', { 
+            sectionId, 
+            scrollDepth: scrolled, 
+            timeOnPage: Math.floor((Date.now() - startTime) / 1000) 
+          });
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [scrollDepth, sectionsViewed, startTime, onCTAClick]);
 
   // Mock data for various charts
   const lossOverTimeData = [
@@ -181,28 +245,41 @@ export const PsychologyOptimizedProposal = ({
         initial={{ scaleX: 0 }}
       />
 
-      {/* Fixed Daily Loss Counter */}
+      {/* Fixed Daily Loss Counter with Real-time Counting */}
       <motion.div 
         className="fixed top-4 right-4 z-40 bg-red-500 text-white px-6 py-3 rounded-lg shadow-xl"
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2 }}
+        whileHover={{ scale: 1.05 }}
       >
         <div className="flex items-center space-x-2">
           <TrendingDown className="w-5 h-5" />
           <div>
             <div className="text-xs opacity-90">Daily Loss</div>
             <div className="text-lg font-bold">
-              $<AnimatedNumber value={dailyLoss} format="number" />
+              $<CountingNumber 
+                target={dailyLoss} 
+                duration={2000} 
+                increment={Math.max(1, Math.floor(dailyLoss / 100))}
+                startCounting={timeOnPage > 3}
+              />
             </div>
           </div>
         </div>
       </motion.div>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-muted/30 overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0 bg-grid opacity-50" />
+      <section 
+        ref={heroRef}
+        data-section="hero"
+        className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-muted/30 overflow-hidden"
+      >
+        {/* Animated Background with Parallax */}
+        <motion.div 
+          className="absolute inset-0 bg-grid opacity-50" 
+          style={{ y: useTransform(scrollYProgress, [0, 1], [0, -100]) }}
+        />
         
         <motion.div 
           className="relative z-10 text-center max-w-4xl mx-auto px-6"
@@ -262,12 +339,17 @@ export const PsychologyOptimizedProposal = ({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.1 }}
           >
-            <div className="text-center">
-              <div className="text-sm text-muted-foreground">Potential Annual Savings</div>
-              <div className="text-3xl font-bold text-green-600">
-                $<AnimatedNumber value={proposal.financial_amount * 2} format="number" />
+              <div className="text-center">
+                <div className="text-sm text-muted-foreground">Potential Annual Savings</div>
+                <div className="text-3xl font-bold text-green-600">
+                  $<CountingNumber 
+                    target={proposal.financial_amount * 2} 
+                    duration={3000}
+                    startCounting={isHeroInView}
+                    increment={Math.max(100, Math.floor(proposal.financial_amount * 2 / 200))}
+                  />
+                </div>
               </div>
-            </div>
             <div className="hidden sm:block w-px h-12 bg-border" />
             <div className="text-center">
               <div className="text-sm text-muted-foreground">Implementation Time</div>
@@ -292,7 +374,7 @@ export const PsychologyOptimizedProposal = ({
       </section>
 
       {/* Executive Summary with Loss Framing */}
-      <section className="py-20 px-6">
+      <section data-section="executive-summary" className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -314,14 +396,18 @@ export const PsychologyOptimizedProposal = ({
               transition={{ delay: 0.1 }}
             >
               <Card className="p-6 bg-gradient-to-br from-red-500/10 to-red-500/5 border-red-500/20">
-                <div className="text-center">
-                  <TrendingDown className="w-12 h-12 text-red-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold mb-2">Daily Revenue Loss</h3>
-                  <div className="text-3xl font-bold text-red-600 mb-2">
-                    $<AnimatedNumber value={dailyLoss} format="number" />
+                  <div className="text-center">
+                    <TrendingDown className="w-12 h-12 text-red-500 mx-auto mb-4" />
+                    <h3 className="text-xl font-bold mb-2">Daily Revenue Loss</h3>
+                    <div className="text-3xl font-bold text-red-600 mb-2">
+                      $<CountingNumber 
+                        target={dailyLoss} 
+                        duration={2000}
+                        increment={Math.max(1, Math.floor(dailyLoss / 50))}
+                      />
+                    </div>
+                    <p className="text-sm text-muted-foreground">Due to inefficient processes</p>
                   </div>
-                  <p className="text-sm text-muted-foreground">Due to inefficient processes</p>
-                </div>
               </Card>
             </motion.div>
 
@@ -332,14 +418,14 @@ export const PsychologyOptimizedProposal = ({
               transition={{ delay: 0.2 }}
             >
               <Card className="p-6 bg-gradient-to-br from-orange-500/10 to-orange-500/5 border-orange-500/20">
-                <div className="text-center">
-                  <Clock className="w-12 h-12 text-orange-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold mb-2">Time Wasted Weekly</h3>
-                  <div className="text-3xl font-bold text-orange-600 mb-2">
-                    <AnimatedNumber value={32} format="number" /> hrs
+                  <div className="text-center">
+                    <Clock className="w-12 h-12 text-orange-500 mx-auto mb-4" />
+                    <h3 className="text-xl font-bold mb-2">Time Wasted Weekly</h3>
+                    <div className="text-3xl font-bold text-orange-600 mb-2">
+                      <CountingNumber target={32} duration={1500} increment={1} /> hrs
+                    </div>
+                    <p className="text-sm text-muted-foreground">On manual, repetitive tasks</p>
                   </div>
-                  <p className="text-sm text-muted-foreground">On manual, repetitive tasks</p>
-                </div>
               </Card>
             </motion.div>
 
@@ -350,14 +436,14 @@ export const PsychologyOptimizedProposal = ({
               transition={{ delay: 0.3 }}
             >
               <Card className="p-6 bg-gradient-to-br from-yellow-500/10 to-yellow-500/5 border-yellow-500/20">
-                <div className="text-center">
-                  <AlertTriangle className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold mb-2">Error Rate</h3>
-                  <div className="text-3xl font-bold text-yellow-600 mb-2">
-                    <AnimatedNumber value={15} format="number" />%
+                  <div className="text-center">
+                    <AlertTriangle className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
+                    <h3 className="text-xl font-bold mb-2">Error Rate</h3>
+                    <div className="text-3xl font-bold text-yellow-600 mb-2">
+                      <CountingNumber target={15} duration={1000} increment={1} />%
+                    </div>
+                    <p className="text-sm text-muted-foreground">Requiring costly rework</p>
                   </div>
-                  <p className="text-sm text-muted-foreground">Requiring costly rework</p>
-                </div>
               </Card>
             </motion.div>
           </div>
@@ -372,7 +458,11 @@ export const PsychologyOptimizedProposal = ({
               Cost of Waiting Just One More Month
             </h3>
             <div className="text-5xl font-bold text-red-600 mb-4">
-              $<AnimatedNumber value={dailyLoss * 30} format="number" />
+              $<CountingNumber 
+                target={dailyLoss * 30} 
+                duration={3000}
+                increment={Math.max(10, Math.floor(dailyLoss * 30 / 100))}
+              />
             </div>
             <p className="text-red-600 dark:text-red-400">
               That's money you'll never get back. Every day you wait is revenue walking out the door.
@@ -382,7 +472,7 @@ export const PsychologyOptimizedProposal = ({
       </section>
 
       {/* Current State Analysis */}
-      <section className="py-20 px-6 bg-muted/20">
+      <section data-section="current-state" className="py-20 px-6 bg-muted/20">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -477,8 +567,211 @@ export const PsychologyOptimizedProposal = ({
         </div>
       </section>
 
+      {/* Psychology-Adapted Content */}
+      {decisionStyle === 'analytical' && (
+        <section data-section="detailed-analysis" className="py-20 px-6">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <Brain className="w-16 h-16 mx-auto mb-4 text-blue-600" />
+              <h2 className="text-4xl font-bold mb-6">Detailed Performance Analysis</h2>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                Comprehensive data breakdown for informed decision-making.
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <Card className="p-6">
+                <h3 className="text-xl font-bold mb-4">Performance Metrics Comparison</h3>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span>Processing Speed</span>
+                    <span className="font-bold">15x faster</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Accuracy Rate</span>
+                    <span className="font-bold">99.2% vs 85%</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Cost per Transaction</span>
+                    <span className="font-bold">$2 vs $45</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Scalability Factor</span>
+                    <span className="font-bold">Unlimited vs Linear</span>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="p-6">
+                <h3 className="text-xl font-bold mb-4">Risk Assessment Matrix</h3>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span>Implementation Risk</span>
+                    <Badge variant="secondary">Low</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Technology Risk</span>
+                    <Badge variant="secondary">Minimal</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Financial Risk</span>
+                    <Badge className="bg-green-100 text-green-800">Protected</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Operational Risk</span>
+                    <Badge variant="secondary">Managed</Badge>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {decisionStyle === 'driver' && (
+        <section data-section="competitive-advantage" className="py-20 px-6 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <Trophy className="w-16 h-16 mx-auto mb-4 text-orange-600" />
+              <h2 className="text-4xl font-bold mb-6">Dominate Your Competition</h2>
+              <p className="text-xl text-orange-700 dark:text-orange-300 max-w-2xl mx-auto">
+                Get ahead of competitors with automation they don't have.
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              <Card className="p-6 border-orange-200 dark:border-orange-800">
+                <TrendingUp className="w-12 h-12 text-orange-600 mb-4" />
+                <h3 className="text-xl font-bold mb-2">First-Mover Advantage</h3>
+                <p className="text-muted-foreground">
+                  Be the first in your market to implement this level of automation.
+                </p>
+              </Card>
+
+              <Card className="p-6 border-orange-200 dark:border-orange-800">
+                <Zap className="w-12 h-12 text-orange-600 mb-4" />
+                <h3 className="text-xl font-bold mb-2">Speed to Market</h3>
+                <p className="text-muted-foreground">
+                  Launch new initiatives 10x faster than competitors.
+                </p>
+              </Card>
+
+              <Card className="p-6 border-orange-200 dark:border-orange-800">
+                <Target className="w-12 h-12 text-orange-600 mb-4" />
+                <h3 className="text-xl font-bold mb-2">Market Leadership</h3>
+                <p className="text-muted-foreground">
+                  Position yourself as the innovation leader in your industry.
+                </p>
+              </Card>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {decisionStyle === 'expressive' && (
+        <section data-section="vision" className="py-20 px-6 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20">
+          <div className="max-w-6xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <Star className="w-16 h-16 mx-auto mb-4 text-purple-600" />
+              <h2 className="text-4xl font-bold mb-6">Your Future Vision Realized</h2>
+              <blockquote className="text-2xl italic text-purple-700 dark:text-purple-300 mb-8 max-w-3xl mx-auto">
+                "Imagine walking into your office knowing that everything runs perfectly, 
+                automatically, and profitably. Your team is focused on innovation, not 
+                tedious tasks. Your business is a model for the industry."
+              </blockquote>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                This isn't just about software. It's about transforming your entire organization 
+                into a beacon of efficiency and innovation.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {decisionStyle === 'amiable' && (
+        <section data-section="support" className="py-20 px-6 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <Users className="w-16 h-16 mx-auto mb-4 text-blue-600" />
+              <h2 className="text-4xl font-bold mb-6">You're Never Alone</h2>
+              <p className="text-xl text-blue-700 dark:text-blue-300 max-w-2xl mx-auto">
+                Our gradual, supported approach ensures everyone on your team feels comfortable.
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <Card className="p-6">
+                <h3 className="text-xl font-bold mb-4">Gradual Implementation Plan</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                    <span>Week 1-2: Team training and preparation</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                    <span>Week 3-4: Pilot program with select processes</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                    <span>Week 5-8: Gradual rollout with constant support</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                    <span>Week 9+: Full implementation with ongoing care</span>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="p-6">
+                <h3 className="text-xl font-bold mb-4">Comprehensive Support</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle2 className="w-5 h-5 text-green-600" />
+                    <span>Dedicated success manager</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle2 className="w-5 h-5 text-green-600" />
+                    <span>24/7 technical support</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle2 className="w-5 h-5 text-green-600" />
+                    <span>Team training and coaching</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle2 className="w-5 h-5 text-green-600" />
+                    <span>Monthly check-ins and optimization</span>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Risk Reversal Section */}
+      <RiskReversalSection />
+
       {/* Pricing Section */}
-      <section className="py-20 px-6 bg-muted/20">
+      <section data-section="pricing" className="py-20 px-6 bg-muted/20">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 50 }}

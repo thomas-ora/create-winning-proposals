@@ -144,7 +144,7 @@ const APIDocumentation: React.FC = () => {
     "employee_count": 150,
     "revenue_range": "$1M-$10M",
     "growth_stage": "Growth",
-    "consultation_date": "2024-07-15T10:00:00Z"
+    "consultation_date": "2025-07-15T10:00:00Z"
   },
   "psychology_profile": {
     "primary_type": "Driver",
@@ -167,7 +167,7 @@ const APIDocumentation: React.FC = () => {
     "financial_amount": 50000,
     "financial_currency": "USD",
     "payment_terms": "Net 30",
-    "valid_until": "2024-08-15T23:59:59Z",
+    "valid_until": "2025-08-15T23:59:59Z",
     "prepared_by": "Jane Smith",
     "password_protected": false,
     "brand_color": "#7B7FEB"
@@ -183,7 +183,7 @@ const APIDocumentation: React.FC = () => {
   "success": true,
   "proposal_id": "123e4567-e89b-12d3-a456-426614174000",
   "url": "https://your-domain.com/p/123e4567-e89b-12d3-a456-426614174000",
-  "expires_at": "2024-08-15T23:59:59Z"
+  "expires_at": "2025-08-15T23:59:59Z"
 }`}
               />
             </div>
@@ -234,7 +234,7 @@ const APIDocumentation: React.FC = () => {
     "executive_summary": "...",
     "sections": [...],
     "financial_amount": 50000,
-    "valid_until": "2024-08-15T23:59:59Z"
+    "valid_until": "2025-08-15T23:59:59Z"
   },
   "status": "viewed"
 }`}

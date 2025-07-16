@@ -300,16 +300,18 @@ export const proposalTemplates: ProposalTemplate[] = [
         type: 'list',
         title: 'ROI & Business Benefits',
         content: [
-          '60% reduction in manual data entry and administrative tasks',
-          '45% improvement in team productivity and collaboration efficiency',
-          '30% faster decision-making through real-time data insights',
+          '74% of employees report working faster with automation',
+          '40% productivity boost with AI workflows for businesses',
+          '60-95% reduction in repetitive tasks',
           '25% reduction in operational costs within first 6 months',
           '90% improvement in process visibility and accountability',
           '50% faster onboarding for new team members',
           '35% increase in customer satisfaction through better service delivery',
+          'Over 90% of SMBs considering automation solutions in 2025',
           'Payback period of 4-6 months for most implementations',
           'Scalable solution that grows with your business needs',
-          'Compliance with SOC 2, GDPR, and other industry standards'
+          'Compliance with SOC 2, GDPR, and other industry standards',
+          'Source: 2025 Business Automation Industry Report - Vena Solutions'
         ],
         order: 5
       }

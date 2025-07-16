@@ -20,7 +20,7 @@ export const mockProposals: ProposalData[] = [
       paymentTerms: '50% upfront, 25% at milestone, 25% completion'
     },
     timeline: {
-      createdAt: new Date('2024-12-10'),
+      createdAt: new Date('2025-01-10'),
       expiresAt: new Date('2025-01-10'),
       estimatedDuration: '12 weeks'
     },
@@ -31,7 +31,7 @@ export const mockProposals: ProposalData[] = [
     },
     analytics: {
       views: 3,
-      lastViewed: new Date('2024-12-12'),
+      lastViewed: new Date('2025-01-12'),
       timeSpent: 450
     },
     sections: [
@@ -116,8 +116,8 @@ export const mockProposals: ProposalData[] = [
       paymentTerms: 'Monthly retainer: $5,000 for 3 months'
     },
     timeline: {
-      createdAt: new Date('2024-12-08'),
-      expiresAt: new Date('2024-12-22'),
+      createdAt: new Date('2025-01-08'),
+      expiresAt: new Date('2025-01-22'),
       estimatedDuration: '3 months'
     },
     status: 'viewed',
@@ -127,7 +127,7 @@ export const mockProposals: ProposalData[] = [
     },
     analytics: {
       views: 5,
-      lastViewed: new Date('2024-12-13'),
+      lastViewed: new Date('2025-01-13'),
       timeSpent: 620
     },
     sections: [
@@ -203,8 +203,8 @@ export const mockProposals: ProposalData[] = [
       paymentTerms: 'Hourly rate: $200/hour, estimated 90 hours over 8 weeks'
     },
     timeline: {
-      createdAt: new Date('2024-12-11'),
-      expiresAt: new Date('2024-12-25'),
+      createdAt: new Date('2025-01-11'),
+      expiresAt: new Date('2025-01-25'),
       estimatedDuration: '8 weeks'
     },
     status: 'sent',
@@ -214,7 +214,7 @@ export const mockProposals: ProposalData[] = [
     },
     analytics: {
       views: 1,
-      lastViewed: new Date('2024-12-11'),
+      lastViewed: new Date('2025-01-11'),
       timeSpent: 180
     },
     sections: [

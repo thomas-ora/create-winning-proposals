@@ -5,7 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
-import { Calculator, TrendingUp, Clock, DollarSign } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Calculator, TrendingUp, Clock, DollarSign, Info } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Cell } from 'recharts';
 import { AnimatedNumber } from './AnimatedNumber';
 
@@ -34,12 +35,12 @@ export const ROICalculator = ({
   data
 }: ROICalculatorProps) => {
   const [inputs, setInputs] = useState<ROIInputs>({
-    currentHourlyRate: 75,
-    hoursPerWeek: 40,
-    errorRate: 15,
-    automationSavings: 60,
-    implementationCost: 25000,
-    timeToImplement: 12
+    currentHourlyRate: 85,
+    hoursPerWeek: 32,
+    errorRate: 18,
+    automationSavings: 65,
+    implementationCost: 45000,
+    timeToImplement: 16
   });
 
   const [results, setResults] = useState({
@@ -149,7 +150,7 @@ export const ROICalculator = ({
               <h3 className="text-2xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
                 {title}
               </h3>
-              <p className="text-muted-foreground">Calculate your automation ROI</p>
+              <p className="text-muted-foreground">Adjust these numbers based on your specific situation</p>
             </div>
           </div>
         </motion.div>
@@ -192,22 +193,34 @@ export const ROICalculator = ({
                   </div>
                 </div>
 
-                <div>
-                  <Label htmlFor="errorRate">Error Rate (%)</Label>
-                  <div className="mt-2">
-                    <Slider
-                      value={[inputs.errorRate]}
-                      onValueChange={([value]) => updateInput('errorRate', value)}
-                      max={50}
-                      min={0}
-                      step={1}
-                      className="mb-2"
-                    />
-                    <div className="text-sm text-muted-foreground text-center">
-                      {inputs.errorRate}% errors requiring rework
+                <TooltipProvider>
+                  <div>
+                    <div className="flex items-center space-x-2">
+                      <Label htmlFor="errorRate">Error Rate (%)</Label>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Info className="w-4 h-4 text-muted-foreground hover:text-foreground" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Percentage of tasks requiring rework or causing delays (industry average: 15-20%)</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </div>
+                    <div className="mt-2">
+                      <Slider
+                        value={[inputs.errorRate]}
+                        onValueChange={([value]) => updateInput('errorRate', value)}
+                        max={50}
+                        min={0}
+                        step={1}
+                        className="mb-2"
+                      />
+                      <div className="text-sm text-muted-foreground text-center">
+                        {inputs.errorRate}% errors requiring rework
+                      </div>
                     </div>
                   </div>
-                </div>
+                </TooltipProvider>
               </div>
             </Card>
 
@@ -218,22 +231,34 @@ export const ROICalculator = ({
               </h4>
               
               <div className="space-y-4">
-                <div>
-                  <Label htmlFor="automationSavings">Time Savings (%)</Label>
-                  <div className="mt-2">
-                    <Slider
-                      value={[inputs.automationSavings]}
-                      onValueChange={([value]) => updateInput('automationSavings', value)}
-                      max={90}
-                      min={10}
-                      step={5}
-                      className="mb-2"
-                    />
-                    <div className="text-sm text-muted-foreground text-center">
-                      {inputs.automationSavings}% time savings
+                <TooltipProvider>
+                  <div>
+                    <div className="flex items-center space-x-2">
+                      <Label htmlFor="automationSavings">Hours Saved (%)</Label>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Info className="w-4 h-4 text-muted-foreground hover:text-foreground" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Time currently spent on manual, repetitive tasks</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </div>
+                    <div className="mt-2">
+                      <Slider
+                        value={[inputs.automationSavings]}
+                        onValueChange={([value]) => updateInput('automationSavings', value)}
+                        max={90}
+                        min={10}
+                        step={5}
+                        className="mb-2"
+                      />
+                      <div className="text-sm text-muted-foreground text-center">
+                        {inputs.automationSavings}% time savings
+                      </div>
                     </div>
                   </div>
-                </div>
+                </TooltipProvider>
 
                 <div>
                   <Label htmlFor="implementationCost">Implementation Cost ($)</Label>
@@ -311,19 +336,31 @@ export const ROICalculator = ({
                 </div>
               </Card>
 
-              <Card className="p-4 bg-gradient-to-br from-orange-500/10 to-orange-500/5 backdrop-blur-sm border border-orange-500/20">
-                <div className="text-center">
-                  <div className="text-sm text-muted-foreground mb-1">Weekly Time Saved</div>
-                  <div className="text-2xl font-bold text-orange-600">
-                    <AnimatedNumber 
-                      value={results.productivityGain} 
-                      format="number"
-                      duration={0.8}
-                    />
-                    <span className="text-sm ml-1">hrs</span>
+              <TooltipProvider>
+                <Card className="p-4 bg-gradient-to-br from-orange-500/10 to-orange-500/5 backdrop-blur-sm border border-orange-500/20">
+                  <div className="text-center">
+                    <div className="flex items-center justify-center space-x-1 mb-1">
+                      <div className="text-sm text-muted-foreground">Revenue Increase</div>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Info className="w-3 h-3 text-muted-foreground hover:text-foreground" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Additional capacity for revenue-generating activities</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </div>
+                    <div className="text-2xl font-bold text-orange-600">
+                      <AnimatedNumber 
+                        value={results.productivityGain} 
+                        format="number"
+                        duration={0.8}
+                      />
+                      <span className="text-sm ml-1">hrs</span>
+                    </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
+              </TooltipProvider>
             </div>
 
             {/* Comparison Chart */}

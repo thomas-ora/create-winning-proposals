@@ -1,11 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Calculator, Download, Mail, TrendingUp, DollarSign } from 'lucide-react';
+import { Calculator, Download, Mail, TrendingUp, DollarSign, Info } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { AnimatedNumber } from './AnimatedNumber';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 
@@ -95,8 +96,8 @@ export const EnhancedROICalculator = ({
         >
           <Calculator className="w-16 h-16 mx-auto mb-4 text-primary" />
           <h3 className="text-3xl font-bold mb-4">Interactive ROI Calculator</h3>
-          <p className="text-text-body">
-            Adjust the values below to see your personalized return on investment
+          <p className="text-text-body mb-4">
+            Based on what you shared in our consultation, here's the real cost of your current processes:
           </p>
         </motion.div>
       </div>
@@ -225,16 +226,27 @@ export const EnhancedROICalculator = ({
             
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div className="alter-stat-card text-center relative">
-                <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>Monthly Savings</div>
+                <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>Current efficiency gap:</div>
                 <div className="font-semibold text-green-600 mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
                   $<AnimatedNumber value={results.monthlySavings} format="number" />
                 </div>
+                <div className="text-xs" style={{ color: '#64748B', fontSize: '12px' }}>We calculated this together using your actual business metrics</div>
               </div>
               <div className="alter-stat-card text-center relative">
-                <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>Annual Savings</div>
+                <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>Your opportunity for improvement</div>
                 <div className="font-semibold text-green-600 mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
                   $<AnimatedNumber value={results.annualSavings} format="number" />
                 </div>
+                <TooltipProvider>
+                  <UITooltip>
+                    <TooltipTrigger>
+                      <Info className="w-3 h-3 text-muted-foreground hover:text-primary cursor-help inline ml-1" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Based on 2024 industry automation benchmarks</p>
+                    </TooltipContent>
+                  </UITooltip>
+                </TooltipProvider>
               </div>
               <div className="alter-stat-card text-center relative">
                 <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>Break-even</div>
@@ -314,7 +326,19 @@ export const EnhancedROICalculator = ({
         viewport={{ once: true }}
         className="mt-12"
       >
-        <h4 className="text-xl font-bold mb-6 text-center">Break-even Analysis</h4>
+        <div className="flex items-center justify-center gap-2 mb-6">
+          <h4 className="text-xl font-bold text-center">Break-even Analysis</h4>
+          <TooltipProvider>
+            <UITooltip>
+              <TooltipTrigger>
+                <Info className="w-4 h-4 text-muted-foreground hover:text-primary cursor-help" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Companies using automation report 35-40% efficiency gains</p>
+              </TooltipContent>
+            </UITooltip>
+          </TooltipProvider>
+        </div>
         <div className="h-80">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={breakEvenData}>
@@ -343,6 +367,20 @@ export const EnhancedROICalculator = ({
         <p className="text-sm text-muted-foreground text-center mt-4">
           You'll break even in {results.breakEvenMonths.toFixed(1)} months, then enjoy pure profit.
         </p>
+      </motion.div>
+      
+      {/* Partnership Message */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mt-8 text-center"
+      >
+        <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
+          <p className="text-sm text-muted-foreground italic">
+            "Our role is to help you capture this value, not let it slip away"
+          </p>
+        </div>
       </motion.div>
     </div>
   );

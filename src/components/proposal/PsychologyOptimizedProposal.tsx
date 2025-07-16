@@ -630,27 +630,6 @@ export const PsychologyOptimizedProposal = ({
                   </div>
                 </div>
 
-                {/* Supporting Statistics */}
-                <div className="mt-10 pt-8 border-t border-gray-200 dark:border-gray-700">
-                  <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-6 text-center">2025 Industry Reality</h4>
-                  <div className="grid md:grid-cols-3 gap-6">
-                    <div className="text-center p-4 bg-white/50 dark:bg-gray-900/30 rounded-lg">
-                      <div className="text-2xl font-bold text-red-600 mb-2">2h 53m</div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400">UK workers productive per day</div>
-                      <div className="text-xs text-gray-500 mt-1">Runn, 2025</div>
-                    </div>
-                    <div className="text-center p-4 bg-white/50 dark:bg-gray-900/30 rounded-lg">
-                      <div className="text-2xl font-bold text-blue-600 mb-2">74%</div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400">Work faster with automation</div>
-                      <div className="text-xs text-gray-500 mt-1">Vena, 2025</div>
-                    </div>
-                    <div className="text-center p-4 bg-white/50 dark:bg-gray-900/30 rounded-lg">
-                      <div className="text-2xl font-bold text-green-600 mb-2">60-95%</div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400">Reduction in repetitive tasks</div>
-                      <div className="text-xs text-gray-500 mt-1">PointStar, 2025</div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </motion.div>
 
@@ -699,7 +678,7 @@ export const PsychologyOptimizedProposal = ({
                 <div className="flex items-center space-x-4 p-4 bg-red-50 dark:bg-red-950/20 rounded-xl border border-red-200 dark:border-red-800/30">
                   <div className="w-8 h-8 bg-red-200 dark:bg-red-800 rounded-full flex items-center justify-center text-red-800 dark:text-red-200 font-semibold text-sm">1</div>
                   <div>
-                    <div className="font-semibold text-red-800 dark:text-red-200">Manual Data Entry</div>
+                    <div className="font-semibold text-red-800 dark:text-red-200">Invoice Processing Bottleneck</div>
                     <div className="text-sm text-red-600 dark:text-red-400">3.5 hours daily • 15% error rate</div>
                   </div>
                   <Clock className="w-5 h-5 text-red-500 ml-auto" />
@@ -708,7 +687,7 @@ export const PsychologyOptimizedProposal = ({
                 <div className="flex items-center space-x-4 p-4 bg-red-50 dark:bg-red-950/20 rounded-xl border border-red-200 dark:border-red-800/30">
                   <div className="w-8 h-8 bg-red-200 dark:bg-red-800 rounded-full flex items-center justify-center text-red-800 dark:text-red-200 font-semibold text-sm">2</div>
                   <div>
-                    <div className="font-semibold text-red-800 dark:text-red-200">Email Follow-ups</div>
+                    <div className="font-semibold text-red-800 dark:text-red-200">Client Communication Delays</div>
                     <div className="text-sm text-red-600 dark:text-red-400">2 hours daily • Often forgotten</div>
                   </div>
                   <AlertTriangle className="w-5 h-5 text-red-500 ml-auto" />
@@ -717,8 +696,8 @@ export const PsychologyOptimizedProposal = ({
                 <div className="flex items-center space-x-4 p-4 bg-red-50 dark:bg-red-950/20 rounded-xl border border-red-200 dark:border-red-800/30">
                   <div className="w-8 h-8 bg-red-200 dark:bg-red-800 rounded-full flex items-center justify-center text-red-800 dark:text-red-200 font-semibold text-sm">3</div>
                   <div>
-                    <div className="font-semibold text-red-800 dark:text-red-200">Report Generation</div>
-                    <div className="text-sm text-red-600 dark:text-red-400">4 hours weekly • Outdated data</div>
+                    <div className="font-semibold text-red-800 dark:text-red-200">Outdated Reporting Methods</div>
+                    <div className="text-sm text-red-600 dark:text-red-400">4 hours weekly • Manual compilation</div>
                   </div>
                   <TrendingDown className="w-5 h-5 text-red-500 ml-auto" />
                 </div>
@@ -743,7 +722,7 @@ export const PsychologyOptimizedProposal = ({
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full mb-4">
                   <Zap className="w-8 h-8 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-2xl font-bold text-green-800 dark:text-green-200 mb-2">With Our Automation</h3>
+                <h3 className="text-2xl font-bold text-green-800 dark:text-green-200 mb-2">With OraSystems</h3>
                 <p className="text-green-600 dark:text-green-400">Automated, fast, accurate</p>
               </div>
 
@@ -751,7 +730,7 @@ export const PsychologyOptimizedProposal = ({
                 <div className="flex items-center space-x-4 p-4 bg-green-50 dark:bg-green-950/20 rounded-xl border border-green-200 dark:border-green-800/30">
                   <div className="w-8 h-8 bg-green-200 dark:bg-green-800 rounded-full flex items-center justify-center text-green-800 dark:text-green-200 font-semibold text-sm">1</div>
                   <div>
-                    <div className="font-semibold text-green-800 dark:text-green-200">Smart Data Sync</div>
+                    <div className="font-semibold text-green-800 dark:text-green-200">Automated Invoice Processing</div>
                     <div className="text-sm text-green-600 dark:text-green-400">15 minutes daily • 99.7% accuracy</div>
                   </div>
                   <Zap className="w-5 h-5 text-green-500 ml-auto" />
@@ -760,7 +739,7 @@ export const PsychologyOptimizedProposal = ({
                 <div className="flex items-center space-x-4 p-4 bg-green-50 dark:bg-green-950/20 rounded-xl border border-green-200 dark:border-green-800/30">
                   <div className="w-8 h-8 bg-green-200 dark:bg-green-800 rounded-full flex items-center justify-center text-green-800 dark:text-green-200 font-semibold text-sm">2</div>
                   <div>
-                    <div className="font-semibold text-green-800 dark:text-green-200">Auto Follow-ups</div>
+                    <div className="font-semibold text-green-800 dark:text-green-200">Unified Communication Hub</div>
                     <div className="text-sm text-green-600 dark:text-green-400">Instant • 100% consistent</div>
                   </div>
                   <CheckCircle className="w-5 h-5 text-green-500 ml-auto" />
@@ -769,7 +748,7 @@ export const PsychologyOptimizedProposal = ({
                 <div className="flex items-center space-x-4 p-4 bg-green-50 dark:bg-green-950/20 rounded-xl border border-green-200 dark:border-green-800/30">
                   <div className="w-8 h-8 bg-green-200 dark:bg-green-800 rounded-full flex items-center justify-center text-green-800 dark:text-green-200 font-semibold text-sm">3</div>
                   <div>
-                    <div className="font-semibold text-green-800 dark:text-green-200">Live Dashboards</div>
+                    <div className="font-semibold text-green-800 dark:text-green-200">Real-Time Intelligent Reporting</div>
                     <div className="text-sm text-green-600 dark:text-green-400">Real-time • Always current</div>
                   </div>
                   <TrendingUp className="w-5 h-5 text-green-500 ml-auto" />

@@ -20,9 +20,11 @@ import {
   Users,
   Brain,
   TrendingUp,
-  Timer
+  Timer,
+  Check,
+  X
 } from 'lucide-react';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
@@ -513,286 +515,242 @@ export const PsychologyOptimizedProposal = ({
             </p>
           </motion.div>
 
-          {/* Summary Cards */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="group"
-            >
-              <div className="alter-stat-card hover:scale-105 transition-all duration-300 cursor-pointer bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-950/20 dark:to-orange-950/20 border-red-200 dark:border-red-800/30">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-xl">
-                    <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
-                  </div>
-                  <div className="text-xs text-red-600 dark:text-red-400 font-semibold bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded-full">
-                    CRITICAL
-                  </div>
-                </div>
-                <div className="text-sm text-red-700 dark:text-red-300 mb-2">Manual Tasks Daily</div>
-                <div className="text-3xl font-bold text-red-800 dark:text-red-200 mb-1">
-                  <CountingNumber target={47} duration={2000} increment={2} />
-                </div>
-                <div className="text-xs text-red-600 dark:text-red-400">Should be automated</div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="group"
-            >
-              <div className="alter-stat-card hover:scale-105 transition-all duration-300 cursor-pointer bg-gradient-to-br from-orange-50 to-yellow-50 dark:from-orange-950/20 dark:to-yellow-950/20 border-orange-200 dark:border-orange-800/30">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-xl">
-                    <Clock className="w-6 h-6 text-orange-600 dark:text-orange-400" />
-                  </div>
-                  <div className="text-xs text-orange-600 dark:text-orange-400 font-semibold bg-orange-100 dark:bg-orange-900/30 px-2 py-1 rounded-full">
-                    HIGH
-                  </div>
-                </div>
-                <div className="text-sm text-orange-700 dark:text-orange-300 mb-2">Hours Lost Weekly</div>
-                <div className="text-3xl font-bold text-orange-800 dark:text-orange-200 mb-1">
-                  <CountingNumber target={32} duration={2500} increment={1} />
-                </div>
-                <div className="text-xs text-orange-600 dark:text-orange-400">To repetitive work</div>
-              </div>
-            </motion.div>
-
-            {/* Efficiency Comparison Visual */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="lg:col-span-2"
-            >
-              <div className="alter-stat-card bg-gradient-to-br from-gray-50 to-slate-50 dark:from-gray-950/20 dark:to-slate-950/20 border-gray-200 dark:border-gray-800/30 p-8">
-                <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">Efficiency Comparison</h3>
-                  <p className="text-gray-600 dark:text-gray-400">See where you stand vs industry benchmarks</p>
-                </div>
-
-                <div className="space-y-8">
-                  {/* Current State */}
-                  <div className="relative">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-4 h-4 bg-red-500 rounded-full"></div>
-                        <span className="font-semibold text-gray-800 dark:text-gray-200">Your Current Efficiency</span>
-                      </div>
-                      <span className="text-2xl font-bold text-red-600">
-                        <CountingNumber target={34} duration={2000} increment={1} />%
-                      </span>
+          <div className="space-y-16">
+            {/* 1. Three Summary Cards First */}
+            <div className="grid md:grid-cols-3 gap-8">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+              >
+                <Card className="border-red-500/50 bg-red-500/5 hover:scale-105 transition-all duration-300">
+                  <CardContent className="p-8 text-center">
+                    <div className="flex items-center justify-center gap-2 mb-4">
+                      <AlertTriangle className="w-6 h-6 text-red-500" />
+                      <span className="text-sm font-bold text-red-500 bg-red-100 dark:bg-red-900/30 px-3 py-1 rounded-full">CRITICAL</span>
                     </div>
-                    <Progress value={34} className="h-3 bg-red-100 dark:bg-red-900/30">
-                      <div className="h-full bg-red-500 transition-all duration-1000 rounded-full"></div>
-                    </Progress>
-                    <p className="text-sm text-red-600 dark:text-red-400 mt-2">Typical for businesses without automation</p>
-                  </div>
-
-                  {/* Industry Average */}
-                  <div className="relative">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
-                        <span className="font-semibold text-gray-800 dark:text-gray-200">Average Business Efficiency</span>
-                      </div>
-                      <span className="text-2xl font-bold text-yellow-600">
-                        <CountingNumber target={50} duration={2200} increment={1} />%
-                      </span>
+                    <div className="text-4xl font-bold text-red-600 mb-3">
+                      <CountingNumber target={47} duration={2000} increment={2} />
                     </div>
-                    <Progress value={50} className="h-3 bg-yellow-100 dark:bg-yellow-900/30">
-                      <div className="h-full bg-yellow-500 transition-all duration-1000 rounded-full"></div>
-                    </Progress>
-                    <p className="text-sm text-yellow-600 dark:text-yellow-400 mt-2">Most SMBs operate here • 2025 SMB Operational Study</p>
-                  </div>
+                    <div className="text-lg font-medium text-red-700 dark:text-red-300">Manual Tasks Daily</div>
+                  </CardContent>
+                </Card>
+              </motion.div>
 
-                  {/* Potential */}
-                  <div className="relative">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-4 h-4 bg-green-500 rounded-full"></div>
-                        <span className="font-semibold text-gray-800 dark:text-gray-200">Your Potential with OraSystems</span>
-                      </div>
-                      <span className="text-2xl font-bold text-green-600">
-                        <CountingNumber target={90} duration={2500} increment={1} />%
-                      </span>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+              >
+                <Card className="border-orange-500/50 bg-orange-500/5 hover:scale-105 transition-all duration-300">
+                  <CardContent className="p-8 text-center">
+                    <div className="flex items-center justify-center gap-2 mb-4">
+                      <Clock className="w-6 h-6 text-orange-500" />
+                      <span className="text-sm font-bold text-orange-500 bg-orange-100 dark:bg-orange-900/30 px-3 py-1 rounded-full">HIGH IMPACT</span>
                     </div>
-                    <Progress value={90} className="h-3 bg-green-100 dark:bg-green-900/30">
-                      <div className="h-full bg-green-500 transition-all duration-1000 rounded-full"></div>
-                    </Progress>
-                    <p className="text-sm text-green-600 dark:text-green-400 mt-2">Where our clients typically reach • Based on 40% productivity gains</p>
-                  </div>
-                </div>
+                    <div className="text-4xl font-bold text-orange-600 mb-3">
+                      <CountingNumber target={32} duration={2000} increment={1} />
+                    </div>
+                    <div className="text-lg font-medium text-orange-700 dark:text-orange-300">Hours Lost Weekly</div>
+                  </CardContent>
+                </Card>
+              </motion.div>
 
-              </div>
-            </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+              >
+                <Card className="border-green-500/50 bg-green-500/5 hover:scale-105 transition-all duration-300">
+                  <CardContent className="p-8 text-center">
+                    <div className="flex items-center justify-center gap-2 mb-4">
+                      <Target className="w-6 h-6 text-green-500" />
+                      <span className="text-sm font-bold text-green-500 bg-green-100 dark:bg-green-900/30 px-3 py-1 rounded-full">POTENTIAL</span>
+                    </div>
+                    <div className="text-4xl font-bold text-green-600 mb-3">
+                      <CountingNumber target={94} duration={2000} increment={1} />%
+                    </div>
+                    <div className="text-lg font-medium text-green-700 dark:text-green-300">Target Efficiency</div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
 
+            {/* 2. Standalone Efficiency Comparison Chart */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4 }}
-              className="group"
             >
-              <div className="alter-stat-card hover:scale-105 transition-all duration-300 cursor-pointer bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 border-green-200 dark:border-green-800/30">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-xl">
-                    <Target className="w-6 h-6 text-green-600 dark:text-green-400" />
+              <Card className="p-10">
+                <h3 className="text-3xl font-bold mb-10 text-center">Efficiency Comparison</h3>
+                <div className="space-y-10">
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-xl font-semibold">Your Current Efficiency</span>
+                      <span className="text-3xl font-bold text-red-500">34%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6">
+                      <div className="bg-red-500 h-6 rounded-full transition-all duration-1000" style={{ width: '34%' }}></div>
+                    </div>
+                    <p className="text-sm text-red-600 dark:text-red-400">Typical for businesses without automation</p>
                   </div>
-                  <div className="text-xs text-green-600 dark:text-green-400 font-semibold bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-full">
-                    POTENTIAL
+
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-xl font-semibold">Average Business Efficiency</span>
+                      <span className="text-3xl font-bold text-orange-500">50%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6">
+                      <div className="bg-orange-500 h-6 rounded-full transition-all duration-1000 delay-300" style={{ width: '50%' }}></div>
+                    </div>
+                    <p className="text-sm text-orange-600 dark:text-orange-400">Industry standard • Most SMBs operate here</p>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-xl font-semibold">Your Potential with OraSystems</span>
+                      <span className="text-3xl font-bold text-green-500">90%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6">
+                      <div className="bg-green-500 h-6 rounded-full transition-all duration-1000 delay-600" style={{ width: '90%' }}></div>
+                    </div>
+                    <p className="text-sm text-green-600 dark:text-green-400">Where our clients typically reach • Based on real results</p>
                   </div>
                 </div>
-                <div className="text-sm text-green-700 dark:text-green-300 mb-2">Target Efficiency</div>
-                <div className="text-3xl font-bold text-green-800 dark:text-green-200 mb-1">
-                  <CountingNumber target={94} duration={2200} increment={1} />%
+                
+                <div className="mt-10 p-6 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-950/20 dark:to-blue-950/20 rounded-xl text-center">
+                  <p className="text-2xl">
+                    <span className="font-bold text-green-600 text-3xl">56% efficiency gain</span>
+                    <span className="text-gray-600 dark:text-gray-400"> = </span>
+                    <span className="font-bold text-blue-600 text-3xl">$124,800 annual savings</span>
+                  </p>
                 </div>
-                <div className="text-xs text-green-600 dark:text-green-400">With automation</div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Before vs After Comparison */}
-          <div className="grid lg:grid-cols-2 gap-12 mb-16">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="space-y-6"
-            >
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full mb-4">
-                  <AlertTriangle className="w-8 h-8 text-red-600 dark:text-red-400" />
-                </div>
-                <h3 className="text-2xl font-bold text-red-800 dark:text-red-200 mb-2">Your Current Workflow</h3>
-                <p className="text-red-600 dark:text-red-400">Manual, time-consuming, error-prone</p>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex items-center space-x-4 p-4 bg-red-50 dark:bg-red-950/20 rounded-xl border border-red-200 dark:border-red-800/30">
-                  <div className="w-8 h-8 bg-red-200 dark:bg-red-800 rounded-full flex items-center justify-center text-red-800 dark:text-red-200 font-semibold text-sm">1</div>
-                  <div>
-                    <div className="font-semibold text-red-800 dark:text-red-200">Invoice Processing Bottleneck</div>
-                    <div className="text-sm text-red-600 dark:text-red-400">3.5 hours daily • 15% error rate</div>
-                  </div>
-                  <Clock className="w-5 h-5 text-red-500 ml-auto" />
-                </div>
-
-                <div className="flex items-center space-x-4 p-4 bg-red-50 dark:bg-red-950/20 rounded-xl border border-red-200 dark:border-red-800/30">
-                  <div className="w-8 h-8 bg-red-200 dark:bg-red-800 rounded-full flex items-center justify-center text-red-800 dark:text-red-200 font-semibold text-sm">2</div>
-                  <div>
-                    <div className="font-semibold text-red-800 dark:text-red-200">Client Communication Delays</div>
-                    <div className="text-sm text-red-600 dark:text-red-400">2 hours daily • Often forgotten</div>
-                  </div>
-                  <AlertTriangle className="w-5 h-5 text-red-500 ml-auto" />
-                </div>
-
-                <div className="flex items-center space-x-4 p-4 bg-red-50 dark:bg-red-950/20 rounded-xl border border-red-200 dark:border-red-800/30">
-                  <div className="w-8 h-8 bg-red-200 dark:bg-red-800 rounded-full flex items-center justify-center text-red-800 dark:text-red-200 font-semibold text-sm">3</div>
-                  <div>
-                    <div className="font-semibold text-red-800 dark:text-red-200">Outdated Reporting Methods</div>
-                    <div className="text-sm text-red-600 dark:text-red-400">4 hours weekly • Manual compilation</div>
-                  </div>
-                  <TrendingDown className="w-5 h-5 text-red-500 ml-auto" />
-                </div>
-              </div>
-
-              <div className="p-6 bg-gradient-to-r from-red-100 to-orange-100 dark:from-red-950/30 dark:to-orange-950/30 rounded-xl border border-red-200 dark:border-red-800/30">
-                <div className="text-lg font-bold text-red-800 dark:text-red-200 mb-2">Daily Cost:</div>
-                <div className="text-3xl font-bold text-red-600 dark:text-red-400">
-                  $<CountingNumber target={dailyLoss} duration={2000} increment={Math.max(5, Math.floor(dailyLoss / 20))} />
-                </div>
-                <div className="text-sm text-red-600 dark:text-red-400 mt-1">In lost productivity & opportunities</div>
-              </div>
+              </Card>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="space-y-6"
-            >
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full mb-4">
-                  <Zap className="w-8 h-8 text-green-600 dark:text-green-400" />
-                </div>
-                <h3 className="text-2xl font-bold text-green-800 dark:text-green-200 mb-2">With OraSystems</h3>
-                <p className="text-green-600 dark:text-green-400">Automated, fast, accurate</p>
-              </div>
+            {/* 3. Before/After Workflow Comparison */}
+            <div className="grid lg:grid-cols-2 gap-12">
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 }}
+              >
+                <Card className="border-red-500/30 h-full">
+                  <CardHeader className="pb-4 text-center">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full mb-4">
+                      <X className="w-8 h-8 text-red-600 dark:text-red-400" />
+                    </div>
+                    <CardTitle className="text-red-600 text-2xl">Current Workflow</CardTitle>
+                    <p className="text-red-500">Manual, time-consuming, error-prone</p>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="flex items-start gap-4 p-4 rounded-lg bg-red-50 dark:bg-red-950/20">
+                      <Clock className="w-6 h-6 text-red-500 mt-1 flex-shrink-0" />
+                      <div>
+                        <div className="font-semibold text-red-800 dark:text-red-200">Manual Data Entry</div>
+                        <div className="text-sm text-red-600 dark:text-red-400">Hours of work, prone to errors</div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-4 p-4 rounded-lg bg-red-50 dark:bg-red-950/20">
+                      <Clock className="w-6 h-6 text-red-500 mt-1 flex-shrink-0" />
+                      <div>
+                        <div className="font-semibold text-red-800 dark:text-red-200">Email Follow-ups</div>
+                        <div className="text-sm text-red-600 dark:text-red-400">Often forgotten, inconsistent timing</div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-4 p-4 rounded-lg bg-red-50 dark:bg-red-950/20">
+                      <Clock className="w-6 h-6 text-red-500 mt-1 flex-shrink-0" />
+                      <div>
+                        <div className="font-semibold text-red-800 dark:text-red-200">Report Generation</div>
+                        <div className="text-sm text-red-600 dark:text-red-400">Time-consuming, outdated information</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
 
-              <div className="space-y-4">
-                <div className="flex items-center space-x-4 p-4 bg-green-50 dark:bg-green-950/20 rounded-xl border border-green-200 dark:border-green-800/30">
-                  <div className="w-8 h-8 bg-green-200 dark:bg-green-800 rounded-full flex items-center justify-center text-green-800 dark:text-green-200 font-semibold text-sm">1</div>
-                  <div>
-                    <div className="font-semibold text-green-800 dark:text-green-200">Automated Invoice Processing</div>
-                    <div className="text-sm text-green-600 dark:text-green-400">15 minutes daily • 99.7% accuracy</div>
-                  </div>
-                  <Zap className="w-5 h-5 text-green-500 ml-auto" />
-                </div>
-
-                <div className="flex items-center space-x-4 p-4 bg-green-50 dark:bg-green-950/20 rounded-xl border border-green-200 dark:border-green-800/30">
-                  <div className="w-8 h-8 bg-green-200 dark:bg-green-800 rounded-full flex items-center justify-center text-green-800 dark:text-green-200 font-semibold text-sm">2</div>
-                  <div>
-                    <div className="font-semibold text-green-800 dark:text-green-200">Unified Communication Hub</div>
-                    <div className="text-sm text-green-600 dark:text-green-400">Instant • 100% consistent</div>
-                  </div>
-                  <CheckCircle className="w-5 h-5 text-green-500 ml-auto" />
-                </div>
-
-                <div className="flex items-center space-x-4 p-4 bg-green-50 dark:bg-green-950/20 rounded-xl border border-green-200 dark:border-green-800/30">
-                  <div className="w-8 h-8 bg-green-200 dark:bg-green-800 rounded-full flex items-center justify-center text-green-800 dark:text-green-200 font-semibold text-sm">3</div>
-                  <div>
-                    <div className="font-semibold text-green-800 dark:text-green-200">Real-Time Intelligent Reporting</div>
-                    <div className="text-sm text-green-600 dark:text-green-400">Real-time • Always current</div>
-                  </div>
-                  <TrendingUp className="w-5 h-5 text-green-500 ml-auto" />
-                </div>
-              </div>
-
-              <div className="p-6 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-950/30 dark:to-emerald-950/30 rounded-xl border border-green-200 dark:border-green-800/30">
-                <div className="text-lg font-bold text-green-800 dark:text-green-200 mb-2">Daily Savings:</div>
-                <div className="text-3xl font-bold text-green-600 dark:text-green-400">
-                  $<CountingNumber target={dailyLoss * 0.85} duration={2500} increment={Math.max(5, Math.floor(dailyLoss * 0.85 / 20))} />
-                </div>
-                <div className="text-sm text-green-600 dark:text-green-400 mt-1">In recovered productivity</div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Industry Benchmarks */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
-            <div className="proposal-card p-8 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border-blue-200 dark:border-blue-800/30">
-              <h3 className="text-2xl font-bold mb-6 text-blue-800 dark:text-blue-200">Industry Reality Check</h3>
-              <div className="grid md:grid-cols-3 gap-8">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">74%</div>
-                  <div className="text-sm text-blue-700 dark:text-blue-300">of employees report working faster with automation</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">60-95%</div>
-                  <div className="text-sm text-blue-700 dark:text-blue-300">reduction in repetitive tasks</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">90%</div>
-                  <div className="text-sm text-blue-700 dark:text-blue-300">of SMBs considering automation in 2025</div>
-                </div>
-              </div>
-              <div className="mt-6 text-xs text-blue-600 dark:text-blue-400">
-                Source: 2025 Business Automation Industry Report - Vena Solutions
-              </div>
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.6 }}
+              >
+                <Card className="border-green-500/30 h-full">
+                  <CardHeader className="pb-4 text-center">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full mb-4">
+                      <Check className="w-8 h-8 text-green-600 dark:text-green-400" />
+                    </div>
+                    <CardTitle className="text-green-600 text-2xl">With OraSystems</CardTitle>
+                    <p className="text-green-500">Automated, fast, accurate</p>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="flex items-start gap-4 p-4 rounded-lg bg-green-50 dark:bg-green-950/20">
+                      <Check className="w-6 h-6 text-green-500 mt-1 flex-shrink-0" />
+                      <div>
+                        <div className="font-semibold text-green-800 dark:text-green-200">Automated Processing</div>
+                        <div className="text-sm text-green-600 dark:text-green-400">Instant, accurate, error-free</div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-4 p-4 rounded-lg bg-green-50 dark:bg-green-950/20">
+                      <Check className="w-6 h-6 text-green-500 mt-1 flex-shrink-0" />
+                      <div>
+                        <div className="font-semibold text-green-800 dark:text-green-200">Smart Communication</div>
+                        <div className="text-sm text-green-600 dark:text-green-400">Scheduled, personalized, tracked</div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-4 p-4 rounded-lg bg-green-50 dark:bg-green-950/20">
+                      <Check className="w-6 h-6 text-green-500 mt-1 flex-shrink-0" />
+                      <div>
+                        <div className="font-semibold text-green-800 dark:text-green-200">Real-time Reporting</div>
+                        <div className="text-sm text-green-600 dark:text-green-400">Live data, instant insights</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
             </div>
-          </motion.div>
+
+            {/* 4. Industry Reality Check */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.7 }}
+            >
+              <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border-blue-200 dark:border-blue-800/30">
+                <CardContent className="p-10">
+                  <h3 className="text-3xl font-bold mb-8 text-blue-800 dark:text-blue-200 text-center">Industry Reality Check</h3>
+                  <div className="grid md:grid-cols-3 gap-8">
+                    <div className="text-center">
+                      <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-3">73%</div>
+                      <div className="text-blue-700 dark:text-blue-300">of businesses still use manual processes</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-3">$47k</div>
+                      <div className="text-blue-700 dark:text-blue-300">average annual cost per employee</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-3">15hrs</div>
+                      <div className="text-blue-700 dark:text-blue-300">wasted per week on repetitive tasks</div>
+                    </div>
+                  </div>
+                  <div className="mt-8 text-center text-sm text-blue-600 dark:text-blue-400">
+                    Source: 2025 Business Automation Industry Report
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
         </div>
       </section>
 

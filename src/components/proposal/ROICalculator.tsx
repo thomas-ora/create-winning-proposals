@@ -5,8 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Calculator, TrendingUp, Clock, DollarSign, Info } from "lucide-react";
+import { Calculator, TrendingUp, Clock, DollarSign } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Cell } from 'recharts';
 import { AnimatedNumber } from './AnimatedNumber';
 
@@ -150,7 +149,7 @@ export const ROICalculator = ({
               <h3 className="text-2xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
                 {title}
               </h3>
-              <p className="text-muted-foreground">Based on what you shared in our consultation, here's the real cost of your current processes:</p>
+              <p className="text-muted-foreground">Calculate your automation ROI</p>
             </div>
           </div>
         </motion.div>
@@ -273,7 +272,7 @@ export const ROICalculator = ({
             <div className="grid grid-cols-2 gap-4">
               <Card className="p-4 bg-gradient-to-br from-green-500/10 to-green-500/5 backdrop-blur-sm border border-green-500/20">
                 <div className="text-center">
-                  <div className="text-sm text-muted-foreground mb-1">Current efficiency gap:</div>
+                  <div className="text-sm text-muted-foreground mb-1">Annual Savings</div>
                   <div className="text-2xl font-bold text-green-600">
                     <AnimatedNumber 
                       value={results.annualSavings} 
@@ -281,7 +280,6 @@ export const ROICalculator = ({
                       duration={0.8}
                     />
                   </div>
-                  <div className="text-xs text-muted-foreground mt-1">We calculated this together using your actual business metrics</div>
                 </div>
               </Card>
 
@@ -330,20 +328,7 @@ export const ROICalculator = ({
 
             {/* Comparison Chart */}
             <Card className="p-6 bg-background/50 backdrop-blur-sm border border-white/10">
-              <div className="flex items-center justify-between mb-4">
-                <h4 className="text-lg font-semibold">Annual Cost Comparison</h4>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Info className="w-4 h-4 text-muted-foreground hover:text-primary cursor-help" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Companies using automation report 35-40% efficiency gains</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
-              <p className="text-sm text-muted-foreground mb-4">Based on 2024 industry automation benchmarks - Your opportunity for improvement</p>
+              <h4 className="text-lg font-semibold mb-4">Annual Cost Comparison</h4>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
@@ -398,18 +383,13 @@ export const ROICalculator = ({
           </motion.div>
         </div>
 
-        <motion.div variants={itemVariants} className="mt-8 text-center">
-          <div className="p-4 bg-primary/5 rounded-lg border border-primary/20 mb-4">
-            <p className="text-sm text-muted-foreground italic">
-              "Our role is to help you capture this value, not let it slip away"
-            </p>
-          </div>
-          {standalone && (
+        {standalone && (
+          <motion.div variants={itemVariants} className="mt-8 text-center">
             <Button size="lg" className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90">
               Get Started with Automation
             </Button>
-          )}
-        </motion.div>
+          </motion.div>
+        )}
       </Card>
     </motion.div>
   );

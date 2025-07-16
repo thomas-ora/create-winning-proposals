@@ -563,27 +563,94 @@ export const PsychologyOptimizedProposal = ({
               </div>
             </motion.div>
 
+            {/* Efficiency Comparison Visual */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="group"
+              className="lg:col-span-2"
             >
-              <div className="alter-stat-card hover:scale-105 transition-all duration-300 cursor-pointer bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20 border-blue-200 dark:border-blue-800/30">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-xl">
-                    <TrendingDown className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              <div className="alter-stat-card bg-gradient-to-br from-gray-50 to-slate-50 dark:from-gray-950/20 dark:to-slate-950/20 border-gray-200 dark:border-gray-800/30 p-8">
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">Efficiency Comparison</h3>
+                  <p className="text-gray-600 dark:text-gray-400">See where you stand vs industry benchmarks</p>
+                </div>
+
+                <div className="space-y-8">
+                  {/* Current State */}
+                  <div className="relative">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-4 h-4 bg-red-500 rounded-full"></div>
+                        <span className="font-semibold text-gray-800 dark:text-gray-200">Your Current Efficiency</span>
+                      </div>
+                      <span className="text-2xl font-bold text-red-600">
+                        <CountingNumber target={34} duration={2000} increment={1} />%
+                      </span>
+                    </div>
+                    <Progress value={34} className="h-3 bg-red-100 dark:bg-red-900/30">
+                      <div className="h-full bg-red-500 transition-all duration-1000 rounded-full"></div>
+                    </Progress>
+                    <p className="text-sm text-red-600 dark:text-red-400 mt-2">Typical for businesses without automation</p>
                   </div>
-                  <div className="text-xs text-blue-600 dark:text-blue-400 font-semibold bg-blue-100 dark:bg-blue-900/30 px-2 py-1 rounded-full">
-                    IMPACT
+
+                  {/* Industry Average */}
+                  <div className="relative">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                        <span className="font-semibold text-gray-800 dark:text-gray-200">Average Business Efficiency</span>
+                      </div>
+                      <span className="text-2xl font-bold text-yellow-600">
+                        <CountingNumber target={50} duration={2200} increment={1} />%
+                      </span>
+                    </div>
+                    <Progress value={50} className="h-3 bg-yellow-100 dark:bg-yellow-900/30">
+                      <div className="h-full bg-yellow-500 transition-all duration-1000 rounded-full"></div>
+                    </Progress>
+                    <p className="text-sm text-yellow-600 dark:text-yellow-400 mt-2">Most SMBs operate here • 2025 SMB Operational Study</p>
+                  </div>
+
+                  {/* Potential */}
+                  <div className="relative">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-4 h-4 bg-green-500 rounded-full"></div>
+                        <span className="font-semibold text-gray-800 dark:text-gray-200">Your Potential with OraSystems</span>
+                      </div>
+                      <span className="text-2xl font-bold text-green-600">
+                        <CountingNumber target={90} duration={2500} increment={1} />%
+                      </span>
+                    </div>
+                    <Progress value={90} className="h-3 bg-green-100 dark:bg-green-900/30">
+                      <div className="h-full bg-green-500 transition-all duration-1000 rounded-full"></div>
+                    </Progress>
+                    <p className="text-sm text-green-600 dark:text-green-400 mt-2">Where our clients typically reach • Based on 40% productivity gains</p>
                   </div>
                 </div>
-                <div className="text-sm text-blue-700 dark:text-blue-300 mb-2">Current Efficiency</div>
-                <div className="text-3xl font-bold text-blue-800 dark:text-blue-200 mb-1">
-                  <CountingNumber target={34} duration={1800} increment={1} />%
+
+                {/* Supporting Statistics */}
+                <div className="mt-10 pt-8 border-t border-gray-200 dark:border-gray-700">
+                  <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-6 text-center">2025 Industry Reality</h4>
+                  <div className="grid md:grid-cols-3 gap-6">
+                    <div className="text-center p-4 bg-white/50 dark:bg-gray-900/30 rounded-lg">
+                      <div className="text-2xl font-bold text-red-600 mb-2">2h 53m</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">UK workers productive per day</div>
+                      <div className="text-xs text-gray-500 mt-1">Runn, 2025</div>
+                    </div>
+                    <div className="text-center p-4 bg-white/50 dark:bg-gray-900/30 rounded-lg">
+                      <div className="text-2xl font-bold text-blue-600 mb-2">74%</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">Work faster with automation</div>
+                      <div className="text-xs text-gray-500 mt-1">Vena, 2025</div>
+                    </div>
+                    <div className="text-center p-4 bg-white/50 dark:bg-gray-900/30 rounded-lg">
+                      <div className="text-2xl font-bold text-green-600 mb-2">60-95%</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">Reduction in repetitive tasks</div>
+                      <div className="text-xs text-gray-500 mt-1">PointStar, 2025</div>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-xs text-blue-600 dark:text-blue-400">Industry avg: 89%</div>
               </div>
             </motion.div>
 

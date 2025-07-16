@@ -7,28 +7,28 @@ import { Badge } from '@/components/ui/badge';
 export const RiskReversalSection = () => {
   const guarantees = [
     {
-      title: "30-Day Money-Back Guarantee",
-      description: "If you don't see measurable improvement in 30 days, get 100% of your investment back.",
-      icon: Shield,
-      badge: "Risk-Free"
+      title: "30-day implementation guarantee",
+      description: "or we keep working for free",
+      icon: Clock,
+      badge: "Implementation"
     },
     {
-      title: "Performance Guarantee",
-      description: "We guarantee at least 300% ROI within 6 months, or we'll work for free until you achieve it.",
+      title: "ROI in 90 days",
+      description: "or full refund",
       icon: TrendingUp,
       badge: "ROI Guarantee"
     },
     {
-      title: "Implementation Support",
-      description: "Dedicated success manager ensures smooth implementation. If anything goes wrong, we fix it free.",
+      title: "Weekly progress updates",
+      description: "with full transparency",
       icon: CheckCircle2,
-      badge: "White-Glove"
+      badge: "Transparency"
     },
     {
-      title: "Pay for Performance",
-      description: "Optional revenue-share model available. Pay only when you see results and increased profits.",
-      icon: DollarSign,
-      badge: "Performance-Based"
+      title: "No lock-in contracts",
+      description: "pay as you grow",
+      icon: Shield,
+      badge: "Flexibility"
     }
   ];
 
@@ -52,10 +52,10 @@ export const RiskReversalSection = () => {
             100% Risk-Free
           </Badge>
           <h2 className="text-4xl font-bold mb-6 text-blue-800 dark:text-blue-200">
-            We Remove All Risk From Your Decision
+            Your Success is Guaranteed
           </h2>
-          <p className="text-xl text-blue-700 dark:text-blue-300 max-w-2xl mx-auto">
-            Your success is guaranteed. We're so confident in our solution that we'll take on all the risk.
+          <p className="text-xl text-blue-700 dark:text-blue-300 max-w-2xl mx-auto mb-4">
+            As your automation partner, I personally ensure every workflow delivers the promised value.
           </p>
         </motion.div>
 

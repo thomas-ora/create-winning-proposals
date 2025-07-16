@@ -633,8 +633,8 @@ export const PsychologyOptimizedProposal = ({
               </Card>
             </motion.div>
 
-            {/* 3. Before/After Workflow Comparison */}
-            <div className="grid lg:grid-cols-2 gap-12">
+            {/* 3. Before/After Workflow Comparison - Enhanced */}
+            <div className="grid lg:grid-cols-2 gap-16">
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -642,35 +642,35 @@ export const PsychologyOptimizedProposal = ({
                 transition={{ delay: 0.5 }}
               >
                 <Card className="border-red-500/30 h-full">
-                  <CardHeader className="pb-4 text-center">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full mb-4">
-                      <X className="w-8 h-8 text-red-600 dark:text-red-400" />
+                  <CardHeader className="pb-6 text-center">
+                    <div className="inline-flex items-center justify-center w-20 h-20 bg-red-100 dark:bg-red-900/30 rounded-full mb-6">
+                      <X className="w-10 h-10 text-red-600 dark:text-red-400" />
                     </div>
-                    <CardTitle className="text-red-600 text-2xl">Current Workflow</CardTitle>
-                    <p className="text-red-500">Manual, time-consuming, error-prone</p>
+                    <CardTitle className="text-red-600 text-3xl mb-2">Current Workflow</CardTitle>
+                    <p className="text-red-500 text-lg">Manual, time-consuming, error-prone</p>
                   </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="flex items-start gap-4 p-4 rounded-lg bg-red-50 dark:bg-red-950/20">
-                      <Clock className="w-6 h-6 text-red-500 mt-1 flex-shrink-0" />
+                  <CardContent className="space-y-8 px-8 pb-8">
+                    <div className="flex items-start gap-6 p-6 rounded-xl bg-red-50 dark:bg-red-950/20">
+                      <Clock className="w-7 h-7 text-red-500 mt-1 flex-shrink-0" />
                       <div>
-                        <div className="font-semibold text-red-800 dark:text-red-200">Manual Data Entry</div>
-                        <div className="text-sm text-red-600 dark:text-red-400">Hours of work, prone to errors</div>
+                        <div className="font-bold text-red-800 dark:text-red-200 text-lg">Manual Data Entry</div>
+                        <div className="text-red-600 dark:text-red-400 mt-1">Hours of work, prone to errors</div>
                       </div>
                     </div>
                     
-                    <div className="flex items-start gap-4 p-4 rounded-lg bg-red-50 dark:bg-red-950/20">
-                      <Clock className="w-6 h-6 text-red-500 mt-1 flex-shrink-0" />
+                    <div className="flex items-start gap-6 p-6 rounded-xl bg-red-50 dark:bg-red-950/20">
+                      <Clock className="w-7 h-7 text-red-500 mt-1 flex-shrink-0" />
                       <div>
-                        <div className="font-semibold text-red-800 dark:text-red-200">Email Follow-ups</div>
-                        <div className="text-sm text-red-600 dark:text-red-400">Often forgotten, inconsistent timing</div>
+                        <div className="font-bold text-red-800 dark:text-red-200 text-lg">Email Follow-ups</div>
+                        <div className="text-red-600 dark:text-red-400 mt-1">Often forgotten, inconsistent timing</div>
                       </div>
                     </div>
                     
-                    <div className="flex items-start gap-4 p-4 rounded-lg bg-red-50 dark:bg-red-950/20">
-                      <Clock className="w-6 h-6 text-red-500 mt-1 flex-shrink-0" />
+                    <div className="flex items-start gap-6 p-6 rounded-xl bg-red-50 dark:bg-red-950/20">
+                      <TrendingDown className="w-7 h-7 text-red-500 mt-1 flex-shrink-0" />
                       <div>
-                        <div className="font-semibold text-red-800 dark:text-red-200">Report Generation</div>
-                        <div className="text-sm text-red-600 dark:text-red-400">Time-consuming, outdated information</div>
+                        <div className="font-bold text-red-800 dark:text-red-200 text-lg">Business Intelligence</div>
+                        <div className="text-red-600 dark:text-red-400 mt-1">Limited insights, reactive decisions</div>
                       </div>
                     </div>
                   </CardContent>
@@ -683,39 +683,57 @@ export const PsychologyOptimizedProposal = ({
                 viewport={{ once: true }}
                 transition={{ delay: 0.6 }}
               >
-                <Card className="border-green-500/30 h-full">
-                  <CardHeader className="pb-4 text-center">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full mb-4">
-                      <Check className="w-8 h-8 text-green-600 dark:text-green-400" />
-                    </div>
-                    <CardTitle className="text-green-600 text-2xl">With OraSystems</CardTitle>
-                    <p className="text-green-500">Automated, fast, accurate</p>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="flex items-start gap-4 p-4 rounded-lg bg-green-50 dark:bg-green-950/20">
-                      <Check className="w-6 h-6 text-green-500 mt-1 flex-shrink-0" />
-                      <div>
-                        <div className="font-semibold text-green-800 dark:text-green-200">Automated Processing</div>
-                        <div className="text-sm text-green-600 dark:text-green-400">Instant, accurate, error-free</div>
+                <Card className="border-green-500/50 h-full bg-gradient-to-br from-green-50/50 to-primary/5 dark:from-green-950/20 dark:to-primary-900/20 relative overflow-hidden shadow-xl">
+                  {/* Enhanced glow effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-primary/10 opacity-50" />
+                  <div className="absolute -top-10 -right-10 w-40 h-40 bg-green-500/20 rounded-full blur-3xl" />
+                  
+                  <div className="relative z-10">
+                    <CardHeader className="pb-6 text-center">
+                      <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-green-100 to-primary/20 dark:from-green-900/30 dark:to-primary-900/30 rounded-full mb-6">
+                        <Check className="w-10 h-10 text-green-600 dark:text-green-400" />
                       </div>
-                    </div>
-                    
-                    <div className="flex items-start gap-4 p-4 rounded-lg bg-green-50 dark:bg-green-950/20">
-                      <Check className="w-6 h-6 text-green-500 mt-1 flex-shrink-0" />
-                      <div>
-                        <div className="font-semibold text-green-800 dark:text-green-200">Smart Communication</div>
-                        <div className="text-sm text-green-600 dark:text-green-400">Scheduled, personalized, tracked</div>
+                      <CardTitle className="text-green-600 text-3xl mb-2">With OraSystems</CardTitle>
+                      <p className="text-green-500 text-lg font-semibold">Intelligence-Driven Operations</p>
+                      <div className="text-primary font-bold text-sm mt-2 bg-primary/10 px-4 py-2 rounded-full">
+                        🚀 TIER 3: STRATEGIC ADVANTAGE
                       </div>
-                    </div>
-                    
-                    <div className="flex items-start gap-4 p-4 rounded-lg bg-green-50 dark:bg-green-950/20">
-                      <Check className="w-6 h-6 text-green-500 mt-1 flex-shrink-0" />
-                      <div>
-                        <div className="font-semibold text-green-800 dark:text-green-200">Real-time Reporting</div>
-                        <div className="text-sm text-green-600 dark:text-green-400">Live data, instant insights</div>
+                    </CardHeader>
+                    <CardContent className="space-y-8 px-8 pb-8">
+                      <div className="flex items-start gap-6 p-6 rounded-xl bg-gradient-to-r from-green-50 to-primary/10 dark:from-green-950/20 dark:to-primary-950/20 border border-green-200/50 dark:border-green-800/50">
+                        <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                          <Check className="w-6 h-6 text-green-600" />
+                        </div>
+                        <div>
+                          <div className="font-bold text-green-800 dark:text-green-200 text-lg">Automated Data Processing</div>
+                          <div className="text-green-600 dark:text-green-400 mt-1">Instant, 99.9% accurate with AI validation</div>
+                          <div className="text-primary font-bold text-sm mt-2">⚡ 47x faster than manual entry</div>
+                        </div>
                       </div>
-                    </div>
-                  </CardContent>
+                      
+                      <div className="flex items-start gap-6 p-6 rounded-xl bg-gradient-to-r from-green-50 to-primary/10 dark:from-green-950/20 dark:to-primary-950/20 border border-green-200/50 dark:border-green-800/50">
+                        <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                          <Check className="w-6 h-6 text-green-600" />
+                        </div>
+                        <div>
+                          <div className="font-bold text-green-800 dark:text-green-200 text-lg">Intelligent Follow-ups</div>
+                          <div className="text-green-600 dark:text-green-400 mt-1">AI-powered timing, personalized messaging</div>
+                          <div className="text-primary font-bold text-sm mt-2">📈 92% higher response rates</div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start gap-6 p-6 rounded-xl bg-gradient-to-r from-green-50 to-primary/10 dark:from-green-950/20 dark:to-primary-950/20 border border-green-200/50 dark:border-green-800/50">
+                        <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                          <TrendingUp className="w-6 h-6 text-primary" />
+                        </div>
+                        <div>
+                          <div className="font-bold text-green-800 dark:text-green-200 text-lg">Predictive Analytics</div>
+                          <div className="text-green-600 dark:text-green-400 mt-1">Real-time insights, proactive strategy recommendations</div>
+                          <div className="text-primary font-bold text-sm mt-2">🎯 Predict opportunities 3 months ahead</div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </div>
                 </Card>
               </motion.div>
             </div>

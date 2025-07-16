@@ -179,58 +179,58 @@ export const PsychologyOptimizedProposal = ({
 
   const pricingTiers = [
     {
-      name: 'Efficiency',
-      subtitle: 'Start Smart',
+      name: 'Quick Win',
+      subtitle: 'Solve Your Biggest Pain Point',
       percentage: '60%',
       price: Math.round(proposal.financial_amount * 0.6),
       originalPrice: Math.round(proposal.financial_amount * 0.8),
       savings: Math.round(proposal.financial_amount * 0.2),
-      payback: '8 months',
+      payback: '2 weeks',
       features: [
-        'Core automation workflows',
-        'Basic reporting dashboard',
-        'Email support',
-        '90-day implementation',
-        'ROI guarantee'
+        'One powerful automation targeting your #1 challenge',
+        '2-week implementation',
+        'Immediate time savings',
+        'Quick ROI demonstration',
+        'Foundation for future automation'
       ],
       recommended: false
     },
     {
-      name: 'Growth',
-      subtitle: 'Most Popular',
+      name: 'Transformation',
+      subtitle: 'Complete Business Transformation',
       percentage: '100%',
       price: proposal.financial_amount,
       originalPrice: Math.round(proposal.financial_amount * 1.3),
       savings: Math.round(proposal.financial_amount * 0.3),
-      payback: '6 months',
+      payback: '4-6 months',
       features: [
-        'Complete automation suite',
-        'Advanced analytics',
-        'Priority support',
-        '60-day implementation',
-        'ROI guarantee + bonus',
-        'Training included',
-        'Performance monitoring'
+        'Multiple workflows across all operations',
+        'Reclaim your time completely',
+        'Full process optimization',
+        'Comprehensive training',
+        'Ongoing support & monitoring',
+        'Performance analytics dashboard',
+        'Priority implementation'
       ],
       recommended: true
     },
     {
-      name: 'Transformation',
-      subtitle: 'Maximum Impact',
+      name: 'Visionary',
+      subtitle: 'AI-Powered Business Intelligence',
       percentage: '150%',
       price: Math.round(proposal.financial_amount * 1.5),
       originalPrice: Math.round(proposal.financial_amount * 2),
       savings: Math.round(proposal.financial_amount * 0.5),
-      payback: '4 months',
+      payback: '3-4 months',
       features: [
-        'Enterprise automation platform',
-        'AI-powered optimization',
-        'Dedicated success manager',
-        '30-day implementation',
-        'ROI guarantee + 2x bonus',
-        'Comprehensive training',
-        'White-glove onboarding',
-        'Custom integrations'
+        'Everything in Transformation PLUS:',
+        'AI business coach that learns from your data',
+        'Voice memo insights capture',
+        'Weekly strategic insights',
+        'Industry best practices feed',
+        'VIP perks and mastermind access',
+        'Your business becomes self-improving',
+        'Executive-level strategic guidance'
       ],
       recommended: false
     }
@@ -885,21 +885,24 @@ export const PsychologyOptimizedProposal = ({
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mt-12"
-          >
-            <div className="proposal-card p-8 border-primary/20 bg-primary/5">
-              <h3 className="text-xl font-bold mb-4 text-text-heading">
-                Limited Time Offer: 30% Savings
-              </h3>
-              <p className="text-text-body mb-4">
-                Act before {new Date(proposal.valid_until).toLocaleDateString()} to lock in these special rates. 
-                Prices increase by 30% after this date.
-              </p>
-              <div className="text-sm text-text-muted font-medium">
-                Offer expires in: {Math.ceil((new Date(proposal.valid_until).getTime() - Date.now()) / (1000 * 60 * 60 * 24))} days
-              </div>
-            </div>
-          </motion.div>
+             className="text-center mt-12"
+           >
+             <div className="proposal-card p-8 border-primary/20 bg-primary/5">
+               <p className="text-text-body mb-4 font-medium">
+                 Most clients start with Quick Win and upgrade within 90 days
+               </p>
+               <h3 className="text-xl font-bold mb-4 text-text-heading">
+                 Limited Time Offer: 30% Savings
+               </h3>
+               <p className="text-text-body mb-4">
+                 Act before {new Date(proposal.valid_until).toLocaleDateString()} to lock in these special rates. 
+                 Prices increase by 30% after this date.
+               </p>
+               <div className="text-sm text-text-muted font-medium">
+                 Offer expires in: {Math.ceil((new Date(proposal.valid_until).getTime() - Date.now()) / (1000 * 60 * 60 * 24))} days
+               </div>
+             </div>
+           </motion.div>
         </div>
       </section>
 

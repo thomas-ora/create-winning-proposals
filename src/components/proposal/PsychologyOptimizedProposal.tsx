@@ -159,6 +159,32 @@ export const PsychologyOptimizedProposal = ({
     setDailyLoss(dailyAmount);
   }, [proposal.financial_amount]);
 
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Exit intent detection
+  useEffect(() => {
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (e.clientY <= 0 && !showExitIntent && timeOnPage > 30) {
+        setShowExitIntent(true);
+        onCTAClick('exit_intent', { timeOnPage, sectionsViewed: sectionsViewed.length });
+      }
+    };
+
+    if (!isMobile) {
+      document.addEventListener('mouseleave', handleMouseLeave);
+      return () => document.removeEventListener('mouseleave', handleMouseLeave);
+    }
+  }, [showExitIntent, timeOnPage, sectionsViewed.length, isMobile, onCTAClick]);
+
   // Track time on page and scroll depth
   useEffect(() => {
     const timer = setInterval(() => {
@@ -194,7 +220,7 @@ export const PsychologyOptimizedProposal = ({
       clearInterval(timer);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [scrollDepth, sectionsViewed, startTime, onCTAClick]);
+  }, [scrollDepth, sectionsViewed, startTime, onCTAClick, showExitIntent, timeOnPage, isMobile]);
 
   // Mock data for various charts
   const lossOverTimeData = [
@@ -339,6 +365,16 @@ export const PsychologyOptimizedProposal = ({
               <Clock className="w-3 h-3 mr-1" />
               Valid until {new Date(proposal.valid_until).toLocaleDateString()}
             </div>
+            
+            {/* Subtle urgency indicator */}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.5 }}
+              className="mt-2 inline-flex items-center px-2 py-1 bg-orange-50 text-orange-600 rounded-full text-xs font-medium"
+            >
+              ⚡ Limited availability - 3 spots remaining this quarter
+            </motion.div>
           </motion.div>
 
           {/* Main Headline - Smaller and centered */}
@@ -409,7 +445,7 @@ export const PsychologyOptimizedProposal = ({
                 Implementation Time
               </div>
               <div className="font-semibold mt-2" style={{ fontSize: '48px', fontWeight: '600' }}>
-                6-12
+                4-6
               </div>
               <div className="text-sm" style={{ color: '#64748B', fontSize: '14px' }}>weeks</div>
             </div>
@@ -1134,6 +1170,16 @@ export const PsychologyOptimizedProposal = ({
                         <p className="text-sm font-medium text-purple-700 dark:text-purple-300">
                           {tier.conversationFeature}
                         </p>
+                        
+                        {/* AI Demo Button */}
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => onCTAClick('demo_ai', { tier: 'Business Brain' })}
+                          className="mt-3 w-full py-2 px-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg text-sm font-medium hover:shadow-lg transition-all duration-200"
+                        >
+                          🤖 See AI in Action
+                        </motion.button>
                       </div>
                     )}
                   </div>
@@ -1549,6 +1595,64 @@ export const PsychologyOptimizedProposal = ({
           </motion.div>
         </div>
       </section>
+
+      {/* Exit Intent Modal */}
+      <AnimatePresence>
+        {showExitIntent && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+            onClick={() => setShowExitIntent(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-2xl p-8 max-w-md w-full relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={() => setShowExitIntent(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+              >
+                <X className="w-6 h-6" />
+              </button>
+              
+              <div className="text-center">
+                <div className="text-4xl mb-4">⚡</div>
+                <h3 className="text-xl font-bold mb-2">Wait, {proposal.client_name}!</h3>
+                <p className="text-gray-600 mb-6">
+                  You're about to miss out on ${(proposal.financial_amount * 2).toLocaleString()} in potential savings.
+                </p>
+                
+                <div className="space-y-3">
+                  <button
+                    onClick={() => {
+                      onCTAClick('exit_intent_accept', { urgency: 'high' });
+                      setShowExitIntent(false);
+                    }}
+                    className="w-full bg-primary text-white py-3 px-6 rounded-lg font-medium hover:bg-primary/90 transition-colors touch-manipulation"
+                  >
+                    Yes, I Want This Solution
+                  </button>
+                  
+                  <button
+                    onClick={() => {
+                      onCTAClick('exit_intent_contact', { urgency: 'high' });
+                      setShowExitIntent(false);
+                    }}
+                    className="w-full border border-gray-300 text-gray-700 py-3 px-6 rounded-lg font-medium hover:bg-gray-50 transition-colors touch-manipulation"
+                  >
+                    Schedule a Quick Call
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

@@ -114,6 +114,58 @@ export const PsychologyOptimizedProposal = ({
   const riskTolerance = psychologyProfile.risk_tolerance || 'medium';
   const communicationStyle = psychologyProfile.communication_preference || 'balanced';
 
+  // Personalization utility functions
+  const getPersonalization = (clientName: string) => {
+    const firstName = clientName?.split(' ')[0] || '';
+    return {
+      firstName,
+      hasName: Boolean(firstName),
+      personalizedGreeting: firstName ? `${firstName}, ` : '',
+      formalAddress: firstName ? `${firstName}` : 'valued client'
+    };
+  };
+
+  const personalization = getPersonalization(proposal.client_name);
+
+  // Dynamic timeline calculation based on project scope
+  const calculateTimelinePhases = (financialAmount: number) => {
+    const amount = financialAmount || 50000;
+    
+    if (amount < 50000) {
+      // Small project: 4-6 weeks
+      return [
+        { phase: 'Planning & Discovery', duration: 1, start: 0, color: '#3b82f6' },
+        { phase: 'Design & Architecture', duration: 1, start: 1, color: '#8b5cf6' },
+        { phase: 'Development & Integration', duration: 2, start: 2, color: '#06b6d4' },
+        { phase: 'Testing & Refinement', duration: 1, start: 4, color: '#f59e0b' },
+        { phase: 'Launch & Training', duration: 1, start: 5, color: '#22c55e' },
+        { phase: 'Future Growth →', duration: 0, start: 6, color: '#10b981' }
+      ];
+    } else if (amount < 150000) {
+      // Medium project: 6-8 weeks
+      return [
+        { phase: 'Planning & Discovery', duration: 2, start: 0, color: '#3b82f6' },
+        { phase: 'Design & Architecture', duration: 2, start: 2, color: '#8b5cf6' },
+        { phase: 'Development & Integration', duration: 3, start: 4, color: '#06b6d4' },
+        { phase: 'Testing & Refinement', duration: 1, start: 7, color: '#f59e0b' },
+        { phase: 'Launch & Training', duration: 1, start: 8, color: '#22c55e' },
+        { phase: 'Future Growth →', duration: 0, start: 9, color: '#10b981' }
+      ];
+    } else {
+      // Large project: 8-12 weeks
+      return [
+        { phase: 'Planning & Discovery', duration: 2, start: 0, color: '#3b82f6' },
+        { phase: 'Design & Architecture', duration: 3, start: 2, color: '#8b5cf6' },
+        { phase: 'Development & Integration', duration: 4, start: 5, color: '#06b6d4' },
+        { phase: 'Testing & Refinement', duration: 2, start: 9, color: '#f59e0b' },
+        { phase: 'Launch & Training', duration: 1, start: 11, color: '#22c55e' },
+        { phase: 'Future Growth →', duration: 0, start: 12, color: '#10b981' }
+      ];
+    }
+  };
+
+  const timelineData = calculateTimelinePhases(proposal.financial_amount);
+
   // Calculate daily loss from financial data
   useEffect(() => {
     // Simulate current inefficient process costs
@@ -175,12 +227,6 @@ export const PsychologyOptimizedProposal = ({
     { name: 'Our Solution', efficiency: 95, color: '#22c55e' }
   ];
 
-  const timelineData = [
-    { phase: 'Planning', duration: 2, start: 0, color: '#3b82f6' },
-    { phase: 'Implementation', duration: 8, start: 2, color: '#8b5cf6' },
-    { phase: 'Testing', duration: 2, start: 10, color: '#f59e0b' },
-    { phase: 'Launch', duration: 1, start: 12, color: '#22c55e' }
-  ];
 
   const sections = [
     { id: 'hero', title: 'Overview' },
@@ -346,7 +392,7 @@ export const PsychologyOptimizedProposal = ({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
           >
-            A comprehensive automation solution designed specifically for {proposal.company_name} 
+            A comprehensive automation solution designed specifically for {personalization.formalAddress} at {proposal.company_name} 
             to eliminate inefficiencies and maximize productivity.
           </motion.p>
 
@@ -432,7 +478,8 @@ export const PsychologyOptimizedProposal = ({
           >
             <h2 className="text-4xl md:text-5xl font-bold text-text-heading mb-6">The Hidden Cost of Inaction</h2>
             <p className="text-xl text-text-body max-w-3xl mx-auto leading-relaxed">
-              Every day you delay, you're losing money. Here's what staying with your current process is really costing you.
+              {personalization.personalizedGreeting}imagine walking into your office knowing everything runs perfectly. 
+              Every day you delay this transformation, you're losing money. Here's what staying with your current process is really costing you.
             </p>
           </motion.div>
 
@@ -793,7 +840,7 @@ export const PsychologyOptimizedProposal = ({
           >
             <h2 className="text-4xl font-bold mb-6">Calculate Your ROI</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              See exactly how much you'll save and how quickly you'll see returns with our interactive calculator.
+              {personalization.personalizedGreeting}see exactly how much you'll save and how quickly you'll see returns with our interactive calculator.
             </p>
           </motion.div>
 
@@ -1025,7 +1072,8 @@ export const PsychologyOptimizedProposal = ({
           >
             <h2 className="text-4xl md:text-5xl font-bold text-text-heading mb-6">Investment Scaled to Your Value</h2>
             <p className="text-xl text-text-body max-w-3xl mx-auto leading-relaxed">
-              Your investment is proportional to the value we create together. The more you save, the more we both benefit.
+              Your investment, {personalization.formalAddress}, is proportional to the value we create together. 
+              {personalization.hasName ? 'We believe in your success, which is why our model aligns with your results.' : 'The more you save, the more we both benefit.'}
             </p>
           </motion.div>
 
@@ -1175,9 +1223,9 @@ export const PsychologyOptimizedProposal = ({
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold mb-6">Implementation Roadmap</h2>
+            <h2 className="text-4xl font-bold mb-6">Your Personalized Roadmap to Success</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              A clear, step-by-step plan to get you from where you are to where you want to be.
+              {personalization.personalizedGreeting}here's exactly how we'll transform your business operations step by step.
             </p>
           </motion.div>
 
@@ -1304,10 +1352,11 @@ export const PsychologyOptimizedProposal = ({
             className="mb-16"
           >
             <h2 className="text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-              Transform Your Business Today
+              Ready to Transform Your Business{personalization.hasName ? `, ${personalization.firstName}` : ''}?
             </h2>
             <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-              Stop losing ${Math.round(dailyLoss).toLocaleString()} every day. Partner with OraSystems and unlock your potential.
+              {personalization.personalizedGreeting}your success story starts with a single decision. 
+              Stop losing ${Math.round(dailyLoss).toLocaleString()} every day and unlock your true potential.
             </p>
           </motion.div>
 

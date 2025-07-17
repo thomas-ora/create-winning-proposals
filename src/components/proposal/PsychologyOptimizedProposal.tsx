@@ -186,12 +186,13 @@ export const PsychologyOptimizedProposal = ({
       subtitle: 'Essential Foundation',
       setup: 2000,
       revenueShare: '20% of monthly savings',
+      valueProposition: 'Perfect for immediate cost reductions',
+      estimatedROI: '3-5x',
       features: [
-        'Core process automation',
-        'Basic efficiency improvements',
-        'Standard implementation (90 days)',
-        'Email support',
-        'Monthly savings tracking'
+        { text: 'Core process automation', icon: '⚡' },
+        { text: 'Monthly savings tracking', icon: '📊' },
+        { text: '90-day implementation', icon: '📅' },
+        { text: 'Email support', icon: '📧' }
       ],
       recommended: false,
       tier: 'standard'
@@ -200,14 +201,14 @@ export const PsychologyOptimizedProposal = ({
       name: 'Transformation',
       subtitle: 'Strategic Advancement',
       setup: 3500,
-      revenueShare: '20% of monthly value created',
+      revenueShare: '20% of monthly value',
+      valueProposition: 'Complete operational overhaul',
+      estimatedROI: '5-8x',
       features: [
-        'Complete automation suite',
-        'Advanced analytics & insights',
-        'Accelerated implementation (60 days)',
-        'Priority support',
-        'Dedicated success manager',
-        'Performance optimization'
+        { text: 'Complete automation suite', icon: '🔧' },
+        { text: 'Advanced analytics dashboard', icon: '📈' },
+        { text: 'Priority support & success manager', icon: '👥' },
+        { text: '60-day accelerated rollout', icon: '🚀' }
       ],
       recommended: true,
       tier: 'recommended'
@@ -217,17 +218,16 @@ export const PsychologyOptimizedProposal = ({
       subtitle: 'AI-Powered Intelligence',
       setup: 5000,
       revenueShare: '20% of all value created',
-      description: 'Transform your business into a self-learning AI that you can literally have a conversation with. Your business becomes intelligent, learning from every interaction and growing smarter every day.',
+      valueProposition: 'Your business becomes an intelligent AI you can converse with',
+      estimatedROI: '10-15x',
+      description: 'Transform your business into a self-learning AI that you can literally have a conversation with.',
       conversationFeature: 'Ask your business questions. Get instant insights. Make decisions with AI-powered intelligence.',
       features: [
-        'Conversational AI business interface',
-        'Self-learning adaptive systems',
-        'Predictive analytics & forecasting',
-        'Real-time decision support',
-        'Enterprise-grade AI integration',
-        'White-glove onboarding (30 days)',
-        '24/7 premium support',
-        'Custom AI training'
+        { text: 'Conversational AI interface', icon: '💬' },
+        { text: 'Self-learning systems', icon: '🧠' },
+        { text: 'Predictive analytics', icon: '🔮' },
+        { text: 'Real-time decision support', icon: '⚡' },
+        { text: '30-day white-glove setup', icon: '✨' }
       ],
       recommended: false,
       tier: 'premium'
@@ -989,7 +989,7 @@ export const PsychologyOptimizedProposal = ({
       {/* Risk Reversal Section */}
       <RiskReversalSection />
 
-      {/* Pricing Section - Hybrid Revenue Share Model */}
+      {/* Pricing Section - Streamlined Hybrid Revenue Share */}
       <section data-section="pricing" className="proposal-section bg-proposal-bg">
         <div className="alter-container">
           <motion.div
@@ -1004,7 +1004,7 @@ export const PsychologyOptimizedProposal = ({
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-3 gap-6">
+          <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {pricingTiers.map((tier, index) => (
               <motion.div
                 key={tier.name}
@@ -1012,24 +1012,25 @@ export const PsychologyOptimizedProposal = ({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className={`relative proposal-card group hover:shadow-hover transition-all duration-500 ${
-                  tier.tier === 'premium' ? 'overflow-hidden' : ''
+                className={`relative proposal-card group hover:shadow-hover transition-all duration-300 ${
+                  tier.tier === 'premium' ? 'lg:scale-105 lg:-mt-4' : ''
+                } ${tier.recommended ? 'border-2 border-primary' : ''} ${
+                  tier.tier === 'premium' ? 'border-2 border-purple-300/50 overflow-hidden' : ''
                 }`}
               >
-                {/* Business Brain Animated Background */}
+                {/* Business Brain Subtle Animated Background */}
                 {tier.tier === 'premium' && (
                   <div className="absolute inset-0 z-0">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-600/10 to-teal-600/10 animate-pulse"></div>
-                    <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/5 via-blue-500/5 to-purple-500/5 animate-[pulse_3s_ease-in-out_infinite]"></div>
-                    <div className="absolute top-4 left-4 w-24 h-24 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full animate-[ping_4s_ease-in-out_infinite] blur-xl"></div>
-                    <div className="absolute bottom-4 right-4 w-32 h-32 bg-gradient-to-br from-teal-400/20 to-cyan-400/20 rounded-full animate-[ping_6s_ease-in-out_infinite_reverse] blur-xl"></div>
-                    <div className="absolute inset-0 border border-gradient-to-r from-blue-400/30 via-purple-400/30 to-teal-400/30 rounded-lg animate-[pulse_2s_ease-in-out_infinite]"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-purple-600/5 to-teal-600/5 animate-[pulse_4s_ease-in-out_infinite]"></div>
+                    <div className="absolute top-6 right-6 w-16 h-16 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full animate-[pulse_3s_ease-in-out_infinite] blur-lg"></div>
+                    <div className="absolute bottom-6 left-6 w-20 h-20 bg-gradient-to-br from-teal-400/10 to-cyan-400/10 rounded-full animate-[pulse_5s_ease-in-out_infinite] blur-lg"></div>
                   </div>
                 )}
 
+                {/* Tier Badges */}
                 {tier.recommended && (
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
-                    <div style={{ backgroundColor: '#5046E5' }} className="text-white px-4 py-2 rounded-full text-sm font-medium">
+                    <div className="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg">
                       RECOMMENDED
                     </div>
                   </div>
@@ -1037,36 +1038,39 @@ export const PsychologyOptimizedProposal = ({
 
                 {tier.tier === 'premium' && (
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
-                    <div className="bg-gradient-to-r from-blue-500 via-purple-500 to-teal-500 text-white px-4 py-2 rounded-full text-sm font-medium animate-[pulse_2s_ease-in-out_infinite]">
+                    <div className="bg-gradient-to-r from-blue-500 via-purple-500 to-teal-500 text-white px-6 py-2 rounded-full text-sm font-medium shadow-lg">
                       ✨ PREMIUM ✨
                     </div>
                   </div>
                 )}
                 
-                <div className={`relative z-10 p-8 h-full ${
-                  tier.recommended ? 'border-2 border-primary' : ''
-                } ${tier.tier === 'premium' ? 'border-2 border-purple-300/50' : ''}`}>
+                <div className="relative z-10 p-8">
+                  {/* Header */}
                   <div className="text-center mb-8">
                     <h3 className="text-2xl font-bold text-text-heading mb-2">{tier.name}</h3>
-                    <p className="text-text-muted mb-6">{tier.subtitle}</p>
+                    <p className="text-text-muted text-sm mb-4">{tier.subtitle}</p>
+                    <p className="text-text-body font-medium mb-6">{tier.valueProposition}</p>
                     
-                    {/* Revenue Share Pricing */}
+                    {/* Pricing Display */}
                     <div className="mb-6">
-                      <div className="text-3xl font-bold text-text-heading mb-2">
+                      <div className="text-4xl font-bold text-text-heading mb-2">
                         ${tier.setup.toLocaleString()}
                       </div>
-                      <div className="text-sm font-medium text-text-body mb-1">
-                        Setup Fee
+                      <div className="text-sm text-text-muted mb-2">
+                        Setup Investment
                       </div>
-                      <div className="text-lg font-semibold text-primary">
+                      <div className="text-lg font-semibold text-primary mb-2">
                         + {tier.revenueShare}
+                      </div>
+                      <div className="inline-flex items-center px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                        🎯 {tier.estimatedROI} Expected ROI
                       </div>
                     </div>
 
-                    {/* Special description for Business Brain */}
+                    {/* Business Brain Special Description */}
                     {tier.tier === 'premium' && (
                       <div className="mb-6 p-4 bg-gradient-to-br from-blue-50/80 to-purple-50/80 dark:from-blue-950/20 dark:to-purple-950/20 rounded-lg border border-purple-200/50">
-                        <p className="text-sm text-text-body mb-3 leading-relaxed">
+                        <p className="text-sm text-text-body mb-2 leading-relaxed">
                           {tier.description}
                         </p>
                         <p className="text-sm font-medium text-purple-700 dark:text-purple-300">
@@ -1076,60 +1080,60 @@ export const PsychologyOptimizedProposal = ({
                     )}
                   </div>
 
-                  <ul className="space-y-4 mb-8">
+                  {/* Features List */}
+                  <div className="space-y-4 mb-8">
                     {tier.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-start">
-                        <CheckCircle2 className={`w-4 h-4 mr-3 mt-0.5 flex-shrink-0 ${
-                          tier.tier === 'premium' ? 'text-purple-600' : 'text-primary'
-                        }`} />
-                        <span className="text-sm text-text-body">{feature}</span>
-                      </li>
+                      <div key={featureIndex} className="flex items-start">
+                        <span className="text-lg mr-3 mt-0.5 flex-shrink-0">{feature.icon}</span>
+                        <span className="text-sm text-text-body leading-relaxed">{feature.text}</span>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
 
+                  {/* CTA Button */}
                   <button 
-                    className={`w-full transition-all ${
+                    className={`w-full py-4 px-6 rounded-lg font-medium transition-all duration-300 ${
                       tier.recommended 
-                        ? 'alter-button-primary' 
+                        ? 'bg-primary text-white hover:bg-primary/90 hover:scale-105 shadow-lg' 
                         : tier.tier === 'premium'
-                        ? 'bg-gradient-to-r from-blue-500 via-purple-500 to-teal-500 text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300'
-                        : 'px-6 py-3 border border-border hover:shadow-card rounded-lg bg-white'
+                        ? 'bg-gradient-to-r from-blue-500 via-purple-500 to-teal-500 text-white hover:scale-105 shadow-lg'
+                        : 'border border-border text-text-heading hover:border-primary hover:bg-primary/5'
                     }`}
                     onClick={() => onCTAClick('select_tier', { tier: tier.name, setup: tier.setup, revenueShare: tier.revenueShare })}
                   >
-                    {tier.tier === 'premium' ? 'Get Business Brain' : `Select ${tier.name}`}
+                    {tier.tier === 'premium' ? 'Get Business Brain' : `Choose ${tier.name}`}
                   </button>
                 </div>
               </motion.div>
             ))}
           </div>
 
+          {/* Value Model Explanation */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mt-12"
+            className="text-center mt-16"
           >
-            <div className="proposal-card p-8 border-primary/20 bg-primary/5">
+            <div className="proposal-card p-8 border-primary/20 bg-primary/5 max-w-4xl mx-auto">
               <h3 className="text-xl font-bold mb-4 text-text-heading">
-                💡 Value-Based Investment Model
+                💡 Why Revenue Share Works
               </h3>
-              <p className="text-text-body mb-4">
-                Unlike traditional fixed-cost models, our hybrid approach ensures you only pay for the value we deliver. 
-                Your success is our success - we're invested in your results.
+              <p className="text-text-body mb-6">
+                Our success is directly tied to yours. We only profit when you do.
               </p>
-              <div className="grid md:grid-cols-3 gap-4 mt-6 text-sm">
-                <div className="flex items-center justify-center">
-                  <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                  <span>No ongoing fees without results</span>
+              <div className="grid md:grid-cols-3 gap-6 text-sm">
+                <div className="text-center">
+                  <div className="w-3 h-3 bg-green-500 rounded-full mx-auto mb-2"></div>
+                  <span className="font-medium">No Results, No Ongoing Fees</span>
                 </div>
-                <div className="flex items-center justify-center">
-                  <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                  <span>Aligned incentives</span>
+                <div className="text-center">
+                  <div className="w-3 h-3 bg-green-500 rounded-full mx-auto mb-2"></div>
+                  <span className="font-medium">Aligned Success Incentives</span>
                 </div>
-                <div className="flex items-center justify-center">
-                  <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                  <span>Proven ROI guarantee</span>
+                <div className="text-center">
+                  <div className="w-3 h-3 bg-green-500 rounded-full mx-auto mb-2"></div>
+                  <span className="font-medium">Proven ROI Track Record</span>
                 </div>
               </div>
             </div>

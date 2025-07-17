@@ -22,7 +22,14 @@ import {
   TrendingUp,
   Timer,
   Check,
-  X
+  X,
+  Mail,
+  Settings,
+  Rocket,
+  GitBranch,
+  MessageCircle,
+  Sparkles,
+  Eye
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -193,7 +200,7 @@ export const PsychologyOptimizedProposal = ({
         { text: 'Monthly savings tracking', icon: BarChart3 },
         { text: '90-day implementation', icon: Calendar },
         { text: 'Email support', icon: Mail },
-        { text: 'Basic reporting dashboard', icon: FileBarChart }
+        { text: 'Basic reporting dashboard', icon: BarChart3 }
       ],
       recommended: false,
       tier: 'standard'
@@ -227,7 +234,7 @@ export const PsychologyOptimizedProposal = ({
       features: [
         { text: 'Conversational AI interface', icon: MessageCircle },
         { text: 'Self-learning systems', icon: Brain },
-        { text: 'Predictive analytics', icon: Crystal },
+        { text: 'Predictive analytics', icon: Eye },
         { text: 'Real-time decision support', icon: Zap },
         { text: '30-day white-glove setup', icon: Sparkles }
       ],
@@ -1086,7 +1093,7 @@ export const PsychologyOptimizedProposal = ({
                   <div className="space-y-4 mb-8">
                     {tier.features.map((feature, featureIndex) => (
                       <div key={featureIndex} className="flex items-start">
-                        <span className="text-lg mr-3 mt-0.5 flex-shrink-0">{feature.icon}</span>
+                        <feature.icon className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0 text-primary" />
                         <span className="text-sm text-text-body leading-relaxed">{feature.text}</span>
                       </div>
                     ))}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { 
   TrendingDown, 
   Clock, 
@@ -97,9 +98,11 @@ export const PsychologyOptimizedProposal = ({
   const [timeOnPage, setTimeOnPage] = useState(0);
   const [sectionsViewed, setSectionsViewed] = useState<string[]>([]);
   const [startTime] = useState(Date.now());
+  const [showExitIntent, setShowExitIntent] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const isHeroInView = useInView(heroRef);
+  const isMobile = useIsMobile();
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -159,16 +162,6 @@ export const PsychologyOptimizedProposal = ({
     setDailyLoss(dailyAmount);
   }, [proposal.financial_amount]);
 
-  // Detect mobile device
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   // Exit intent detection
   useEffect(() => {

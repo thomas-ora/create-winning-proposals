@@ -1291,64 +1291,135 @@ export const PsychologyOptimizedProposal = ({
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="proposal-section">
+      {/* Uplifting Closing Section */}
+      <section className="py-20 bg-gradient-to-b from-transparent via-primary/3 to-accent/5">
         <div className="alter-container">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
             className="text-center"
           >
-            <Card className="p-12 bg-gradient-to-br from-primary/10 via-primary/5 to-accent/10 border-primary/20">
-              <h2 className="text-4xl font-bold mb-6">Ready to Stop Losing Money?</h2>
-              <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Every day you wait costs you <span className="font-bold text-red-600">${Math.round(dailyLoss).toLocaleString()}</span>. 
-                Start saving immediately with our proven automation solution.
-              </p>
+            <Card className="p-16 bg-gradient-to-br from-primary/8 via-background/50 to-accent/8 border-primary/15 backdrop-blur-sm">
+              {/* Hero Closing Header */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="mb-12"
+              >
+                <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                  Transform Your Business. Unlock Your Potential.
+                </h2>
+                <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                  Stop losing <span className="font-bold text-primary">${Math.round(dailyLoss).toLocaleString()}</span> every day. 
+                  Partner with OraSystems and step into a future of efficiency, growth, and success.
+                </p>
+              </motion.div>
 
-              <div className="grid md:grid-cols-3 gap-6 mb-8">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-green-600 mb-2">
-                    $<AnimatedNumber value={proposal.financial_amount * 2} format="number" />
+              {/* Transformation Promise */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                viewport={{ once: true }}
+                className="mb-12"
+              >
+                <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                  <div className="text-center">
+                    <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/10">
+                      <Zap className="w-8 h-8 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-2 text-primary">Efficiency</h3>
+                    <p className="text-muted-foreground">Automate 60% of manual tasks</p>
                   </div>
-                  <div className="text-sm text-muted-foreground">Annual Savings</div>
+                  <div className="text-center">
+                    <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/10">
+                      <TrendingUp className="w-8 h-8 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-2 text-primary">Growth</h3>
+                    <p className="text-muted-foreground">Scale without adding overhead</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/10">
+                      <Target className="w-8 h-8 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-2 text-primary">Freedom</h3>
+                    <p className="text-muted-foreground">Focus on what matters most</p>
+                  </div>
                 </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-600 mb-2">6 months</div>
-                  <div className="text-sm text-muted-foreground">Payback Period</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-purple-600 mb-2">300%+</div>
-                  <div className="text-sm text-muted-foreground">Guaranteed ROI</div>
-                </div>
-              </div>
+              </motion.div>
 
-              <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <Button 
-                  size="lg" 
-                  className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-lg px-8 py-4"
-                  onClick={() => onCTAClick('accept_proposal', { urgency: 'high' })}
-                >
-                  Accept Proposal & Start Saving
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-                
-                <Button 
-                  variant="outline" 
-                  size="lg"
-                  className="text-lg px-8 py-4"
-                  onClick={() => onCTAClick('schedule_call', { urgency: 'medium' })}
-                >
-                  Schedule Strategy Call
-                </Button>
-              </div>
+              {/* Dual Call-to-Action */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                viewport={{ once: true }}
+                className="mb-12"
+              >
+                <div className="flex flex-col sm:flex-row justify-center gap-6 max-w-lg mx-auto">
+                  <Button 
+                    size="lg" 
+                    className="flex-1 bg-gradient-primary text-white border-0 hover:shadow-glow hover:scale-105 transition-all duration-300 text-lg px-8 py-4 font-semibold"
+                    onClick={() => onCTAClick('accept_proposal', { section: 'closing', sentiment: 'positive' })}
+                  >
+                    Accept Proposal & Get Started
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                  
+                  <Button 
+                    variant="outline"
+                    size="lg"
+                    className="flex-1 glass-card border-primary/30 text-primary hover:bg-primary/10 hover:border-primary hover:shadow-glow-soft text-lg px-8 py-4"
+                    onClick={() => onCTAClick('schedule_call', { section: 'closing', sentiment: 'positive' })}
+                  >
+                    Have Questions? Let's Talk
+                  </Button>
+                </div>
+              </motion.div>
 
-              <div className="mt-8 text-sm text-muted-foreground">
-                ⚡ Limited time offer expires {new Date(proposal.valid_until).toLocaleDateString()} • 
-                ✅ 30-day implementation guarantee • 
-                🔒 100% risk-free with our guarantees
-              </div>
+              {/* Trust Signals */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                viewport={{ once: true }}
+                className="mb-12"
+              >
+                <div className="grid sm:grid-cols-3 gap-4 max-w-2xl mx-auto text-sm">
+                  <div className="flex items-center justify-center gap-2 text-muted-foreground">
+                    <div className="w-2 h-2 bg-primary rounded-full"></div>
+                    <span>Setup begins within 48 hours</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2 text-muted-foreground">
+                    <div className="w-2 h-2 bg-primary rounded-full"></div>
+                    <span>See first results in 7 days</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2 text-muted-foreground">
+                    <div className="w-2 h-2 bg-primary rounded-full"></div>
+                    <span>No lock-in contracts</span>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* OraSystems Branding Footer */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 1 }}
+                viewport={{ once: true }}
+                className="border-t border-white/10 pt-8"
+              >
+                <div className="text-center">
+                  <div className="text-lg font-semibold text-primary mb-2">Powered by OraSystems</div>
+                  <p className="text-sm text-muted-foreground">
+                    Your trusted partner in business automation and growth
+                  </p>
+                </div>
+              </motion.div>
             </Card>
           </motion.div>
         </div>

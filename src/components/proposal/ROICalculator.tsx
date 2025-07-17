@@ -9,6 +9,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Calculator, TrendingUp, Clock, DollarSign, Info } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Cell } from 'recharts';
 import { AnimatedNumber } from './AnimatedNumber';
+import { calculateClientROIDefaults, getClientContextLabels } from '@/utils/roiDefaults';
 
 interface ROICalculatorProps {
   title?: string;
@@ -16,6 +17,13 @@ interface ROICalculatorProps {
   standalone?: boolean;
   onCalculatorUse?: (data: Record<string, any>) => void;
   data?: any;
+  clientData?: {
+    industry?: string;
+    revenue_range?: string;
+    employee_count?: number;
+    growth_stage?: string;
+    financial_amount?: number;
+  };
 }
 
 interface ROIInputs {
@@ -32,16 +40,13 @@ export const ROICalculator = ({
   className = "",
   standalone = false,
   onCalculatorUse,
-  data
+  data,
+  clientData
 }: ROICalculatorProps) => {
-  const [inputs, setInputs] = useState<ROIInputs>({
-    currentHourlyRate: 85,
-    hoursPerWeek: 32,
-    errorRate: 18,
-    automationSavings: 65,
-    implementationCost: 45000,
-    timeToImplement: 16
-  });
+  const clientDefaults = calculateClientROIDefaults(clientData);
+  const contextLabels = getClientContextLabels(clientData);
+  
+  const [inputs, setInputs] = useState<ROIInputs>(clientDefaults);
 
   const [results, setResults] = useState({
     currentAnnualCost: 0,

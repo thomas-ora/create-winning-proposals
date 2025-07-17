@@ -189,10 +189,11 @@ export const PsychologyOptimizedProposal = ({
       valueProposition: 'Perfect for immediate cost reductions',
       estimatedROI: '3-5x',
       features: [
-        { text: 'Core process automation', icon: '⚡' },
-        { text: 'Monthly savings tracking', icon: '📊' },
-        { text: '90-day implementation', icon: '📅' },
-        { text: 'Email support', icon: '📧' }
+        { text: 'Core process automation', icon: Zap },
+        { text: 'Monthly savings tracking', icon: BarChart3 },
+        { text: '90-day implementation', icon: Calendar },
+        { text: 'Email support', icon: Mail },
+        { text: 'Basic reporting dashboard', icon: FileBarChart }
       ],
       recommended: false,
       tier: 'standard'
@@ -205,10 +206,11 @@ export const PsychologyOptimizedProposal = ({
       valueProposition: 'Complete operational overhaul',
       estimatedROI: '5-8x',
       features: [
-        { text: 'Complete automation suite', icon: '🔧' },
-        { text: 'Advanced analytics dashboard', icon: '📈' },
-        { text: 'Priority support & success manager', icon: '👥' },
-        { text: '60-day accelerated rollout', icon: '🚀' }
+        { text: 'Complete automation suite', icon: Settings },
+        { text: 'Advanced analytics dashboard', icon: TrendingUp },
+        { text: 'Priority support & success manager', icon: Users },
+        { text: '60-day accelerated rollout', icon: Rocket },
+        { text: 'Custom workflow optimization', icon: GitBranch }
       ],
       recommended: true,
       tier: 'recommended'
@@ -223,11 +225,11 @@ export const PsychologyOptimizedProposal = ({
       description: 'Transform your business into a self-learning AI that you can literally have a conversation with.',
       conversationFeature: 'Ask your business questions. Get instant insights. Make decisions with AI-powered intelligence.',
       features: [
-        { text: 'Conversational AI interface', icon: '💬' },
-        { text: 'Self-learning systems', icon: '🧠' },
-        { text: 'Predictive analytics', icon: '🔮' },
-        { text: 'Real-time decision support', icon: '⚡' },
-        { text: '30-day white-glove setup', icon: '✨' }
+        { text: 'Conversational AI interface', icon: MessageCircle },
+        { text: 'Self-learning systems', icon: Brain },
+        { text: 'Predictive analytics', icon: Crystal },
+        { text: 'Real-time decision support', icon: Zap },
+        { text: '30-day white-glove setup', icon: Sparkles }
       ],
       recommended: false,
       tier: 'premium'

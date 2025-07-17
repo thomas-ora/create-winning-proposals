@@ -1100,54 +1100,23 @@ export const PsychologyOptimizedProposal = ({
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 className={`relative proposal-card group hover:shadow-hover transition-all duration-300 ${
-                  tier.tier === 'premium' ? 'lg:scale-110 lg:-mt-8 border-3 border-purple-400/60 shadow-2xl' : ''
-                } ${tier.recommended ? 'border-2 border-primary' : ''} ${
-                  tier.tier === 'premium' ? 'overflow-hidden bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30' : ''
+                  tier.tier === 'premium' ? 'border-2 border-primary/20' : ''
                 }`}
               >
-                {/* Business Brain Enhanced Animated Background */}
+                {/* Simple premium background */}
                 {tier.tier === 'premium' && (
                   <div className="absolute inset-0 z-0 overflow-hidden rounded-lg">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/12 via-purple-600/12 to-indigo-600/12 animate-[pulse_6s_ease-in-out_infinite]"></div>
-                    <div className="absolute top-6 right-6 w-24 h-24 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full animate-[pulse_4s_ease-in-out_infinite] blur-xl"></div>
-                    <div className="absolute bottom-6 left-6 w-28 h-28 bg-gradient-to-br from-purple-400/18 to-indigo-400/18 rounded-full animate-[pulse_5s_ease-in-out_infinite] blur-xl"></div>
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-gradient-to-br from-blue-300/15 to-purple-300/15 rounded-full animate-[pulse_7s_ease-in-out_infinite] blur-2xl"></div>
-                    {/* Sparkle effects */}
-                    <div className="absolute top-4 left-4 w-2 h-2 bg-purple-400 rounded-full animate-[pulse_3s_ease-in-out_infinite] opacity-60"></div>
-                    <div className="absolute top-12 right-12 w-1 h-1 bg-blue-400 rounded-full animate-[pulse_4s_ease-in-out_infinite] opacity-70"></div>
-                    <div className="absolute bottom-16 right-4 w-1.5 h-1.5 bg-purple-300 rounded-full animate-[pulse_5s_ease-in-out_infinite] opacity-50"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10"></div>
                   </div>
                 )}
 
-                {/* Tier Badges */}
-                {tier.recommended && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-30">
-                    <div className="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg">
-                      RECOMMENDED
-                    </div>
-                  </div>
-                )}
-
+                {/* Premium Badge Only */}
                 {tier.tier === 'premium' && (
-                  <motion.div 
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
-                    className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-30"
-                  >
-                    <div className="relative">
-                      {/* Glow effect */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-md opacity-75 scale-110"></div>
-                      {/* Main badge */}
-                      <div className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 text-white px-8 py-3 rounded-full text-sm font-bold shadow-2xl border border-white/20">
-                        <span className="flex items-center gap-2">
-                          <span>✨</span>
-                          <span>PREMIUM</span>
-                          <span>✨</span>
-                        </span>
-                      </div>
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-30">
+                    <div className="bg-gradient-to-r from-primary to-primary-glow text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
+                      PREMIUM
                     </div>
-                  </motion.div>
+                  </div>
                 )}
                 
                 <div className="relative z-10 p-8">

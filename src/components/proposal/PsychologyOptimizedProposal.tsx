@@ -312,7 +312,7 @@ export const PsychologyOptimizedProposal = ({
 
       {/* Elegant Daily Loss Counter */}
       <motion.div 
-        className="fixed top-4 right-4 z-40 text-center"
+        className="fixed top-20 right-4 z-40 text-center"
         style={{
           backgroundColor: '#F7F8FA',
           padding: '48px',
@@ -1413,9 +1413,6 @@ export const PsychologyOptimizedProposal = ({
                 
                 {/* Main card */}
                 <Card className="relative p-4 bg-gradient-to-br from-purple-100/30 via-blue-50/40 to-purple-100/30 border-purple-200/20 backdrop-blur-sm shadow-lg w-40 text-center">
-                  <div className="mb-2 h-6 flex items-center justify-center">
-                    {/* Empty space where emoji was */}
-                  </div>
                   <h3 className="text-sm font-medium bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
                     Future Potential
                   </h3>

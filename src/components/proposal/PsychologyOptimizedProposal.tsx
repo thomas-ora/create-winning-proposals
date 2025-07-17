@@ -283,14 +283,11 @@ export const PsychologyOptimizedProposal = ({
       subtitle: 'AI-Powered Intelligence',
       setup: 5000,
       revenueShare: '20% of all value created',
-      valueProposition: 'Your business becomes an intelligent AI you can converse with',
+      valueProposition: 'AI that understands your business',
       estimatedROI: '10-15x',
-      description: 'Transform your business into a self-learning AI that you can literally have a conversation with.',
-      conversationFeature: 'Ask your business questions. Get instant insights. Make decisions with AI-powered intelligence.',
       features: [
-        { text: 'Conversational AI interface', icon: MessageCircle },
-        { text: 'Self-learning systems', icon: Brain },
-        { text: 'Predictive analytics', icon: Eye },
+        { text: 'AI-powered insights & conversations', icon: Brain },
+        { text: 'Predictive business analytics', icon: TrendingUp },
         { text: 'Real-time decision support', icon: Zap },
         { text: '30-day white-glove setup', icon: Sparkles }
       ],
@@ -1142,47 +1139,13 @@ export const PsychologyOptimizedProposal = ({
                       </div>
                     </div>
 
-                    {/* Business Brain Special Description */}
+                    {/* Premium tier subtle highlight */}
                     {tier.tier === 'premium' && (
-                      <motion.div 
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.3, duration: 0.5 }}
-                        className="mb-6 p-6 bg-gradient-to-br from-blue-50/80 to-purple-50/80 dark:from-blue-950/40 dark:to-purple-950/40 rounded-xl border-2 border-purple-200/50 dark:border-purple-700/50 shadow-lg"
-                      >
-                        <div className="mb-4">
-                          <h4 className="text-base font-bold text-blue-900 dark:text-blue-100 mb-3 flex items-center gap-2">
-                            <span>🧠</span>
-                            <span>Conversational AI Intelligence</span>
-                          </h4>
-                          <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                            Talk to your business data like you're chatting with a consultant. Get instant insights, forecasts, and recommendations.
-                          </p>
-                        </div>
-                        
-                        <div className="mb-4 p-4 bg-white/70 dark:bg-slate-800/70 rounded-lg border border-blue-200/50 shadow-sm">
-                          <p className="text-sm text-blue-800 dark:text-blue-200 font-medium italic mb-2">
-                            💬 "What's our best opportunity for growth this month?"
-                          </p>
-                          <p className="text-xs text-slate-600 dark:text-slate-400">
-                            AI analyzes your data and responds with actionable insights
-                          </p>
-                        </div>
-                        
-                        {/* AI Demo Button */}
-                        <motion.button
-                          whileHover={{ scale: 1.03, y: -2 }}
-                          whileTap={{ scale: 0.97 }}
-                          onClick={() => onCTAClick('demo_ai', { tier: 'Business Brain' })}
-                          className="w-full py-3 px-5 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 hover:from-blue-700 hover:via-purple-700 hover:to-blue-700 text-white rounded-lg text-sm font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 border border-white/20"
-                        >
-                          <span className="flex items-center justify-center gap-2">
-                            <span>✨</span>
-                            <span>Experience AI Demo</span>
-                            <span>✨</span>
-                          </span>
-                        </motion.button>
-                      </motion.div>
+                      <div className="mb-4 p-4 bg-primary/5 rounded-lg border border-primary/20">
+                        <p className="text-sm text-text-body">
+                          Advanced AI technology that transforms your business into an intelligent system you can have conversations with.
+                        </p>
+                      </div>
                     )}
                   </div>
 

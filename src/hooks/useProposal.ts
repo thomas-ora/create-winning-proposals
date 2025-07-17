@@ -46,6 +46,10 @@ export const useProposal = (proposalId: string | undefined): UseProposalReturn =
             name: `${proposalData.client?.first_name || ''} ${proposalData.client?.last_name || ''}`.trim(),
             email: proposalData.client?.email || '',
             company: proposalData.client?.company_name || '',
+            industry: proposalData.client?.industry,
+            revenue_range: proposalData.client?.revenue_range,
+            employee_count: proposalData.client?.employee_count,
+            growth_stage: proposalData.client?.growth_stage,
           },
           author: {
             name: proposalData.prepared_by || '',

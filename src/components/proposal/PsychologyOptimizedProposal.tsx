@@ -77,6 +77,12 @@ interface PsychologyOptimizedProposalProps {
       risk_tolerance?: string;
       communication_preference?: string;
     };
+    client?: {
+      industry?: string;
+      revenue_range?: string;
+      employee_count?: number;
+      growth_stage?: string;
+    };
   };
   onCTAClick: (action: string, data?: any) => void;
 }
@@ -791,7 +797,17 @@ export const PsychologyOptimizedProposal = ({
             </p>
           </motion.div>
 
-          <ROICalculator onCalculatorUse={(data) => onCTAClick('calculator_use', data)} standalone />
+          <ROICalculator 
+            onCalculatorUse={(data) => onCTAClick('calculator_use', data)} 
+            standalone 
+            clientData={{
+              financial_amount: proposal.financial_amount,
+              industry: proposal.client?.industry || 'Business Services',
+              revenue_range: proposal.client?.revenue_range || '$1M-5M',
+              employee_count: proposal.client?.employee_count || 50,
+              growth_stage: proposal.client?.growth_stage || 'Growth'
+            }}
+          />
         </div>
       </section>
 

@@ -19,6 +19,10 @@ export interface ProposalData {
     name: string;
     email: string;
     company: string;
+    industry?: string;
+    revenue_range?: string;
+    employee_count?: number;
+    growth_stage?: string;
   };
   author: {
     name: string;

@@ -1253,6 +1253,25 @@ export const PsychologyOptimizedProposal = ({
               ))}
             </div>
 
+            {/* Extended Timeline to Future */}
+            <motion.div
+              initial={{ scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.5, delay: 0.5 }}
+              className="flex justify-center mt-8"
+            >
+              <div className="relative">
+                {/* Extended timeline line */}
+                <div className="w-0.5 h-32 bg-gradient-to-b from-primary/40 via-primary/20 to-transparent mx-auto" />
+                
+                {/* Time dots along the line */}
+                <div className="absolute top-8 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-primary/30 rounded-full" />
+                <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-primary/20 rounded-full" />
+                <div className="absolute top-24 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-primary/10 rounded-full" />
+              </div>
+            </motion.div>
+
             {/* Future Potential Card */}
             <motion.div
               initial={{ opacity: 0, y: 30, scale: 0.8 }}
@@ -1267,7 +1286,7 @@ export const PsychologyOptimizedProposal = ({
                 delay: 0.8,
                 ease: "easeOut"
               }}
-              className="flex justify-center mt-24"
+              className="flex justify-center mt-8"
             >
               <motion.div
                 animate={{ 
@@ -1281,25 +1300,66 @@ export const PsychologyOptimizedProposal = ({
                 }}
                 className="relative"
               >
+                {/* Floating Question Marks */}
+                <motion.div
+                  animate={{ 
+                    y: [0, -12, 0],
+                    x: [0, 8, 0],
+                    rotate: [0, 10, -10, 0]
+                  }}
+                  transition={{ 
+                    duration: 5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 0
+                  }}
+                  className="absolute -top-4 -left-6 text-lg text-purple-400/30"
+                >
+                  ?
+                </motion.div>
+                
+                <motion.div
+                  animate={{ 
+                    y: [0, -8, 0],
+                    x: [0, -6, 0],
+                    rotate: [0, -8, 8, 0]
+                  }}
+                  transition={{ 
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 1
+                  }}
+                  className="absolute -top-2 -right-8 text-sm text-blue-400/25"
+                >
+                  ?
+                </motion.div>
+                
+                <motion.div
+                  animate={{ 
+                    y: [0, -10, 0],
+                    x: [0, 4, 0],
+                    rotate: [0, 15, -5, 0]
+                  }}
+                  transition={{ 
+                    duration: 7,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 2
+                  }}
+                  className="absolute -bottom-3 -left-4 text-xs text-purple-300/20"
+                >
+                  ?
+                </motion.div>
+
                 {/* Floating glow effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 via-blue-400/20 to-purple-400/20 rounded-full blur-xl scale-150" />
                 
                 {/* Main card */}
                 <Card className="relative p-4 bg-gradient-to-br from-purple-100/30 via-blue-50/40 to-purple-100/30 border-purple-200/20 backdrop-blur-sm shadow-lg w-40 text-center">
-                  <motion.div 
-                    animate={{ 
-                      rotate: [0, 5, -5, 0],
-                      scale: [1, 1.1, 1]
-                    }}
-                    transition={{ 
-                      duration: 6,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                    className="text-2xl mb-2 text-purple-400"
-                  >
-                    ✨
-                  </motion.div>
+                  <div className="mb-2 h-6 flex items-center justify-center">
+                    {/* Empty space where emoji was */}
+                  </div>
                   <h3 className="text-sm font-medium bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
                     Future Potential
                   </h3>

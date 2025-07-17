@@ -1100,24 +1100,28 @@ export const PsychologyOptimizedProposal = ({
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 className={`relative proposal-card group hover:shadow-hover transition-all duration-300 ${
-                  tier.tier === 'premium' ? 'lg:scale-105 lg:-mt-4' : ''
+                  tier.tier === 'premium' ? 'lg:scale-110 lg:-mt-8 border-3 border-purple-400/60 shadow-2xl' : ''
                 } ${tier.recommended ? 'border-2 border-primary' : ''} ${
-                  tier.tier === 'premium' ? 'border-2 border-purple-300/50 overflow-hidden' : ''
+                  tier.tier === 'premium' ? 'overflow-hidden bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30' : ''
                 }`}
               >
                 {/* Business Brain Enhanced Animated Background */}
                 {tier.tier === 'premium' && (
                   <div className="absolute inset-0 z-0 overflow-hidden rounded-lg">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/8 via-purple-600/8 to-indigo-600/8 animate-[pulse_6s_ease-in-out_infinite]"></div>
-                    <div className="absolute top-8 right-8 w-20 h-20 bg-gradient-to-br from-blue-400/15 to-purple-400/15 rounded-full animate-[pulse_4s_ease-in-out_infinite] blur-xl"></div>
-                    <div className="absolute bottom-8 left-8 w-24 h-24 bg-gradient-to-br from-purple-400/12 to-indigo-400/12 rounded-full animate-[pulse_5s_ease-in-out_infinite] blur-xl"></div>
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-br from-blue-300/8 to-purple-300/8 rounded-full animate-[pulse_7s_ease-in-out_infinite] blur-2xl"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/12 via-purple-600/12 to-indigo-600/12 animate-[pulse_6s_ease-in-out_infinite]"></div>
+                    <div className="absolute top-6 right-6 w-24 h-24 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full animate-[pulse_4s_ease-in-out_infinite] blur-xl"></div>
+                    <div className="absolute bottom-6 left-6 w-28 h-28 bg-gradient-to-br from-purple-400/18 to-indigo-400/18 rounded-full animate-[pulse_5s_ease-in-out_infinite] blur-xl"></div>
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-gradient-to-br from-blue-300/15 to-purple-300/15 rounded-full animate-[pulse_7s_ease-in-out_infinite] blur-2xl"></div>
+                    {/* Sparkle effects */}
+                    <div className="absolute top-4 left-4 w-2 h-2 bg-purple-400 rounded-full animate-[pulse_3s_ease-in-out_infinite] opacity-60"></div>
+                    <div className="absolute top-12 right-12 w-1 h-1 bg-blue-400 rounded-full animate-[pulse_4s_ease-in-out_infinite] opacity-70"></div>
+                    <div className="absolute bottom-16 right-4 w-1.5 h-1.5 bg-purple-300 rounded-full animate-[pulse_5s_ease-in-out_infinite] opacity-50"></div>
                   </div>
                 )}
 
                 {/* Tier Badges */}
                 {tier.recommended && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-30">
                     <div className="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg">
                       RECOMMENDED
                     </div>
@@ -1125,11 +1129,25 @@ export const PsychologyOptimizedProposal = ({
                 )}
 
                 {tier.tier === 'premium' && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
-                    <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-xl">
-                      PREMIUM
+                  <motion.div 
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+                    className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-30"
+                  >
+                    <div className="relative">
+                      {/* Glow effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-md opacity-75 scale-110"></div>
+                      {/* Main badge */}
+                      <div className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 text-white px-8 py-3 rounded-full text-sm font-bold shadow-2xl border border-white/20">
+                        <span className="flex items-center gap-2">
+                          <span>✨</span>
+                          <span>PREMIUM</span>
+                          <span>✨</span>
+                        </span>
+                      </div>
                     </div>
-                  </div>
+                  </motion.div>
                 )}
                 
                 <div className="relative z-10 p-8">
@@ -1157,38 +1175,45 @@ export const PsychologyOptimizedProposal = ({
 
                     {/* Business Brain Special Description */}
                     {tier.tier === 'premium' && (
-                      <div className="mb-6 p-5 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 rounded-xl border border-purple-200/30 dark:border-purple-700/30">
-                        <div className="mb-3">
-                          <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-2">
-                            AI-Powered Intelligence
+                      <motion.div 
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.3, duration: 0.5 }}
+                        className="mb-6 p-6 bg-gradient-to-br from-blue-50/80 to-purple-50/80 dark:from-blue-950/40 dark:to-purple-950/40 rounded-xl border-2 border-purple-200/50 dark:border-purple-700/50 shadow-lg"
+                      >
+                        <div className="mb-4">
+                          <h4 className="text-base font-bold text-blue-900 dark:text-blue-100 mb-3 flex items-center gap-2">
+                            <span>🧠</span>
+                            <span>Conversational AI Intelligence</span>
                           </h4>
                           <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                            Experience natural conversations with your data. Ask questions, get insights, and make decisions faster than ever before.
+                            Talk to your business data like you're chatting with a consultant. Get instant insights, forecasts, and recommendations.
                           </p>
                         </div>
                         
-                        <div className="mb-4 p-3 bg-white/60 dark:bg-slate-800/60 rounded-lg border border-blue-200/30">
-                          <p className="text-xs text-blue-800 dark:text-blue-200 font-medium italic">
-                            "Show me this quarter's performance vs last year"
+                        <div className="mb-4 p-4 bg-white/70 dark:bg-slate-800/70 rounded-lg border border-blue-200/50 shadow-sm">
+                          <p className="text-sm text-blue-800 dark:text-blue-200 font-medium italic mb-2">
+                            💬 "What's our best opportunity for growth this month?"
                           </p>
-                          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                            Get instant analytics with conversational AI
+                          <p className="text-xs text-slate-600 dark:text-slate-400">
+                            AI analyzes your data and responds with actionable insights
                           </p>
                         </div>
                         
                         {/* AI Demo Button */}
                         <motion.button
-                          whileHover={{ scale: 1.02, y: -1 }}
-                          whileTap={{ scale: 0.98 }}
+                          whileHover={{ scale: 1.03, y: -2 }}
+                          whileTap={{ scale: 0.97 }}
                           onClick={() => onCTAClick('demo_ai', { tier: 'Business Brain' })}
-                          className="w-full py-2.5 px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg text-sm font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+                          className="w-full py-3 px-5 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 hover:from-blue-700 hover:via-purple-700 hover:to-blue-700 text-white rounded-lg text-sm font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 border border-white/20"
                         >
                           <span className="flex items-center justify-center gap-2">
-                            <span>🧠</span>
+                            <span>✨</span>
                             <span>Experience AI Demo</span>
+                            <span>✨</span>
                           </span>
                         </motion.button>
-                      </div>
+                      </motion.div>
                     )}
                   </div>
 
@@ -1204,18 +1229,26 @@ export const PsychologyOptimizedProposal = ({
 
                   {/* CTA Button */}
                   <motion.button 
-                    whileHover={{ scale: 1.02, y: -1 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`w-full py-4 px-6 rounded-lg font-semibold transition-all duration-300 ${
+                    whileHover={{ scale: 1.03, y: -2 }}
+                    whileTap={{ scale: 0.97 }}
+                    className={`w-full py-5 px-6 rounded-lg font-bold transition-all duration-300 text-lg ${
                       tier.recommended 
                         ? 'bg-primary text-white hover:bg-primary/90 shadow-lg hover:shadow-xl' 
                         : tier.tier === 'premium'
-                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl'
+                        ? 'bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 hover:from-blue-700 hover:via-purple-700 hover:to-blue-700 text-white shadow-2xl hover:shadow-3xl border border-white/20'
                         : 'border-2 border-border text-text-heading hover:border-primary hover:bg-primary/5 hover:shadow-md'
                     }`}
                     onClick={() => onCTAClick('select_tier', { tier: tier.name, setup: tier.setup, revenueShare: tier.revenueShare })}
                   >
-                    {tier.tier === 'premium' ? 'Activate Business Brain' : `Choose ${tier.name}`}
+                    {tier.tier === 'premium' ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <span>🚀</span>
+                        <span>Activate Business Brain</span>
+                        <span>🚀</span>
+                      </span>
+                    ) : (
+                      `Choose ${tier.name}`
+                    )}
                   </motion.button>
                 </div>
               </motion.div>

@@ -127,44 +127,29 @@ export const PsychologyOptimizedProposal = ({
 
   const personalization = getPersonalization(proposal.client_name);
 
-  // Dynamic timeline calculation based on project scope
-  const calculateTimelinePhases = (financialAmount: number) => {
-    const amount = financialAmount || 50000;
-    
-    if (amount < 50000) {
-      // Small project: 4-6 weeks
-      return [
-        { phase: 'Planning & Discovery', duration: 1, start: 0, color: '#3b82f6' },
-        { phase: 'Design & Architecture', duration: 1, start: 1, color: '#8b5cf6' },
-        { phase: 'Development & Integration', duration: 2, start: 2, color: '#06b6d4' },
-        { phase: 'Testing & Refinement', duration: 1, start: 4, color: '#f59e0b' },
-        { phase: 'Launch & Training', duration: 1, start: 5, color: '#22c55e' },
-        { phase: 'Future Growth →', duration: 0, start: 6, color: '#10b981' }
-      ];
-    } else if (amount < 150000) {
-      // Medium project: 6-8 weeks
-      return [
-        { phase: 'Planning & Discovery', duration: 2, start: 0, color: '#3b82f6' },
-        { phase: 'Design & Architecture', duration: 2, start: 2, color: '#8b5cf6' },
-        { phase: 'Development & Integration', duration: 3, start: 4, color: '#06b6d4' },
-        { phase: 'Testing & Refinement', duration: 1, start: 7, color: '#f59e0b' },
-        { phase: 'Launch & Training', duration: 1, start: 8, color: '#22c55e' },
-        { phase: 'Future Growth →', duration: 0, start: 9, color: '#10b981' }
-      ];
-    } else {
-      // Large project: 8-12 weeks
-      return [
-        { phase: 'Planning & Discovery', duration: 2, start: 0, color: '#3b82f6' },
-        { phase: 'Design & Architecture', duration: 3, start: 2, color: '#8b5cf6' },
-        { phase: 'Development & Integration', duration: 4, start: 5, color: '#06b6d4' },
-        { phase: 'Testing & Refinement', duration: 2, start: 9, color: '#f59e0b' },
-        { phase: 'Launch & Training', duration: 1, start: 11, color: '#22c55e' },
-        { phase: 'Future Growth →', duration: 0, start: 12, color: '#10b981' }
-      ];
+  // Simple 4-phase timeline
+  const timelinePhases = [
+    { 
+      phase: 'Planning', 
+      color: '#3b82f6', 
+      description: 'Discovery and strategic planning to understand your unique needs' 
+    },
+    { 
+      phase: 'Design', 
+      color: '#8b5cf6', 
+      description: 'Architecture and user experience design tailored for your business' 
+    },
+    { 
+      phase: 'Development', 
+      color: '#06b6d4', 
+      description: 'Building and integrating your custom solution with precision' 
+    },
+    { 
+      phase: 'Delivery', 
+      color: '#22c55e', 
+      description: 'Launch, training, and ensuring your success from day one' 
     }
-  };
-
-  const timelineData = calculateTimelinePhases(proposal.financial_amount);
+  ];
 
   // Calculate daily loss from financial data
   useEffect(() => {
@@ -1229,45 +1214,64 @@ export const PsychologyOptimizedProposal = ({
             </p>
           </motion.div>
 
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-1/2 transform -translate-x-0.5 w-1 h-full bg-border" />
-            
-            {timelineData.map((phase, index) => (
-              <motion.div
-                key={phase.phase}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.2 }}
-                className={`relative flex items-center mb-16 ${
-                  index % 2 === 0 ? 'justify-start' : 'justify-end'
-                }`}
-              >
-                <div className={`w-5/12 ${index % 2 === 0 ? 'pr-8' : 'pl-8'}`}>
-                  <Card className="p-6">
-                    <div className={`flex items-center mb-4 ${index % 2 === 0 ? '' : 'flex-row-reverse'}`}>
-                      <div 
-                        className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold"
-                        style={{ backgroundColor: phase.color }}
-                      >
-                        {index + 1}
+          <div className="space-y-8">
+            {/* Main Timeline Phases */}
+            <div className="relative">
+              {/* Timeline line */}
+              <div className="absolute left-1/2 transform -translate-x-0.5 w-1 h-full bg-border" />
+              
+              {timelinePhases.map((phase, index) => (
+                <motion.div
+                  key={phase.phase}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.2 }}
+                  className={`relative flex items-center mb-12 ${
+                    index % 2 === 0 ? 'justify-start' : 'justify-end'
+                  }`}
+                >
+                  <div className={`w-5/12 ${index % 2 === 0 ? 'pr-8' : 'pl-8'}`}>
+                    <Card className="p-6 hover:shadow-lg transition-shadow">
+                      <div className={`flex items-center mb-4 ${index % 2 === 0 ? '' : 'flex-row-reverse'}`}>
+                        <div 
+                          className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold shadow-lg"
+                          style={{ backgroundColor: phase.color }}
+                        >
+                          {index + 1}
+                        </div>
+                        <div className={`${index % 2 === 0 ? 'ml-4' : 'mr-4'}`}>
+                          <h3 className="text-xl font-bold">{phase.phase}</h3>
+                        </div>
                       </div>
-                      <div className={`${index % 2 === 0 ? 'ml-4' : 'mr-4'}`}>
-                        <h3 className="text-xl font-bold">{phase.phase}</h3>
-                        <p className="text-muted-foreground">{phase.duration} weeks</p>
-                      </div>
-                    </div>
-                    <Progress value={(phase.duration / 13) * 100} className="mb-2" />
-                    <div className="text-sm text-muted-foreground">
-                      Weeks {phase.start + 1}-{phase.start + phase.duration}
-                    </div>
-                  </Card>
+                      <p className="text-muted-foreground">{phase.description}</p>
+                    </Card>
+                  </div>
+                  
+                  <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background" />
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Future Potential Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.8 }}
+              className="flex justify-center mt-16"
+            >
+              <Card className="p-6 max-w-md text-center bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary/20 to-primary/30 flex items-center justify-center mx-auto mb-4">
+                  <span className="text-primary font-bold">∞</span>
                 </div>
-                
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background" />
-              </motion.div>
-            ))}
+                <h3 className="text-lg font-bold mb-2 text-primary">Future Potential</h3>
+                <p className="text-sm text-muted-foreground">
+                  Once your foundation is solid, endless possibilities emerge. Scaling, new markets, 
+                  innovative features—your automated business becomes the launchpad for bigger dreams.
+                </p>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </section>

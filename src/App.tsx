@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import ProposalView from "./pages/ProposalView";
+import AcceptProposal from "./pages/AcceptProposal";
+import PaymentSuccess from "./pages/PaymentSuccess";
 import ProposalList from "./pages/ProposalList";
 import ProposalAnalytics from "./pages/ProposalAnalytics";
 import GeneralAnalytics from "./pages/GeneralAnalytics";
@@ -38,7 +40,9 @@ const AppContent = () => {
       <Route path="/api-docs" element={<APIDocumentation />} />
       <Route path="/test-api" element={<TestAPI />} />
       <Route path="/proposal/:proposalId" element={<ProposalView />} />
-      <Route path="/p/:proposalId" element={<ProposalView />} />
+          <Route path="/p/:proposalId" element={<ProposalView />} />
+          <Route path="/p/:proposalId/accept" element={<AcceptProposal />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
       
       {/* Admin Routes */}
       <Route path="/admin" element={<AdminDashboard />} />

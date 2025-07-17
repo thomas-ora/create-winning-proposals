@@ -14,6 +14,47 @@ export type Database = {
   }
   public: {
     Tables: {
+      agreement_payments: {
+        Row: {
+          agreement_id: string | null
+          amount: number
+          created_at: string
+          currency: string
+          id: string
+          paid_at: string | null
+          status: string
+          stripe_session_id: string | null
+        }
+        Insert: {
+          agreement_id?: string | null
+          amount: number
+          created_at?: string
+          currency?: string
+          id?: string
+          paid_at?: string | null
+          status?: string
+          stripe_session_id?: string | null
+        }
+        Update: {
+          agreement_id?: string | null
+          amount?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          paid_at?: string | null
+          status?: string
+          stripe_session_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agreement_payments_agreement_id_fkey"
+            columns: ["agreement_id"]
+            isOneToOne: false
+            referencedRelation: "sales_agreements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       api_keys: {
         Row: {
           created_at: string
@@ -285,6 +326,95 @@ export type Database = {
             columns: ["client_id"]
             isOneToOne: false
             referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sales_agreements: {
+        Row: {
+          agreement_data: Json
+          client_id: string | null
+          created_at: string
+          id: string
+          proposal_id: string | null
+          signed_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          agreement_data: Json
+          client_id?: string | null
+          created_at?: string
+          id?: string
+          proposal_id?: string | null
+          signed_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          agreement_data?: Json
+          client_id?: string | null
+          created_at?: string
+          id?: string
+          proposal_id?: string | null
+          signed_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sales_agreements_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sales_agreements_proposal_id_fkey"
+            columns: ["proposal_id"]
+            isOneToOne: false
+            referencedRelation: "proposals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      signatures: {
+        Row: {
+          agreement_id: string | null
+          id: string
+          ip_address: unknown | null
+          signature_data: string
+          signed_at: string
+          signer_email: string
+          signer_name: string
+          user_agent: string | null
+        }
+        Insert: {
+          agreement_id?: string | null
+          id?: string
+          ip_address?: unknown | null
+          signature_data: string
+          signed_at?: string
+          signer_email: string
+          signer_name: string
+          user_agent?: string | null
+        }
+        Update: {
+          agreement_id?: string | null
+          id?: string
+          ip_address?: unknown | null
+          signature_data?: string
+          signed_at?: string
+          signer_email?: string
+          signer_name?: string
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "signatures_agreement_id_fkey"
+            columns: ["agreement_id"]
+            isOneToOne: false
+            referencedRelation: "sales_agreements"
             referencedColumns: ["id"]
           },
         ]

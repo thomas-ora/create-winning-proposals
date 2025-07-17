@@ -151,11 +151,16 @@ export const ROICalculator = ({
             <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center backdrop-blur-sm border border-white/10">
               <Calculator className="w-6 h-6 text-primary" />
             </div>
-            <div>
+            <div className="flex-1">
               <h3 className="text-2xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
                 {title}
               </h3>
-              <p className="text-muted-foreground">Adjust these numbers based on your specific situation</p>
+              <p className="text-muted-foreground">
+                {clientData && clientData.industry ? 
+                  `Personalized for ${clientData.industry} • ${clientData.growth_stage} stage` :
+                  "Adjust these numbers based on your specific situation"
+                }
+              </p>
             </div>
           </div>
         </motion.div>
@@ -245,7 +250,7 @@ export const ROICalculator = ({
                           <Info className="w-4 h-4 text-muted-foreground hover:text-foreground" />
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>Time currently spent on manual, repetitive tasks</p>
+                          <p>Percentage of current manual work that will be automated/eliminated</p>
                         </TooltipContent>
                       </Tooltip>
                     </div>

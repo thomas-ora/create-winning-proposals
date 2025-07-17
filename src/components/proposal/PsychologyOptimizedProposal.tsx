@@ -1255,22 +1255,56 @@ export const PsychologyOptimizedProposal = ({
 
             {/* Future Potential Card */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30, scale: 0.8 }}
+              whileInView={{ 
+                opacity: 0.9, 
+                y: 0, 
+                scale: 1,
+              }}
               viewport={{ once: true }}
-              transition={{ delay: 0.8 }}
-              className="flex justify-center mt-16"
+              transition={{ 
+                duration: 1.2, 
+                delay: 0.8,
+                ease: "easeOut"
+              }}
+              className="flex justify-center mt-24"
             >
-              <Card className="p-6 max-w-md text-center bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary/20 to-primary/30 flex items-center justify-center mx-auto mb-4">
-                  <span className="text-primary font-bold">∞</span>
-                </div>
-                <h3 className="text-lg font-bold mb-2 text-primary">Future Potential</h3>
-                <p className="text-sm text-muted-foreground">
-                  Once your foundation is solid, endless possibilities emerge. Scaling, new markets, 
-                  innovative features—your automated business becomes the launchpad for bigger dreams.
-                </p>
-              </Card>
+              <motion.div
+                animate={{ 
+                  y: [0, -8, 0],
+                  scale: [1, 1.02, 1],
+                }}
+                transition={{ 
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className="relative"
+              >
+                {/* Floating glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 via-blue-400/20 to-purple-400/20 rounded-full blur-xl scale-150" />
+                
+                {/* Main card */}
+                <Card className="relative p-4 bg-gradient-to-br from-purple-100/30 via-blue-50/40 to-purple-100/30 border-purple-200/20 backdrop-blur-sm shadow-lg w-40 text-center">
+                  <motion.div 
+                    animate={{ 
+                      rotate: [0, 5, -5, 0],
+                      scale: [1, 1.1, 1]
+                    }}
+                    transition={{ 
+                      duration: 6,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    className="text-2xl mb-2 text-purple-400"
+                  >
+                    ✨
+                  </motion.div>
+                  <h3 className="text-sm font-medium bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    Future Potential
+                  </h3>
+                </Card>
+              </motion.div>
             </motion.div>
           </div>
         </div>

@@ -129,6 +129,40 @@ export default {
 				'grid-move': {
 					'0%': { backgroundPosition: '0 0' },
 					'100%': { backgroundPosition: '30px 30px' }
+				},
+				'shimmer': {
+					'0%': { transform: 'translateX(-100%)' },
+					'50%': { transform: 'translateX(100%)' },
+					'100%': { transform: 'translateX(100%)' }
+				},
+				'pulse-glow': {
+					'0%, 100%': { 
+						boxShadow: '0 0 20px hsl(var(--primary) / 0.1), 0 0 40px hsl(var(--primary) / 0.05)',
+						transform: 'scale(1)'
+					},
+					'50%': { 
+						boxShadow: '0 0 30px hsl(var(--primary) / 0.2), 0 0 60px hsl(var(--primary) / 0.1)',
+						transform: 'scale(1.01)'
+					}
+				},
+				'float-1': {
+					'0%, 100%': { transform: 'translate(0, 0) rotate(0deg)' },
+					'33%': { transform: 'translate(30px, -30px) rotate(120deg)' },
+					'66%': { transform: 'translate(-20px, 20px) rotate(240deg)' }
+				},
+				'float-2': {
+					'0%, 100%': { transform: 'translate(0, 0) rotate(0deg)' },
+					'33%': { transform: 'translate(-40px, -20px) rotate(-120deg)' },
+					'66%': { transform: 'translate(25px, 35px) rotate(-240deg)' }
+				},
+				'float-3': {
+					'0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+					'50%': { transform: 'translate(-15px, -25px) scale(1.2)' }
+				},
+				'float-4': {
+					'0%, 100%': { transform: 'translate(0, 0) scale(1) rotate(0deg)' },
+					'25%': { transform: 'translate(20px, -15px) scale(0.8) rotate(90deg)' },
+					'75%': { transform: 'translate(-25px, 10px) scale(1.1) rotate(270deg)' }
 				}
 			},
 			animation: {
@@ -136,7 +170,13 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'float': 'float 6s ease-in-out infinite',
 				'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
-				'grid-move': 'grid-move 20s linear infinite'
+				'grid-move': 'grid-move 20s linear infinite',
+				'shimmer': 'shimmer 8s ease-in-out infinite',
+				'pulse-glow': 'pulse-glow 4s ease-in-out infinite',
+				'float-1': 'float-1 20s ease-in-out infinite',
+				'float-2': 'float-2 25s ease-in-out infinite reverse',
+				'float-3': 'float-3 30s ease-in-out infinite',
+				'float-4': 'float-4 22s ease-in-out infinite reverse'
 			}
 		}
 	},

@@ -283,7 +283,8 @@ export const PsychologyOptimizedProposal = ({
       subtitle: 'AI-Powered Intelligence',
       setup: 5000,
       revenueShare: '20% of all value created',
-      valueProposition: 'AI that understands your business',
+      valueProposition: 'Transform your business into a self-learning AI intelligence',
+      description: 'Ask questions. Get instant answers. Make smarter decisions. Your business becomes a conversational partner that learns and grows with you.',
       estimatedROI: '10-15x',
       features: [
         { text: 'AI-powered insights & conversations', icon: Brain },
@@ -1096,22 +1097,58 @@ export const PsychologyOptimizedProposal = ({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className={`relative proposal-card group hover:shadow-hover transition-all duration-300 ${
-                  tier.tier === 'premium' ? 'border-2 border-primary/20' : ''
+                className={`relative proposal-card group hover:shadow-hover transition-all duration-300 overflow-hidden ${
+                  tier.tier === 'premium' ? 'border-2 border-primary/40 animate-pulse-glow' : ''
                 }`}
               >
-                {/* Simple premium background */}
+                {/* Enhanced premium background with animations */}
                 {tier.tier === 'premium' && (
-                  <div className="absolute inset-0 z-0 overflow-hidden rounded-lg">
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10"></div>
-                  </div>
+                  <>
+                    <div className="absolute inset-0 z-0 overflow-hidden rounded-lg">
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-primary/5"></div>
+                    </div>
+                    
+                    {/* Floating particles */}
+                    <div className="absolute inset-0 overflow-hidden pointer-events-none z-5">
+                      <div className="absolute w-2 h-2 bg-primary/20 rounded-full animate-float-1" style={{ top: '20%', left: '15%' }} />
+                      <div className="absolute w-1.5 h-1.5 bg-accent/30 rounded-full animate-float-2" style={{ top: '60%', right: '20%' }} />
+                      <div className="absolute w-1 h-1 bg-primary/15 rounded-full animate-float-3" style={{ top: '40%', left: '80%' }} />
+                      <div className="absolute w-2.5 h-2.5 bg-primary/10 rounded-full animate-float-4" style={{ top: '80%', left: '30%' }} />
+                    </div>
+                    
+                    {/* Shimmer effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent animate-shimmer pointer-events-none z-5" />
+                    
+                    {/* Neural connection lines */}
+                    <div className="absolute inset-0 pointer-events-none opacity-10 z-5">
+                      <svg className="w-full h-full" viewBox="0 0 400 600">
+                        <path
+                          d="M50,100 Q200,50 350,150 T350,400 Q200,500 50,450"
+                          stroke="currentColor"
+                          strokeWidth="1"
+                          fill="none"
+                          className="animate-pulse"
+                          style={{ animationDelay: '1s' }}
+                        />
+                        <path
+                          d="M100,50 Q250,200 400,100 T100,500"
+                          stroke="currentColor"
+                          strokeWidth="0.5"
+                          fill="none"
+                          className="animate-pulse"
+                          style={{ animationDelay: '2s' }}
+                        />
+                      </svg>
+                    </div>
+                  </>
                 )}
 
-                {/* Premium Badge Only */}
+                {/* Enhanced Premium Badge */}
                 {tier.tier === 'premium' && (
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-30">
-                    <div className="bg-gradient-to-r from-primary to-primary-glow text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
-                      PREMIUM
+                    <div className="bg-gradient-to-r from-primary to-accent text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg animate-pulse relative overflow-hidden">
+                      <span className="relative z-10">🧠 PREMIUM AI</span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
                     </div>
                   </div>
                 )}
@@ -1139,13 +1176,25 @@ export const PsychologyOptimizedProposal = ({
                       </div>
                     </div>
 
-                    {/* Premium tier subtle highlight */}
-                    {tier.tier === 'premium' && (
-                      <div className="mb-4 p-4 bg-primary/5 rounded-lg border border-primary/20">
-                        <p className="text-sm text-text-body">
-                          Advanced AI technology that transforms your business into an intelligent system you can have conversations with.
-                        </p>
-                      </div>
+                    {/* Premium tier enhanced description */}
+                    {tier.tier === 'premium' && tier.description && (
+                      <motion.div 
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.3, duration: 0.5 }}
+                        className="mb-6 p-6 bg-gradient-to-br from-primary/10 via-accent/5 to-primary/5 rounded-xl border border-primary/30 shadow-lg relative overflow-hidden"
+                      >
+                        <div className="relative z-10">
+                          <h4 className="text-base font-bold text-primary mb-3 flex items-center gap-2">
+                            <Brain className="w-5 h-5" />
+                            <span>AI Intelligence Platform</span>
+                          </h4>
+                          <p className="text-sm text-text-body leading-relaxed">
+                            {tier.description}
+                          </p>
+                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer pointer-events-none" />
+                      </motion.div>
                     )}
                   </div>
 

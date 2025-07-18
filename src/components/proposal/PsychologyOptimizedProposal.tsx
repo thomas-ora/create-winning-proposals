@@ -1098,7 +1098,7 @@ export const PsychologyOptimizedProposal = ({
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 className={`relative proposal-card group hover:shadow-hover transition-all duration-300 overflow-hidden ${
-                  tier.tier === 'premium' ? 'border-2 border-primary/40 animate-breathe' : ''
+                  tier.tier === 'premium' ? 'border-2 border-primary/40 animate-pulse-glow' : ''
                 }`}
               >
                 {/* Enhanced premium background with animations */}

@@ -137,12 +137,14 @@ export default {
 				},
 				'breathe': {
 					'0%, 100%': { 
-						boxShadow: '0 0 15px hsl(var(--primary) / 0.08), 0 0 30px hsl(var(--primary) / 0.04)',
-						transform: 'scale(1)'
+						boxShadow: '0 0 20px hsl(var(--primary) / 0.15), 0 0 40px hsl(var(--primary) / 0.08)',
+						transform: 'scale(1)',
+						borderColor: 'hsl(var(--primary) / 0.4)'
 					},
 					'50%': { 
-						boxShadow: '0 0 25px hsl(var(--primary) / 0.12), 0 0 45px hsl(var(--primary) / 0.06)',
-						transform: 'scale(1.003)'
+						boxShadow: '0 0 35px hsl(var(--primary) / 0.25), 0 0 60px hsl(var(--primary) / 0.12)',
+						transform: 'scale(1.008)',
+						borderColor: 'hsl(var(--primary) / 0.7)'
 					}
 				},
 				'float-1': {

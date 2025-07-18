@@ -143,7 +143,7 @@ export default {
 					},
 					'50%': { 
 						boxShadow: '0 0 35px hsl(var(--primary) / 0.25), 0 0 60px hsl(var(--primary) / 0.12)',
-						transform: 'scale(1.008)',
+						transform: 'scale(1.005)',
 						borderColor: 'hsl(var(--primary) / 0.7)'
 					}
 				},
@@ -174,7 +174,7 @@ export default {
 				'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
 				'grid-move': 'grid-move 20s linear infinite',
 				'shimmer': 'shimmer 8s ease-in-out infinite',
-				'breathe': 'breathe 7s cubic-bezier(0.4, 0.0, 0.6, 1) infinite',
+				'breathe': 'breathe 12s ease-in-out infinite',
 				'float-1': 'float-1 20s ease-in-out infinite',
 				'float-2': 'float-2 25s ease-in-out infinite reverse',
 				'float-3': 'float-3 30s ease-in-out infinite',

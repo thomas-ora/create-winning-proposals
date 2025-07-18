@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -309,52 +308,13 @@ All colors MUST be HSL.
     @apply w-20;
   }
 
+
   .bg-gradient-primary {
     background: var(--gradient-primary);
   }
 
   .ease-smooth {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* AI Intelligence Effects */
-  .ai-intelligent {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .ai-intelligent::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, 
-      hsl(var(--primary) / 0.05) 0%, 
-      hsl(var(--accent) / 0.08) 50%, 
-      hsl(248 75% 65% / 0.05) 100%);
-    pointer-events: none;
-    animation: shimmer 12s ease-in-out infinite;
-  }
-
-  .ai-neural-lines {
-    position: absolute;
-    width: 2px;
-    height: 20px;
-    background: linear-gradient(to bottom, 
-      hsl(var(--primary) / 0.6), 
-      hsl(var(--primary) / 0.2));
-    animation: neural-pulse 4s ease-in-out infinite;
-  }
-
-  .ai-particle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: hsl(var(--primary) / 0.7);
-    border-radius: 50%;
-    animation: intelligent-float 35s ease-in-out infinite;
   }
 
   /* Alter button styles - exact copy */

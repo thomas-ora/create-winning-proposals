@@ -10,9 +10,13 @@ import {
   Command
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { UserNav } from "./UserNav";
+import { useAuth } from "@/hooks/useAuth";
+import { Link } from "react-router-dom";
 
 const TopHeader = () => {
   const [notifications] = useState(3);
+  const { user } = useAuth();
 
   return (
     <header className="glass-card border-b border-white/10 px-6 py-4">
@@ -35,42 +39,44 @@ const TopHeader = () => {
 
         {/* Actions */}
         <div className="flex items-center space-x-4">
-          {/* Quick Create */}
-          <Button size="sm" className="bg-gradient-primary hover:shadow-glow transition-all duration-200">
-            <Plus className="w-4 h-4 mr-2" />
-            Create
-          </Button>
+          {user ? (
+            <>
+              {/* Quick Create */}
+              <Button size="sm" className="bg-gradient-primary hover:shadow-glow transition-all duration-200" asChild>
+                <Link to="/proposals/create">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Create
+                </Link>
+              </Button>
 
-          {/* Notifications */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="relative hover:bg-white/10 transition-colors"
-          >
-            <Bell className="w-5 h-5" />
-            {notifications > 0 && (
-              <Badge 
-                variant="destructive" 
-                className="absolute -top-1 -right-1 w-5 h-5 p-0 flex items-center justify-center text-xs"
+              {/* Notifications */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative hover:bg-white/10 transition-colors"
               >
-                {notifications}
-              </Badge>
-            )}
-          </Button>
+                <Bell className="w-5 h-5" />
+                {notifications > 0 && (
+                  <Badge 
+                    variant="destructive" 
+                    className="absolute -top-1 -right-1 w-5 h-5 p-0 flex items-center justify-center text-xs"
+                  >
+                    {notifications}
+                  </Badge>
+                )}
+              </Button>
 
-          {/* Settings */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="hover:bg-white/10 transition-colors"
-          >
-            <Settings className="w-5 h-5" />
-          </Button>
-
-          {/* User Avatar */}
-          <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-            <span className="text-white text-sm font-medium">A</span>
-          </div>
+              {/* User Navigation */}
+              <UserNav />
+            </>
+          ) : (
+            <>
+              {/* Sign In Button for non-authenticated users */}
+              <Button size="sm" variant="outline" asChild>
+                <Link to="/auth">Sign In</Link>
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </header>

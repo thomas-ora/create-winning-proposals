@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { navigationItems } from "./navigationItems";
+import { navigationItems, publicNavigationItems } from "./navigationItems";
 import { useSidebarLogic } from "./useSidebarLogic";
+import { useAuth } from "@/hooks/useAuth";
 
 interface DesktopSidebarProps {
   isHovered: boolean;
@@ -12,6 +13,9 @@ interface DesktopSidebarProps {
 
 const DesktopSidebar = ({ isHovered, onMouseEnter, onMouseLeave }: DesktopSidebarProps) => {
   const { isActive } = useSidebarLogic();
+  const { user } = useAuth();
+  
+  const items = user ? navigationItems : publicNavigationItems;
 
   return (
     <div
@@ -48,7 +52,7 @@ const DesktopSidebar = ({ isHovered, onMouseEnter, onMouseLeave }: DesktopSideba
       {/* Navigation */}
       <nav className="flex-1 p-4">
         <ul className="space-y-2">
-          {navigationItems.map((item) => {
+          {items.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.path);
             

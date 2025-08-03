@@ -22,3 +22,8 @@ export const navigationItems: NavigationItem[] = [
   { icon: Code, label: "API", path: "/api-docs" },
   { icon: Settings, label: "Settings", path: "/settings/api-keys" },
 ];
+
+export const publicNavigationItems: NavigationItem[] = [
+  { icon: Code, label: "API", path: "/api-docs" },
+  { icon: Settings, label: "API Keys", path: "/settings/api-keys" },
+];

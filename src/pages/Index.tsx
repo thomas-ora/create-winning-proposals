@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import AppLayout from "@/components/layout/AppLayout";
+import { useAuth } from "@/hooks/useAuth";
 import { Activity, CheckCircle, Clock, AlertCircle, Users, TrendingUp, Zap, ArrowRight, Sparkles, BarChart3, Clock3 } from "lucide-react";
 
 const Index = () => {
+  const { user } = useAuth();
   const [systemStats, setSystemStats] = useState({
     totalProposals: 0,
     activeAPIKeys: 0,
@@ -75,12 +77,21 @@ const Index = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
-              <Link to="/proposals/create">
-                <Button size="lg" className="text-lg px-8 py-6 bg-gradient-primary hover:shadow-glow transition-all duration-300 hover-glow">
-                  Start Creating
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
+              {user ? (
+                <Link to="/proposals/create">
+                  <Button size="lg" className="text-lg px-8 py-6 bg-gradient-primary hover:shadow-glow transition-all duration-300 hover-glow">
+                    Start Creating
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </Link>
+              ) : (
+                <Link to="/auth">
+                  <Button size="lg" className="text-lg px-8 py-6 bg-gradient-primary hover:shadow-glow transition-all duration-300 hover-glow">
+                    Get Started
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </Link>
+              )}
               <Link to="/test-api">
                 <Button size="lg" variant="outline" className="text-lg px-8 py-6 glass-card border-white/20 hover:border-primary/50">
                   Test API
@@ -193,9 +204,9 @@ const Index = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Link to="/proposals">
+                <Link to={user ? "/proposals" : "/auth"}>
                   <Button variant="outline" className="w-full glass-card border-white/20 hover:border-primary/50">
-                    View Analytics
+                    {user ? "View Analytics" : "Sign In to View"}
                   </Button>
                 </Link>
               </CardContent>

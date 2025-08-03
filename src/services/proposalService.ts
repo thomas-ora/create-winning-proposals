@@ -64,6 +64,8 @@ export interface TrackEventRequest {
 }
 
 class ProposalService {
+  private supabaseClient = supabase;
+
   private async callEdgeFunction(functionName: string, options: {
     method?: string;
     body?: any;
@@ -138,9 +140,29 @@ class ProposalService {
   }
 
   async getProposals(): Promise<ProposalData[]> {
-    // For now, return empty array since we don't have tables set up in types yet
-    // This will be updated once database schema is properly reflected in types
-    return [];
+    try {
+      const { data, error } = await this.supabaseClient
+        .from('proposals')
+        .select(`
+          *,
+          clients (*)
+        `)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      return data?.map(proposal => this.transformDatabaseProposal(proposal)) || [];
+    } catch (error) {
+      console.error('Error fetching proposals:', error);
+      throw error;
+    }
+  }
+
+  async createUserProposal(data: CreateProposalRequest): Promise<CreateProposalResponse> {
+    return this.callEdgeFunction('create-proposal', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
   }
 
   async trackEvent(proposalId: string, eventData: TrackEventRequest): Promise<void> {

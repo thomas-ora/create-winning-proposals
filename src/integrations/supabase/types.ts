@@ -148,6 +148,36 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          company_name: string | null
+          created_at: string
+          email: string
+          first_name: string | null
+          id: string
+          last_name: string | null
+          updated_at: string
+        }
+        Insert: {
+          company_name?: string | null
+          created_at?: string
+          email: string
+          first_name?: string | null
+          id: string
+          last_name?: string | null
+          updated_at?: string
+        }
+        Update: {
+          company_name?: string | null
+          created_at?: string
+          email?: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       proposal_events: {
         Row: {
           created_at: string
@@ -212,6 +242,7 @@ export type Database = {
           title: string
           total_value: number | null
           updated_at: string
+          user_id: string | null
           valid_until: string | null
         }
         Insert: {
@@ -239,6 +270,7 @@ export type Database = {
           title: string
           total_value?: number | null
           updated_at?: string
+          user_id?: string | null
           valid_until?: string | null
         }
         Update: {
@@ -266,6 +298,7 @@ export type Database = {
           title?: string
           total_value?: number | null
           updated_at?: string
+          user_id?: string | null
           valid_until?: string | null
         }
         Relationships: [
@@ -288,6 +321,13 @@ export type Database = {
             columns: ["psychology_profile_id"]
             isOneToOne: false
             referencedRelation: "psychology_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "proposals_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]

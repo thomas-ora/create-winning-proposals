@@ -93,17 +93,37 @@ serve(async (req) => {
       })
     }
 
-    // Check if proposal has expired
-    if (proposal.valid_until && new Date(proposal.valid_until) < new Date()) {
-      console.log('❌ Proposal expired:', {
+    // Check if proposal has expired - compare dates only, not times
+    if (proposal.valid_until) {
+      const currentDate = new Date()
+      const expirationDate = new Date(proposal.valid_until)
+      
+      // Convert both dates to YYYY-MM-DD format for comparison to avoid timezone issues
+      const currentDateStr = currentDate.toISOString().split('T')[0]
+      const expirationDateStr = expirationDate.toISOString().split('T')[0]
+      
+      console.log('📅 Date comparison details:', {
         proposalId: proposal.id,
-        validUntil: proposal.valid_until,
-        currentTime: new Date().toISOString()
+        validUntilRaw: proposal.valid_until,
+        validUntilParsed: expirationDate.toISOString(),
+        currentDateRaw: currentDate.toISOString(),
+        currentDateStr,
+        expirationDateStr,
+        isExpired: expirationDateStr < currentDateStr
       })
-      return new Response(JSON.stringify({ error: 'Proposal has expired' }), {
-        status: 410,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      })
+      
+      if (expirationDateStr < currentDateStr) {
+        console.log('❌ Proposal expired:', {
+          proposalId: proposal.id,
+          validUntil: proposal.valid_until,
+          currentTime: currentDate.toISOString(),
+          comparison: `${expirationDateStr} < ${currentDateStr}`
+        })
+        return new Response(JSON.stringify({ error: 'Proposal has expired' }), {
+          status: 410,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        })
+      }
     }
 
     // Check password protection

@@ -313,19 +313,26 @@ serve(async (req) => {
     }
     
     // Extract JWT token and get authenticated user (for web UI proposals)
-    const authHeader = req.headers.get('authorization')
     let authenticatedUserId = null
     
+    // Try to extract user from JWT token (reusing existing authHeader from line 136)
     if (authHeader && authHeader.startsWith('Bearer ')) {
       const token = authHeader.substring(7)
-      try {
-        const { data: { user }, error: userError } = await supabaseClient.auth.getUser(token)
-        if (!userError && user) {
-          authenticatedUserId = user.id
-          console.log(`👤 Authenticated user found: ${authenticatedUserId}`)
+      
+      // Check if this is likely a JWT token (not an API key)
+      // JWT tokens are much longer and contain dots
+      if (token.includes('.') && token.length > 100) {
+        try {
+          const { data: { user }, error: userError } = await supabaseClient.auth.getUser(token)
+          if (!userError && user) {
+            authenticatedUserId = user.id
+            console.log(`👤 Authenticated user found: ${authenticatedUserId}`)
+          }
+        } catch (error) {
+          console.log('🔍 Token is not a valid JWT, treating as API key request')
         }
-      } catch (error) {
-        console.log('🔍 No valid user token found, treating as API-only request')
+      } else {
+        console.log('🔑 Authorization header contains API key, not JWT token')
       }
     }
     

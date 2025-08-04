@@ -9,6 +9,7 @@ import { ClientInfoStep, ProposalDetailsStep, SectionsStep } from "@/components/
 import { getTemplateById } from "@/data/proposalTemplates";
 import { toast } from "@/hooks/use-toast";
 import AppLayout from "@/components/layout/AppLayout";
+import { AuthGuard } from "@/components/layout/AuthGuard";
 import { proposalService } from "@/services/proposalService";
 
 interface ProposalFormData {
@@ -285,11 +286,8 @@ const CreateProposal = () => {
       
       console.log("Making API call to create proposal...");
       
-      // Use a demo API key for now - in production this would come from user settings
-      const demoApiKey = "demo-api-key-12345";
-      console.log("Using API key:", demoApiKey);
-      
-      const response = await proposalService.createProposal(proposalRequest, demoApiKey);
+      // Use authenticated user flow instead of API key
+      const response = await proposalService.createUserProposal(proposalRequest);
       console.log("API response:", response);
       
       if (!response || !response.proposal_id) {
@@ -369,7 +367,8 @@ const CreateProposal = () => {
   };
 
   return (
-    <AppLayout>
+    <AuthGuard>
+      <AppLayout>
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
@@ -480,7 +479,8 @@ const CreateProposal = () => {
         </div>
       </div>
     </div>
-    </AppLayout>
+      </AppLayout>
+    </AuthGuard>
   );
 };
 

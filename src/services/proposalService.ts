@@ -169,9 +169,19 @@ class ProposalService {
   }
 
   async createUserProposal(data: CreateProposalRequest): Promise<CreateProposalResponse> {
+    // Get the current session token for authenticated users
+    const { data: { session } } = await this.supabaseClient.auth.getSession();
+    
+    if (!session?.access_token) {
+      throw new Error('No active session found. Please log in to create proposals.');
+    }
+    
     return this.callEdgeFunction('create-proposal', {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: data,
+      headers: {
+        'Authorization': `Bearer ${session.access_token}`,
+      },
     });
   }
 

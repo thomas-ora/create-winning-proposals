@@ -312,6 +312,12 @@ serve(async (req) => {
       validUntilDate = new Date(currentDate.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
     }
     
+    // Check if there's an authenticated user session (for web UI proposals)
+    const { data: { user } } = await supabaseClient.auth.getUser()
+    const authenticatedUserId = user?.id || null
+    
+    console.log(`👤 User context: ${authenticatedUserId ? `Authenticated user ${authenticatedUserId}` : 'API-only request'}`)
+
     console.log('📄 Creating proposal with data:', {
       clientId,
       title: proposalData.proposal.title,
@@ -320,7 +326,8 @@ serve(async (req) => {
       currency: proposalData.proposal.financial_currency,
       hasPassword: !!passwordHash,
       slug: uniqueSlug,
-      validUntilDate
+      validUntilDate,
+      userId: authenticatedUserId
     })
     
     const { data: proposal, error: proposalError } = await supabaseClient
@@ -344,7 +351,8 @@ serve(async (req) => {
         password_hash: passwordHash,
         brand_color: proposalData.proposal.brand_color,
         logo_url: proposalData.proposal.logo_url,
-        created_by_api_key: validatedKey.id
+        created_by_api_key: validatedKey.id,
+        user_id: authenticatedUserId // Set user_id for authenticated users
       })
       .select('id, slug')
       .single()

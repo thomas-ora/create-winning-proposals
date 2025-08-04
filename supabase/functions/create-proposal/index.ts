@@ -297,6 +297,21 @@ serve(async (req) => {
     }
 
     // Create proposal
+    // Validate and fix the valid_until date
+    const currentDate = new Date()
+    let validUntilDate = proposalData.proposal.valid_until
+    
+    if (validUntilDate) {
+      const providedDate = new Date(validUntilDate)
+      if (providedDate <= currentDate) {
+        console.warn('⚠️ Provided valid_until date is in the past, setting to 30 days from now')
+        validUntilDate = new Date(currentDate.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+      }
+    } else {
+      // Default to 30 days from now if no date provided
+      validUntilDate = new Date(currentDate.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+    }
+    
     console.log('📄 Creating proposal with data:', {
       clientId,
       title: proposalData.proposal.title,
@@ -304,7 +319,8 @@ serve(async (req) => {
       financialAmount: proposalData.proposal.financial_amount,
       currency: proposalData.proposal.financial_currency,
       hasPassword: !!passwordHash,
-      slug: uniqueSlug
+      slug: uniqueSlug,
+      validUntilDate
     })
     
     const { data: proposal, error: proposalError } = await supabaseClient
@@ -322,7 +338,7 @@ serve(async (req) => {
         currency: proposalData.proposal.financial_currency, // Map to old column
         payment_terms: proposalData.proposal.payment_terms,
         pricing_tiers: proposalData.proposal.pricing_tiers,
-        valid_until: proposalData.proposal.valid_until,
+        valid_until: validUntilDate,
         prepared_by: proposalData.proposal.prepared_by,
         status: 'sent',
         password_hash: passwordHash,

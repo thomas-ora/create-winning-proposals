@@ -172,6 +172,43 @@ class ProposalService {
     });
   }
 
+  async deleteProposal(proposalId: string): Promise<void> {
+    const { error } = await this.supabaseClient
+      .from('proposals')
+      .delete()
+      .eq('id', proposalId);
+    
+    if (error) throw error;
+  }
+
+  async deleteProposals(proposalIds: string[]): Promise<void> {
+    const { error } = await this.supabaseClient
+      .from('proposals')
+      .delete()
+      .in('id', proposalIds);
+    
+    if (error) throw error;
+  }
+
+  async getNotifications(): Promise<any[]> {
+    try {
+      const { data, error } = await this.supabaseClient
+        .from('proposal_events')
+        .select(`
+          *,
+          proposals (title, id)
+        `)
+        .order('created_at', { ascending: false })
+        .limit(10);
+
+      if (error) throw error;
+      return data || [];
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+      return [];
+    }
+  }
+
   private transformDatabaseProposal(dbProposal: any): ProposalData {
     return {
       id: dbProposal.id,

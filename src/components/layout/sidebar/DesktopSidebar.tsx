@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import { navigationItems, publicNavigationItems } from "./navigationItems";
 import { useSidebarLogic } from "./useSidebarLogic";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserProfile } from "@/hooks/useUserProfile";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 interface DesktopSidebarProps {
   isHovered: boolean;
@@ -14,6 +16,7 @@ interface DesktopSidebarProps {
 const DesktopSidebar = ({ isHovered, onMouseEnter, onMouseLeave }: DesktopSidebarProps) => {
   const { isActive } = useSidebarLogic();
   const { user } = useAuth();
+  const { profile, displayName, initials } = useUserProfile();
   
   const items = user ? navigationItems : publicNavigationItems;
 
@@ -94,17 +97,25 @@ const DesktopSidebar = ({ isHovered, onMouseEnter, onMouseLeave }: DesktopSideba
       </nav>
 
       {/* Bottom section */}
-      <div className="p-4 border-t border-white/10">
-        <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 bg-gradient-primary rounded-lg" />
-          {isHovered && (
-            <div className="overflow-hidden">
-              <p className="text-sm font-medium">Admin</p>
-              <p className="text-xs text-muted-foreground">System Manager</p>
-            </div>
-          )}
+      {user && (
+        <div className="p-4 border-t border-white/10">
+          <div className="flex items-center space-x-3">
+            <Avatar className="w-8 h-8">
+              <AvatarFallback className="bg-gradient-primary text-white text-sm">
+                {initials}
+              </AvatarFallback>
+            </Avatar>
+            {isHovered && (
+              <div className="overflow-hidden">
+                <p className="text-sm font-medium">{displayName}</p>
+                <p className="text-xs text-muted-foreground">
+                  {profile?.company_name || 'User'}
+                </p>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

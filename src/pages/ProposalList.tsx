@@ -4,11 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Skeleton } from "@/components/ui/skeleton";
-import { AlertCircle, FileText, Plus, RefreshCw, Eye, BarChart3, GitCompare } from "lucide-react";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { AlertCircle, FileText, Plus, RefreshCw, Eye, BarChart3, GitCompare, Trash2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { useProposalList } from "@/hooks/useProposalList";
 import { formatCurrency, formatDate, formatStatus } from "@/utils/formatters";
 import { getProposalAnalytics } from "@/utils/analytics";
 import { type CurrencyType } from "@/utils/constants";
+import { proposalService } from "@/services/proposalService";
 import AppLayout from "@/components/layout/AppLayout";
 import React from "react";
 
@@ -50,6 +53,8 @@ const ProposalList = () => {
   const { proposals, loading, error, refetch } = useProposalList();
   const [selectedProposals, setSelectedProposals] = React.useState<string[]>([]);
   const [selectionMode, setSelectionMode] = React.useState(false);
+  const [deleting, setDeleting] = React.useState<string | null>(null);
+  const { toast } = useToast();
 
   const toggleSelection = (proposalId: string) => {
     setSelectedProposals(prev => 
@@ -68,6 +73,44 @@ const ProposalList = () => {
   const clearSelection = () => {
     setSelectedProposals([]);
     setSelectionMode(false);
+  };
+
+  const handleDeleteProposal = async (proposalId: string) => {
+    try {
+      setDeleting(proposalId);
+      await proposalService.deleteProposal(proposalId);
+      toast({
+        title: "Proposal deleted",
+        description: "The proposal has been successfully deleted.",
+      });
+      refetch();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete the proposal. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setDeleting(null);
+    }
+  };
+
+  const handleDeleteSelected = async () => {
+    try {
+      await proposalService.deleteProposals(selectedProposals);
+      toast({
+        title: "Proposals deleted",
+        description: `${selectedProposals.length} proposals have been deleted.`,
+      });
+      clearSelection();
+      refetch();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete the proposals. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   if (loading) {
@@ -153,6 +196,31 @@ const ProposalList = () => {
                       <GitCompare className="w-4 h-4 mr-2" />
                       Compare Selected ({selectedProposals.length})
                     </Button>
+                  )}
+                  
+                  {selectionMode && selectedProposals.length > 0 && (
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="destructive" className="flex items-center">
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Delete Selected ({selectedProposals.length})
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Delete Proposals</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Are you sure you want to delete {selectedProposals.length} proposal{selectedProposals.length > 1 ? 's' : ''}? This action cannot be undone.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={handleDeleteSelected} className="bg-destructive hover:bg-destructive/90">
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   )}
                 </>
               )}
@@ -292,23 +360,57 @@ const ProposalList = () => {
                       </Card>
                     </Link>
                     
-                    {/* Analytics Button */}
-                    {analytics.totalViews > 0 && !selectionMode && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        asChild
-                        className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 backdrop-blur"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        <Link 
-                          to={`/proposals/${proposal.id}/analytics`}
-                          className="flex items-center gap-1"
-                        >
-                          <BarChart3 className="w-4 h-4" />
-                          Analytics
-                        </Link>
-                      </Button>
+                    {/* Action Buttons */}
+                    {!selectionMode && (
+                      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+                        {analytics.totalViews > 0 && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            asChild
+                            className="bg-background/80 backdrop-blur"
+                            onClick={(e) => e.preventDefault()}
+                          >
+                            <Link 
+                              to={`/proposals/${proposal.id}/analytics`}
+                              className="flex items-center gap-1"
+                            >
+                              <BarChart3 className="w-4 h-4" />
+                            </Link>
+                          </Button>
+                        )}
+                        
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="bg-background/80 backdrop-blur text-destructive hover:text-destructive"
+                              disabled={deleting === proposal.id}
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Delete Proposal</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Are you sure you want to delete "{proposal.title}"? This action cannot be undone.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction 
+                                onClick={() => handleDeleteProposal(proposal.id)}
+                                className="bg-destructive hover:bg-destructive/90"
+                              >
+                                Delete
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
                     )}
                   </div>
                 );

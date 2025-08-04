@@ -1,21 +1,17 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { 
   Search, 
-  Bell, 
-  Settings,
   Plus,
   Command
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { UserNav } from "./UserNav";
+import { NotificationDropdown } from "./NotificationDropdown";
 import { useAuth } from "@/hooks/useAuth";
 import { Link } from "react-router-dom";
 
 const TopHeader = () => {
-  const [notifications] = useState(3);
   const { user } = useAuth();
 
   return (
@@ -50,21 +46,7 @@ const TopHeader = () => {
               </Button>
 
               {/* Notifications */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="relative hover:bg-white/10 transition-colors"
-              >
-                <Bell className="w-5 h-5" />
-                {notifications > 0 && (
-                  <Badge 
-                    variant="destructive" 
-                    className="absolute -top-1 -right-1 w-5 h-5 p-0 flex items-center justify-center text-xs"
-                  >
-                    {notifications}
-                  </Badge>
-                )}
-              </Button>
+              <NotificationDropdown />
 
               {/* User Navigation */}
               <UserNav />

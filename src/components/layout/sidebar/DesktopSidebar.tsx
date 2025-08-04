@@ -1,7 +1,9 @@
+import React from "react";
 import { Link } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 import { Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { navigationItems, publicNavigationItems } from "./navigationItems";
+import { navigationItems, publicNavigationItems, bottomNavigationItems } from "./navigationItems";
 import { useSidebarLogic } from "./useSidebarLogic";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserProfile } from "@/hooks/useUserProfile";
@@ -15,10 +17,27 @@ interface DesktopSidebarProps {
 
 const DesktopSidebar = ({ isHovered, onMouseEnter, onMouseLeave }: DesktopSidebarProps) => {
   const { isActive } = useSidebarLogic();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const { profile, displayName, initials } = useUserProfile();
+  const { toast } = useToast();
   
   const items = user ? navigationItems : publicNavigationItems;
+
+  const handleLogout = async () => {
+    const { error } = await signOut();
+    if (error) {
+      toast({
+        title: "Error signing out",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Signed out",
+        description: "You have been signed out successfully.",
+      });
+    }
+  };
 
   return (
     <div
@@ -98,10 +117,11 @@ const DesktopSidebar = ({ isHovered, onMouseEnter, onMouseLeave }: DesktopSideba
 
       {/* Bottom section */}
       {user && (
-        <div className="p-4 border-t border-white/10">
+        <div className="p-4 border-t border-white/10 space-y-3">
+          {/* User Info */}
           <div className="flex items-center space-x-3">
-            <Avatar className="w-8 h-8">
-              <AvatarFallback className="bg-gradient-primary text-white text-sm">
+            <Avatar className="w-10 h-10 border-2 border-white/10">
+              <AvatarFallback className="bg-gradient-primary text-white text-sm font-semibold">
                 {initials}
               </AvatarFallback>
             </Avatar>
@@ -114,6 +134,24 @@ const DesktopSidebar = ({ isHovered, onMouseEnter, onMouseLeave }: DesktopSideba
               </div>
             )}
           </div>
+          
+          {/* Logout Button */}
+          <button
+            onClick={handleLogout}
+            className={cn(
+              "flex items-center space-x-3 p-3 rounded-xl w-full text-left group",
+              "text-muted-foreground hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
+            )}
+          >
+            {React.createElement(bottomNavigationItems[0].icon, {
+              className: "w-5 h-5 transition-all duration-200 group-hover:scale-110"
+            })}
+            {isHovered && (
+              <span className="whitespace-nowrap font-medium">
+                {bottomNavigationItems[0].label}
+              </span>
+            )}
+          </button>
         </div>
       )}
     </div>

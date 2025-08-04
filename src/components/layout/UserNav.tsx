@@ -48,15 +48,18 @@ export const UserNav: React.FC = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-          <Avatar className="h-8 w-8">
-            <AvatarFallback className="bg-ora-primary text-white">
+        <Button 
+          variant="ghost" 
+          className="relative h-10 w-10 rounded-full ring-2 ring-transparent hover:ring-primary/20 transition-all duration-200"
+        >
+          <Avatar className="h-10 w-10 border-2 border-white/10 hover:border-primary/30 transition-all duration-200">
+            <AvatarFallback className="bg-gradient-primary text-white font-semibold shadow-glow">
               {initials}
             </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
+      <DropdownMenuContent className="w-56 glass-card border-white/20 shadow-2xl" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{user.email}</p>

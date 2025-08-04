@@ -5,6 +5,7 @@ import {
   Layout, 
   Code,
   Settings,
+  LogOut,
   LucideIcon
 } from "lucide-react";
 
@@ -21,6 +22,10 @@ export const navigationItems: NavigationItem[] = [
   { icon: Layout, label: "Templates", path: "/templates" },
   { icon: Code, label: "API", path: "/api-docs" },
   { icon: Settings, label: "Settings", path: "/settings/api-keys" },
+];
+
+export const bottomNavigationItems: NavigationItem[] = [
+  { icon: LogOut, label: "Logout", path: "/logout" },
 ];
 
 export const publicNavigationItems: NavigationItem[] = [

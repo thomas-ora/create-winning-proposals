@@ -7,6 +7,13 @@ const corsHeaders = {
 }
 
 serve(async (req) => {
+  // DEPLOYMENT VERSION: 2025-08-04-v2 - Force redeploy
+  console.log('🚀 GET-PROPOSAL FUNCTION START - VERSION 2025-08-04-v2:', {
+    timestamp: new Date().toISOString(),
+    method: req.method,
+    url: req.url
+  })
+
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders })
   }
@@ -93,41 +100,50 @@ serve(async (req) => {
       })
     }
 
-    // Check if proposal has expired - use robust UTC date comparison
+    // TEMPORARY: Simplified date check with extensive debugging
+    console.log('🔍 EXPIRATION CHECK - Raw data from database:', {
+      proposalId: proposal.id,
+      validUntilFromDB: proposal.valid_until,
+      typeOfValidUntil: typeof proposal.valid_until,
+      currentTime: new Date().toISOString(),
+      currentTimestamp: Date.now()
+    })
+
     if (proposal.valid_until) {
-      // Force UTC dates to eliminate timezone issues completely
-      const now = new Date()
-      const currentUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))
+      // Simple string comparison for debugging
+      const today = new Date().toISOString().split('T')[0] // YYYY-MM-DD
+      const expirationStr = proposal.valid_until.toString().split('T')[0] // YYYY-MM-DD
       
-      // Parse the valid_until date and create UTC date
-      const validUntilDate = new Date(proposal.valid_until)
-      const expirationUTC = new Date(Date.UTC(validUntilDate.getUTCFullYear(), validUntilDate.getUTCMonth(), validUntilDate.getUTCDate()))
-      
-      console.log('🔍 DEBUGGING: Date comparison with UTC normalization:', {
+      console.log('📅 SIMPLIFIED DATE COMPARISON:', {
         proposalId: proposal.id,
-        validUntilRaw: proposal.valid_until,
-        validUntilParsed: validUntilDate.toISOString(),
-        currentTimeRaw: now.toISOString(),
-        currentUTC: currentUTC.toISOString(),
-        expirationUTC: expirationUTC.toISOString(),
-        isExpiredUTC: expirationUTC < currentUTC,
-        timeDiffDays: Math.floor((expirationUTC.getTime() - currentUTC.getTime()) / (1000 * 60 * 60 * 24))
+        todayStr: today,
+        expirationStr: expirationStr,
+        isExpiredSimple: expirationStr < today,
+        stringComparison: `${expirationStr} < ${today} = ${expirationStr < today}`
       })
       
-      // Only check expiration if the expiration date is actually before today
-      if (expirationUTC < currentUTC) {
-        console.log('❌ Proposal expired (UTC comparison):', {
+      // Only fail if clearly expired
+      if (expirationStr < today) {
+        console.log('❌ Proposal expired (simple string comparison):', {
           proposalId: proposal.id,
           validUntil: proposal.valid_until,
-          currentUTC: currentUTC.toISOString(),
-          expirationUTC: expirationUTC.toISOString(),
-          daysPastExpiration: Math.floor((currentUTC.getTime() - expirationUTC.getTime()) / (1000 * 60 * 60 * 24))
+          todayDate: today,
+          comparison: `${expirationStr} < ${today}`
         })
         return new Response(JSON.stringify({ error: 'Proposal has expired' }), {
           status: 410,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         })
+      } else {
+        console.log('✅ Proposal is valid (not expired):', {
+          proposalId: proposal.id,
+          validUntil: proposal.valid_until,
+          todayDate: today,
+          comparison: `${expirationStr} >= ${today}`
+        })
       }
+    } else {
+      console.log('ℹ️ No expiration date set for proposal:', proposal.id)
     }
 
     // Check password protection

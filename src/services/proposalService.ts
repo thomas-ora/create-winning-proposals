@@ -120,6 +120,11 @@ class ProposalService {
     if (password) {
       params.set('password', password);
     }
+    
+    // CACHE-BUSTING: Add timestamp to force fresh requests and bypass cached "expired" responses
+    params.set('t', Date.now().toString());
+    
+    console.log('🚫 Cache-busting enabled with timestamp:', params.get('t'));
 
     // Check if it's a UUID or slug and call appropriate endpoint
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(idOrSlug);
@@ -129,7 +134,12 @@ class ProposalService {
 
     try {
       const result = await this.callEdgeFunction(endpoint, {
-        params: params.toString() ? params : undefined,
+        params,
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
       });
       console.log('✅ Edge function response:', result);
       return result;

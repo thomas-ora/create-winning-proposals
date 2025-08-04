@@ -1,49 +1,15 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import AppLayout from "@/components/layout/AppLayout";
 import { useAuth } from "@/hooks/useAuth";
-import { Activity, CheckCircle, Clock, AlertCircle, Users, TrendingUp, Zap, ArrowRight, Sparkles, BarChart3, Clock3 } from "lucide-react";
+import { useUserDashboardStats } from "@/hooks/useUserDashboardStats";
+import { Activity, CheckCircle, Clock, AlertCircle, Users, TrendingUp, Zap, ArrowRight, Sparkles, BarChart3, Clock3, Loader2 } from "lucide-react";
 
 const Index = () => {
   const { user } = useAuth();
-  const [systemStats, setSystemStats] = useState({
-    totalProposals: 0,
-    activeAPIKeys: 0,
-    recentActivity: 0,
-    systemHealth: 'healthy' as 'healthy' | 'warning' | 'error'
-  });
-
-  useEffect(() => {
-    // Fetch system stats including health check
-    const fetchStats = async () => {
-      try {
-        // Fetch health status
-        const healthResponse = await fetch('https://axqqqpomxdjwrpkbfawl.supabase.co/functions/v1/health');
-        const healthData = await healthResponse.json();
-        
-        setSystemStats({
-          totalProposals: 127,
-          activeAPIKeys: 8,
-          recentActivity: 23,
-          systemHealth: healthData.status === 'healthy' ? 'healthy' : 
-                       healthData.status === 'degraded' ? 'warning' : 'error'
-        });
-      } catch (error) {
-        console.error('Failed to fetch system stats:', error);
-        setSystemStats({
-          totalProposals: 127,
-          activeAPIKeys: 8,
-          recentActivity: 23,
-          systemHealth: 'warning'
-        });
-      }
-    };
-
-    fetchStats();
-  }, []);
+  const stats = useUserDashboardStats();
   return (
     <AppLayout>
       {/* Hero Section with animated background */}
@@ -107,14 +73,20 @@ const Index = () => {
                 <div className="flex items-center justify-between">
                   <TrendingUp className="h-8 w-8 text-primary glow-soft" />
                   <Badge variant="secondary" className="bg-gradient-primary text-white border-0">
-                    Live
+                    {stats.isDemo ? 'Demo' : 'Live'}
                   </Badge>
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold gradient-text">{systemStats.totalProposals}</div>
-                <p className="text-sm text-muted-foreground">Total Proposals</p>
-                <p className="text-xs text-green-400 mt-1">+12 this month</p>
+                <div className="text-3xl font-bold gradient-text flex items-center gap-2">
+                  {stats.loading ? <Loader2 className="h-6 w-6 animate-spin" /> : stats.totalProposals}
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  {user ? 'Your Proposals' : 'Total Proposals'}
+                </p>
+                <p className="text-xs text-green-400 mt-1">
+                  {stats.isDemo ? 'Sample data' : user && stats.totalProposals > 0 ? 'Real-time data' : 'Create your first proposal'}
+                </p>
               </CardContent>
             </Card>
             
@@ -122,13 +94,19 @@ const Index = () => {
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <Users className="h-8 w-8 text-primary glow-soft" />
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                  <div className={`w-2 h-2 rounded-full animate-pulse ${
+                    stats.isDemo ? 'bg-orange-400' : 'bg-green-400'
+                  }`} />
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold gradient-text">{systemStats.activeAPIKeys}</div>
+                <div className="text-3xl font-bold gradient-text flex items-center gap-2">
+                  {stats.loading ? <Loader2 className="h-6 w-6 animate-spin" /> : stats.activeAPIKeys}
+                </div>
                 <p className="text-sm text-muted-foreground">Active API Keys</p>
-                <p className="text-xs text-muted-foreground mt-1">Ready for N8N</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {stats.isDemo ? 'Demo data' : 'Ready for N8N'}
+                </p>
               </CardContent>
             </Card>
             
@@ -140,33 +118,41 @@ const Index = () => {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold gradient-text">{systemStats.recentActivity}</div>
-                <p className="text-sm text-muted-foreground">Events (24h)</p>
-                <p className="text-xs text-muted-foreground mt-1">Real-time tracking</p>
+                <div className="text-3xl font-bold gradient-text flex items-center gap-2">
+                  {stats.loading ? <Loader2 className="h-6 w-6 animate-spin" /> : stats.recentActivity}
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  {user ? 'Your Activity (24h)' : 'Events (24h)'}
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {stats.isDemo ? 'Sample tracking' : 'Real-time tracking'}
+                </p>
               </CardContent>
             </Card>
             
             <Card className="glass-card hover-glow animate-float" style={{ animationDelay: '1.5s' }}>
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
-                  {systemStats.systemHealth === 'healthy' && <CheckCircle className="h-8 w-8 text-green-400 glow-soft" />}
-                  {systemStats.systemHealth === 'warning' && <Clock className="h-8 w-8 text-yellow-400 glow-soft" />}
-                  {systemStats.systemHealth === 'error' && <AlertCircle className="h-8 w-8 text-red-400 glow-soft" />}
+                  {stats.systemHealth === 'healthy' && <CheckCircle className="h-8 w-8 text-green-400 glow-soft" />}
+                  {stats.systemHealth === 'warning' && <Clock className="h-8 w-8 text-yellow-400 glow-soft" />}
+                  {stats.systemHealth === 'error' && <AlertCircle className="h-8 w-8 text-red-400 glow-soft" />}
                   <div className={`w-2 h-2 rounded-full ${
-                    systemStats.systemHealth === 'healthy' ? 'bg-green-400' : 
-                    systemStats.systemHealth === 'warning' ? 'bg-yellow-400' : 'bg-red-400'
+                    stats.systemHealth === 'healthy' ? 'bg-green-400' : 
+                    stats.systemHealth === 'warning' ? 'bg-yellow-400' : 'bg-red-400'
                   } animate-pulse`} />
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold gradient-text">99.9%</div>
+                <div className="text-3xl font-bold gradient-text flex items-center gap-2">
+                  {stats.loading ? <Loader2 className="h-6 w-6 animate-spin" /> : '99.9%'}
+                </div>
                 <p className="text-sm text-muted-foreground">System Uptime</p>
                 <p className={`text-xs mt-1 ${
-                  systemStats.systemHealth === 'healthy' ? 'text-green-400' : 
-                  systemStats.systemHealth === 'warning' ? 'text-yellow-400' : 'text-red-400'
+                  stats.systemHealth === 'healthy' ? 'text-green-400' : 
+                  stats.systemHealth === 'warning' ? 'text-yellow-400' : 'text-red-400'
                 }`}>
-                  {systemStats.systemHealth === 'healthy' ? 'All systems operational' :
-                   systemStats.systemHealth === 'warning' ? 'Minor issues detected' : 'Service disruption'}
+                  {stats.systemHealth === 'healthy' ? 'All systems operational' :
+                   stats.systemHealth === 'warning' ? 'Minor issues detected' : 'Service disruption'}
                 </p>
               </CardContent>
             </Card>

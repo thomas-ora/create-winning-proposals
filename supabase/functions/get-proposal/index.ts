@@ -93,31 +93,35 @@ serve(async (req) => {
       })
     }
 
-    // Check if proposal has expired - compare dates only, not times
+    // Check if proposal has expired - use robust UTC date comparison
     if (proposal.valid_until) {
-      const currentDate = new Date()
-      const expirationDate = new Date(proposal.valid_until)
+      // Force UTC dates to eliminate timezone issues completely
+      const now = new Date()
+      const currentUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))
       
-      // Convert both dates to YYYY-MM-DD format for comparison to avoid timezone issues
-      const currentDateStr = currentDate.toISOString().split('T')[0]
-      const expirationDateStr = expirationDate.toISOString().split('T')[0]
+      // Parse the valid_until date and create UTC date
+      const validUntilDate = new Date(proposal.valid_until)
+      const expirationUTC = new Date(Date.UTC(validUntilDate.getUTCFullYear(), validUntilDate.getUTCMonth(), validUntilDate.getUTCDate()))
       
-      console.log('📅 Date comparison details:', {
+      console.log('🔍 DEBUGGING: Date comparison with UTC normalization:', {
         proposalId: proposal.id,
         validUntilRaw: proposal.valid_until,
-        validUntilParsed: expirationDate.toISOString(),
-        currentDateRaw: currentDate.toISOString(),
-        currentDateStr,
-        expirationDateStr,
-        isExpired: expirationDateStr < currentDateStr
+        validUntilParsed: validUntilDate.toISOString(),
+        currentTimeRaw: now.toISOString(),
+        currentUTC: currentUTC.toISOString(),
+        expirationUTC: expirationUTC.toISOString(),
+        isExpiredUTC: expirationUTC < currentUTC,
+        timeDiffDays: Math.floor((expirationUTC.getTime() - currentUTC.getTime()) / (1000 * 60 * 60 * 24))
       })
       
-      if (expirationDateStr < currentDateStr) {
-        console.log('❌ Proposal expired:', {
+      // Only check expiration if the expiration date is actually before today
+      if (expirationUTC < currentUTC) {
+        console.log('❌ Proposal expired (UTC comparison):', {
           proposalId: proposal.id,
           validUntil: proposal.valid_until,
-          currentTime: currentDate.toISOString(),
-          comparison: `${expirationDateStr} < ${currentDateStr}`
+          currentUTC: currentUTC.toISOString(),
+          expirationUTC: expirationUTC.toISOString(),
+          daysPastExpiration: Math.floor((currentUTC.getTime() - expirationUTC.getTime()) / (1000 * 60 * 60 * 24))
         })
         return new Response(JSON.stringify({ error: 'Proposal has expired' }), {
           status: 410,

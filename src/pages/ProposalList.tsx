@@ -64,6 +64,14 @@ const ProposalList = () => {
     );
   };
 
+  const handleCardClick = (e: React.MouseEvent, proposalId: string) => {
+    if (selectionMode) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleSelection(proposalId);
+    }
+  };
+
   const handleCompareSelected = () => {
     if (selectedProposals.length >= 2) {
       navigate(`/proposals/compare?ids=${selectedProposals.join(',')}`);
@@ -266,7 +274,6 @@ const ProposalList = () => {
                         <Checkbox
                           checked={isSelected}
                           onCheckedChange={() => toggleSelection(proposal.id)}
-                          disabled={!isSelected && selectedProposals.length >= 3}
                           className="bg-background/80 backdrop-blur"
                         />
                       </div>
@@ -274,11 +281,17 @@ const ProposalList = () => {
                     
                     <Link
                       to={`/proposal/${proposal.id}`}
-                      className={`block ${selectionMode ? 'pointer-events-none' : ''}`}
+                      onClick={selectionMode ? (e) => e.preventDefault() : undefined}
+                      className="block"
                     >
-                      <Card className={`p-6 bg-card/50 backdrop-blur shadow-card hover:shadow-elegant transition-all duration-200 group-hover:scale-[1.02] cursor-pointer ${
-                        isSelected ? 'ring-2 ring-primary bg-primary/5' : ''
-                      }`}>
+                      <Card 
+                        className={`p-6 bg-card/50 backdrop-blur shadow-card transition-all duration-200 cursor-pointer ${
+                          selectionMode 
+                            ? `hover:scale-[1.01] ${isSelected ? 'ring-2 ring-primary bg-primary/5 scale-[1.01]' : 'hover:bg-muted/20'}` 
+                            : 'hover:shadow-elegant group-hover:scale-[1.02]'
+                        } ${isSelected ? 'ring-2 ring-primary bg-primary/5' : ''}`}
+                        onClick={(e) => handleCardClick(e, proposal.id)}
+                      >
                         <div className="space-y-4">
                           {/* Header */}
                           <div className="flex items-start space-x-3">

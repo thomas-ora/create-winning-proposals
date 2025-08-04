@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Copy, Plus, Key, Calendar, Clock, AlertTriangle } from 'lucide-react';
+import { Copy, Plus, Key, Calendar, Clock, AlertTriangle, Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import AppLayout from '@/components/layout/AppLayout';
@@ -27,6 +27,7 @@ const APIKeys: React.FC = () => {
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
   const [showKeyDialog, setShowKeyDialog] = useState(false);
   const [generatingKey, setGeneratingKey] = useState(false);
+  const [isCleaningUp, setIsCleaningUp] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -35,9 +36,19 @@ const APIKeys: React.FC = () => {
 
   const fetchAPIKeys = async () => {
     try {
-      // For now, we'll use the edge function since direct DB access has type issues
-      // This will be updated once database schema is properly reflected in types
-      setApiKeys([]);
+      setLoading(true);
+      const { data, error } = await supabase.functions.invoke('get-api-keys');
+      
+      if (error) {
+        console.error('Error fetching API keys:', error);
+        return;
+      }
+
+      if (data?.success) {
+        setApiKeys(data.data || []);
+      } else {
+        console.error('Failed to fetch API keys:', data?.error);
+      }
     } catch (error) {
       console.error('Error fetching API keys:', error);
       toast({
@@ -99,13 +110,22 @@ const APIKeys: React.FC = () => {
 
   const toggleAPIKey = async (id: string, currentStatus: boolean) => {
     try {
-      // For now, we'll disable this functionality until DB types are updated
-      toast({
-        title: 'Feature Coming Soon',
-        description: 'API key toggle will be available once database is fully configured',
+      const { data, error } = await supabase.functions.invoke('toggle-api-key', {
+        body: { id, is_active: !currentStatus }
       });
+      
+      if (error) {
+        console.error('Error toggling API key:', error);
+        return;
+      }
+
+      if (data?.success) {
+        await fetchAPIKeys(); // Refresh the list
+      } else {
+        console.error('Failed to toggle API key:', data?.error);
+      }
     } catch (error) {
-      console.error('Error updating API key:', error);
+      console.error('Error toggling API key:', error);
       toast({
         title: 'Error',
         description: 'Failed to update API key',
@@ -127,6 +147,47 @@ const APIKeys: React.FC = () => {
         description: 'Failed to copy to clipboard',
         variant: 'destructive',
       });
+    }
+  };
+
+  const cleanupTestKeys = async () => {
+    try {
+      setIsCleaningUp(true);
+      const { data, error } = await supabase.functions.invoke('cleanup-test-api-keys');
+      
+      if (error) {
+        console.error('Error cleaning up test keys:', error);
+        toast({
+          title: "Error",
+          description: "Failed to cleanup test API keys",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (data?.success) {
+        toast({
+          title: "Success",
+          description: data.message,
+        });
+        await fetchAPIKeys(); // Refresh the list
+      } else {
+        console.error('Failed to cleanup test keys:', data?.error);
+        toast({
+          title: "Error", 
+          description: "Failed to cleanup test API keys",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Error cleaning up test keys:', error);
+      toast({
+        title: "Error",
+        description: "Failed to cleanup test API keys", 
+        variant: "destructive",
+      });
+    } finally {
+      setIsCleaningUp(false);
     }
   };
 
@@ -163,7 +224,17 @@ const APIKeys: React.FC = () => {
           </p>
         </div>
         
-        <Dialog>
+         <div className="flex gap-3">
+           <Button 
+             onClick={cleanupTestKeys}
+             disabled={isCleaningUp}
+             variant="outline"
+             className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
+           >
+             <Trash2 className="w-4 h-4 mr-2" />
+             {isCleaningUp ? 'Cleaning...' : 'Cleanup Test Keys'}
+           </Button>
+           <Dialog>
           <DialogTrigger asChild>
             <Button>
               <Plus className="w-4 h-4 mr-2" />
@@ -199,6 +270,7 @@ const APIKeys: React.FC = () => {
             </div>
           </DialogContent>
         </Dialog>
+        </div>
       </div>
 
       {/* Generated Key Modal */}

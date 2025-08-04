@@ -12,5 +12,14 @@ verify_jwt = false
 [functions.generate-api-key]
 verify_jwt = false
 
+[functions.get-api-keys]
+verify_jwt = false
+
+[functions.toggle-api-key]
+verify_jwt = false
+
+[functions.cleanup-test-api-keys]
+verify_jwt = false
+
 [functions.health]
 verify_jwt = false

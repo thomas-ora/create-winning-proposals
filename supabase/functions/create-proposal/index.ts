@@ -312,9 +312,22 @@ serve(async (req) => {
       validUntilDate = new Date(currentDate.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
     }
     
-    // Check if there's an authenticated user session (for web UI proposals)
-    const { data: { user } } = await supabaseClient.auth.getUser()
-    const authenticatedUserId = user?.id || null
+    // Extract JWT token and get authenticated user (for web UI proposals)
+    const authHeader = req.headers.get('authorization')
+    let authenticatedUserId = null
+    
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.substring(7)
+      try {
+        const { data: { user }, error: userError } = await supabaseClient.auth.getUser(token)
+        if (!userError && user) {
+          authenticatedUserId = user.id
+          console.log(`👤 Authenticated user found: ${authenticatedUserId}`)
+        }
+      } catch (error) {
+        console.log('🔍 No valid user token found, treating as API-only request')
+      }
+    }
     
     console.log(`👤 User context: ${authenticatedUserId ? `Authenticated user ${authenticatedUserId}` : 'API-only request'}`)
 

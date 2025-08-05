@@ -104,22 +104,22 @@ class ProposalService {
     
     // Check if it's a UUID or slug and call appropriate endpoint
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(idOrSlug);
-    const functionName = isUuid ? `get-proposal` : `get-proposal`;
+    const functionName = isUuid ? `get-proposal/${idOrSlug}` : `get-proposal/slug/${idOrSlug}`;
 
     console.log('🛣️ Using function:', { functionName, isUuid });
 
-    // Prepare the body with parameters
-    const body: any = { 
-      [isUuid ? 'id' : 'slug']: idOrSlug,
-      t: Date.now() // Cache-busting timestamp
-    };
+    // Add password as query parameter if provided
+    const params = new URLSearchParams();
     if (password) {
-      body.password = password;
+      params.set('password', password);
     }
+    // Add cache-busting timestamp
+    params.set('t', Date.now().toString());
+
+    const functionNameWithParams = params.toString() ? `${functionName}?${params.toString()}` : functionName;
 
     try {
-      const result = await this.invokeFunction(functionName, {
-        body,
+      const result = await this.invokeFunction(functionNameWithParams, {
         headers: {
           'Cache-Control': 'no-cache, no-store, must-revalidate',
           'Pragma': 'no-cache',

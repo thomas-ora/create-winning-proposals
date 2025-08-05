@@ -66,46 +66,32 @@ export interface TrackEventRequest {
 class ProposalService {
   private supabaseClient = supabase;
 
-  private async callEdgeFunction(functionName: string, options: {
-    method?: string;
+  private async invokeFunction(functionName: string, options: {
     body?: any;
     headers?: Record<string, string>;
-    params?: URLSearchParams;
   } = {}) {
-    const { method = 'GET', body, headers = {}, params } = options;
+    const { body, headers = {} } = options;
     
-    let url = `${SUPABASE_URL}/functions/v1/${functionName}`;
-    if (params) {
-      url += `?${params.toString()}`;
-    }
+    console.log('🌐 Invoking Supabase function:', { functionName, hasBody: !!body });
 
-    console.log('🌐 Making request to:', { url, method, hasBody: !!body });
-
-    const response = await fetch(url, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        ...headers,
-      },
-      body: body ? JSON.stringify(body) : undefined,
+    const { data, error } = await this.supabaseClient.functions.invoke(functionName, {
+      body,
+      headers,
     });
 
-    console.log('📡 Response status:', response.status, response.statusText);
+    console.log('📡 Function response:', { data, error });
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      console.error('❌ HTTP Error Response:', { status: response.status, errorData });
-      throw new Error(errorData.error || `HTTP ${response.status}`);
+    if (error) {
+      console.error('❌ Function Error:', error);
+      throw new Error(error.message || 'Function execution failed');
     }
 
-    const responseData = await response.json();
-    console.log('📋 Response data:', responseData);
-    return responseData;
+    console.log('📋 Function data:', data);
+    return data;
   }
 
   async createProposal(data: CreateProposalRequest, apiKey: string): Promise<CreateProposalResponse> {
-    return this.callEdgeFunction('create-proposal', {
-      method: 'POST',
+    return this.invokeFunction('create-proposal', {
       body: data,
       headers: {
         'Authorization': `Bearer ${apiKey}`,
@@ -116,35 +102,34 @@ class ProposalService {
   async getProposal(idOrSlug: string, password?: string): Promise<any> {
     console.log('🔎 ProposalService.getProposal called with:', { idOrSlug, hasPassword: !!password });
     
-    const params = new URLSearchParams();
-    if (password) {
-      params.set('password', password);
-    }
-    
-    // CACHE-BUSTING: Add timestamp to force fresh requests and bypass cached "expired" responses
-    params.set('t', Date.now().toString());
-    
-    console.log('🚫 Cache-busting enabled with timestamp:', params.get('t'));
-
     // Check if it's a UUID or slug and call appropriate endpoint
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(idOrSlug);
-    const endpoint = isUuid ? `get-proposal/${idOrSlug}` : `get-proposal/slug/${idOrSlug}`;
+    const functionName = isUuid ? `get-proposal` : `get-proposal`;
 
-    console.log('🛣️ Using endpoint:', { endpoint, isUuid });
+    console.log('🛣️ Using function:', { functionName, isUuid });
+
+    // Prepare the body with parameters
+    const body: any = { 
+      [isUuid ? 'id' : 'slug']: idOrSlug,
+      t: Date.now() // Cache-busting timestamp
+    };
+    if (password) {
+      body.password = password;
+    }
 
     try {
-      const result = await this.callEdgeFunction(endpoint, {
-        params,
+      const result = await this.invokeFunction(functionName, {
+        body,
         headers: {
           'Cache-Control': 'no-cache, no-store, must-revalidate',
           'Pragma': 'no-cache',
           'Expires': '0'
         }
       });
-      console.log('✅ Edge function response:', result);
+      console.log('✅ Function response:', result);
       return result;
     } catch (error) {
-      console.error('❌ Edge function error:', error);
+      console.error('❌ Function error:', error);
       throw error;
     }
   }
@@ -176,8 +161,7 @@ class ProposalService {
       throw new Error('No active session found. Please log in to create proposals.');
     }
     
-    return this.callEdgeFunction('create-proposal', {
-      method: 'POST',
+    return this.invokeFunction('create-proposal', {
       body: data,
       headers: {
         'Authorization': `Bearer ${session.access_token}`,
@@ -186,9 +170,8 @@ class ProposalService {
   }
 
   async trackEvent(proposalId: string, eventData: TrackEventRequest): Promise<void> {
-    await this.callEdgeFunction(`track-event/${proposalId}`, {
-      method: 'POST',
-      body: eventData,
+    await this.invokeFunction('track-event', {
+      body: { proposalId, ...eventData },
     });
   }
 

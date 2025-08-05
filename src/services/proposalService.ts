@@ -72,22 +72,55 @@ class ProposalService {
   } = {}) {
     const { body, headers = {} } = options;
     
-    console.log('🌐 Invoking Supabase function:', { functionName, hasBody: !!body });
-
-    const { data, error } = await this.supabaseClient.functions.invoke(functionName, {
-      body,
-      headers,
+    console.log('🌐 DETAILED: Invoking Supabase function:', { 
+      functionName, 
+      hasBody: !!body, 
+      bodyType: typeof body,
+      headersCount: Object.keys(headers).length,
+      supabaseUrl: SUPABASE_URL,
+      timestamp: new Date().toISOString()
     });
 
-    console.log('📡 Function response:', { data, error });
-
-    if (error) {
-      console.error('❌ Function Error:', error);
-      throw new Error(error.message || 'Function execution failed');
+    if (body) {
+      console.log('📦 Request body:', JSON.stringify(body, null, 2));
     }
+    
+    console.log('📋 Request headers:', headers);
 
-    console.log('📋 Function data:', data);
-    return data;
+    try {
+      const { data, error } = await this.supabaseClient.functions.invoke(functionName, {
+        body,
+        headers,
+      });
+
+      console.log('📡 DETAILED Function response:', { 
+        hasData: !!data, 
+        hasError: !!error,
+        dataType: typeof data,
+        errorDetails: error 
+      });
+
+      if (error) {
+        console.error('❌ DETAILED Function Error:', {
+          message: error.message,
+          context: error.context,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
+        throw new Error(error.message || 'Function execution failed');
+      }
+
+      console.log('✅ Function success data:', data);
+      return data;
+    } catch (err) {
+      console.error('🚨 CATCH: Function invocation failed:', {
+        error: err,
+        message: err instanceof Error ? err.message : 'Unknown error',
+        stack: err instanceof Error ? err.stack : undefined
+      });
+      throw err;
+    }
   }
 
   async createProposal(data: CreateProposalRequest, apiKey: string): Promise<CreateProposalResponse> {

@@ -121,9 +121,32 @@ interface ProposalRequest {
   }
 }
 
-serve(async (req) => {
+Deno.serve(async (req) => {
+  const timestamp = new Date().toISOString();
+  const method = req.method;
+  const url = req.url;
+  
+  console.log(`🚀 CREATE-PROPOSAL FUNCTION START - VERSION 2025-08-05-v3: {
+  timestamp: "${timestamp}",
+  method: "${method}",
+  url: "${url}"
+}`);
+
+  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders })
+    console.log('✅ CORS preflight request handled');
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  if (req.method !== 'POST') {
+    console.log(`❌ Invalid method: ${req.method}, expected POST`);
+    return new Response(
+      JSON.stringify({ error: 'Method not allowed' }),
+      { 
+        status: 405, 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+      }
+    );
   }
 
   try {

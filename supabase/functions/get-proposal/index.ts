@@ -6,7 +6,7 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-serve(async (req) => {
+Deno.serve(async (req) => {
   // DEPLOYMENT VERSION: 2025-08-04-v2 - Force redeploy
   console.log('🚀 GET-PROPOSAL FUNCTION START - VERSION 2025-08-04-v2:', {
     timestamp: new Date().toISOString(),

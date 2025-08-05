@@ -19,18 +19,28 @@ serve(async (req) => {
   }
 
   try {
-    const url = new URL(req.url)
-    const pathParts = url.pathname.split('/').filter(Boolean)
-    let proposalId = pathParts[pathParts.length - 1]
-    let isSlugLookup = false
+    // Get data from request body (when called via supabase.functions.invoke)
+    let requestData: any = {}
     
-    // Check if this is a slug lookup (path contains '/slug/')
-    if (pathParts.includes('slug')) {
-      isSlugLookup = true
-      proposalId = pathParts[pathParts.length - 1]
+    if (req.method === 'POST') {
+      try {
+        requestData = await req.json()
+      } catch (e) {
+        console.log('No JSON body provided, checking URL parameters')
+      }
     }
     
-    const password = url.searchParams.get('password')
+    // Fallback to URL path for direct calls
+    const url = new URL(req.url)
+    const pathParts = url.pathname.split('/').filter(Boolean)
+    const urlProposalId = pathParts[pathParts.length - 1]
+    const isSlugFromPath = pathParts.includes('slug')
+    const urlPassword = url.searchParams.get('password')
+    
+    // Use request body data if available, otherwise fallback to URL
+    const proposalId = requestData.id || requestData.slug || urlProposalId
+    const isSlugLookup = !!requestData.slug || (isSlugFromPath && !requestData.id)
+    const password = requestData.password || urlPassword
 
     console.log('🔍 Get Proposal Request:', {
       fullUrl: req.url,

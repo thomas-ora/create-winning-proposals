@@ -102,24 +102,19 @@ class ProposalService {
   async getProposal(idOrSlug: string, password?: string): Promise<any> {
     console.log('🔎 ProposalService.getProposal called with:', { idOrSlug, hasPassword: !!password });
     
-    // Check if it's a UUID or slug and call appropriate endpoint
+    // Check if it's a UUID or slug
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(idOrSlug);
-    const functionName = isUuid ? `get-proposal/${idOrSlug}` : `get-proposal/slug/${idOrSlug}`;
-
-    console.log('🛣️ Using function:', { functionName, isUuid });
-
-    // Add password as query parameter if provided
-    const params = new URLSearchParams();
-    if (password) {
-      params.set('password', password);
-    }
-    // Add cache-busting timestamp
-    params.set('t', Date.now().toString());
-
-    const functionNameWithParams = params.toString() ? `${functionName}?${params.toString()}` : functionName;
+    
+    console.log('🛣️ Calling get-proposal function:', { idOrSlug, isUuid });
 
     try {
-      const result = await this.invokeFunction(functionNameWithParams, {
+      const result = await this.invokeFunction('get-proposal', {
+        body: {
+          id: isUuid ? idOrSlug : undefined,
+          slug: !isUuid ? idOrSlug : undefined,
+          password: password,
+          t: Date.now()
+        },
         headers: {
           'Cache-Control': 'no-cache, no-store, must-revalidate',
           'Pragma': 'no-cache',

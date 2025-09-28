@@ -19,13 +19,13 @@
   },
   "redirects": [
     {
-      "source": "/health",
-      "destination": "https://axqqqpomxdjwrpkbfawl.supabase.co/functions/v1/health",
+      "source": "/api/health",
+      "destination": "https://knyzwlsewissymnuczxz.supabase.co/functions/v1/health",
       "permanent": false
     },
     {
       "source": "/api/:path*",
-      "destination": "https://axqqqpomxdjwrpkbfawl.supabase.co/functions/v1/:path*",
+      "destination": "https://knyzwlsewissymnuczxz.supabase.co/functions/v1/:path*",
       "permanent": false
     }
   ],

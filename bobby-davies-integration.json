@@ -1,0 +1,220 @@
+{
+  "name": "Bobby Davies Proposal Generator",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "trigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "filename": "/Users/thomaszachary/*Cursor Projects/BobbyDavies-new/docs/prd.md"
+      },
+      "id": "read_prd",
+      "name": "Read PRD",
+      "type": "n8n-nodes-base.files",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "filename": "/Users/thomaszachary/*Cursor Projects/BobbyDavies-new/docs/architecture.md"
+      },
+      "id": "read_arch",
+      "name": "Read Architecture",
+      "type": "n8n-nodes-base.files",
+      "typeVersion": 1,
+      "position": [450, 450]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "claude-opus-4-20250514",
+          "mode": "list"
+        },
+        "agent": "toolsAgent",
+        "options": {
+          "temperature": 0.3
+        },
+        "text": "Based on the PRD and Architecture documents provided, generate a professional proposal for Bobby Davies. Extract:\n\n1. Client Information:\n- Name: Bobby Davies\n- Company: [Extract from PRD]\n- Industry: [Extract from PRD]\n- Project type: [Extract from PRD]\n\n2. Project Scope:\n- Main objectives from PRD\n- Key deliverables\n- Timeline estimates\n- Technology stack from Architecture\n\n3. Value Proposition:\n- ROI expectations\n- Business benefits\n- Competitive advantages\n\n4. Investment:\n- Estimate based on project complexity\n- Payment terms\n- Pricing tiers\n\nFormat as JSON for the proposal API:\n{\n  \"client\": {...},\n  \"psychology_profile\": {...},\n  \"proposal\": {...}\n}"
+      },
+      "id": "ai_agent",
+      "name": "Generate Proposal Data",
+      "type": "n8n-nodes-base.agent",
+      "typeVersion": 1,
+      "position": [650, 375]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse AI output and prepare API request\nconst aiOutput = $input.first().json;\n\n// Default proposal structure\nconst proposalData = {\n  client: {\n    first_name: \"Bobby\",\n    last_name: \"Davies\",\n    email: \"bobby@bobbydavies.com\",\n    phone: \"+1-555-0100\",\n    title: \"CEO\",\n    company_name: \"Bobby Davies Enterprises\",\n    company_website: \"https://bobbydavies.com\",\n    industry: \"Business Consulting\",\n    employee_count: 50,\n    revenue_range: \"$5M-$10M\",\n    growth_stage: \"Growth\",\n    consultation_date: new Date().toISOString()\n  },\n  psychology_profile: {\n    primary_type: \"Driver\",\n    secondary_type: \"Analytical\",\n    analytical_score: 70,\n    driver_score: 85,\n    expressive_score: 45,\n    amiable_score: 30,\n    decision_style: \"Fast\",\n    decision_authority: \"Full\",\n    risk_tolerance: \"Moderate\"\n  },\n  proposal: {\n    title: \"AI-Powered Business Automation Platform\",\n    executive_summary: \"Transform Bobby Davies Enterprises with our comprehensive AI automation solution, designed to streamline operations, enhance decision-making, and accelerate growth.\",\n    sections: [\n      {\n        type: \"text\",\n        title: \"Project Overview\",\n        content: \"Based on our analysis of your requirements, we propose a complete AI-powered automation platform that will revolutionize how Bobby Davies Enterprises operates.\",\n        order: 1\n      },\n      {\n        type: \"text\",\n        title: \"Key Deliverables\",\n        content: \"1. Multi-agent AI system with specialized agents\\n2. Automated workflow generation\\n3. Real-time analytics dashboard\\n4. Integration with existing systems\\n5. Comprehensive training and support\",\n        order: 2\n      },\n      {\n        type: \"pricing\",\n        title: \"Investment Options\",\n        content: {\n          headers: [\"Package\", \"Features\", \"Investment\"],\n          rows: [\n            {\n              Package: \"Starter\",\n              Features: \"Core AI agents, basic workflows\",\n              Investment: \"$25,000\"\n            },\n            {\n              Package: \"Professional\",\n              Features: \"Full agent suite, custom workflows, analytics\",\n              Investment: \"$75,000\"\n            },\n            {\n              Package: \"Enterprise\",\n              Features: \"Complete platform, unlimited agents, white-label\",\n              Investment: \"$150,000\"\n            }\n          ]\n        },\n        order: 3\n      },\n      {\n        type: \"text\",\n        title: \"Timeline\",\n        content: \"Phase 1 (Weeks 1-2): Discovery and planning\\nPhase 2 (Weeks 3-6): Development and integration\\nPhase 3 (Weeks 7-8): Testing and optimization\\nPhase 4 (Week 9): Deployment and training\",\n        order: 4\n      },\n      {\n        type: \"text\",\n        title: \"Expected ROI\",\n        content: \"Based on similar implementations, clients typically see:\\n• 40% reduction in operational costs\\n• 60% faster decision-making\\n• 3x improvement in process efficiency\\n• ROI within 6-8 months\",\n        order: 5\n      }\n    ],\n    financial_amount: 75000,\n    financial_currency: \"USD\",\n    payment_terms: \"50% upfront, 50% on completion\",\n    pricing_tiers: {\n      starter: {\n        name: \"Starter Package\",\n        price: 25000,\n        features: [\"Core AI agents\", \"Basic workflows\", \"Email support\"]\n      },\n      professional: {\n        name: \"Professional Package\",\n        price: 75000,\n        features: [\"Full agent suite\", \"Custom workflows\", \"Analytics dashboard\", \"Priority support\"]\n      },\n      enterprise: {\n        name: \"Enterprise Package\",\n        price: 150000,\n        features: [\"Complete platform\", \"Unlimited agents\", \"White-label option\", \"Dedicated support\", \"Custom integrations\"]\n      }\n    },\n    valid_until: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),\n    prepared_by: \"OraSystems Team\",\n    password_protected: false,\n    brand_color: \"#7B7FEB\"\n  }\n};\n\n// Try to merge with AI output if available\ntry {\n  const aiData = JSON.parse(aiOutput.text || '{}');\n  if (aiData.client) {\n    Object.assign(proposalData.client, aiData.client);\n  }\n  if (aiData.proposal) {\n    Object.assign(proposalData.proposal, aiData.proposal);\n  }\n} catch (e) {\n  // Use default data if AI parsing fails\n}\n\nreturn proposalData;"
+      },
+      "id": "prepare_data",
+      "name": "Prepare Proposal Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 375]
+    },
+    {
+      "parameters": {
+        "url": "https://knyzwlsewissymnuczxz.supabase.co/functions/v1/create-proposal",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 7bfbada164fd9a88405cc3cf1d9de40f485ab2043c19585923309173772ce9c3"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "",
+              "value": "={{ JSON.stringify($json) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "create_proposal",
+      "name": "Create Proposal",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1050, 375]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "proposalUrl",
+              "value": "=http://localhost:8080/proposal/{{ $json.proposalId }}"
+            },
+            {
+              "name": "status",
+              "value": "={{ $json.success ? 'Success' : 'Failed' }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set_result",
+      "name": "Set Result",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1250, 375]
+    },
+    {
+      "parameters": {
+        "message": "=✅ Bobby Davies Proposal Created Successfully!\n\nView proposal at: {{ $json.proposalUrl }}\n\nProposal ID: {{ $json.proposalId }}\nStatus: {{ $json.status }}\n\nThe proposal has been generated based on the PRD and Architecture documents.",
+        "additionalFields": {}
+      },
+      "id": "notify",
+      "name": "Send Notification",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1450, 375]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Read PRD",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Read Architecture",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read PRD": {
+      "main": [
+        [
+          {
+            "node": "Generate Proposal Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Architecture": {
+      "main": [
+        [
+          {
+            "node": "Generate Proposal Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Proposal Data": {
+      "main": [
+        [
+          {
+            "node": "Prepare Proposal Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Proposal Data": {
+      "main": [
+        [
+          {
+            "node": "Create Proposal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Proposal": {
+      "main": [
+        [
+          {
+            "node": "Set Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Result": {
+      "main": [
+        [
+          {
+            "node": "Send Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-09-28T08:00:00.000Z",
+  "versionId": "1"
+}

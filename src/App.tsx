@@ -17,6 +17,7 @@ import APIKeys from "./pages/APIKeys";
 import APIDocumentation from "./pages/APIDocumentation";
 import TestAPI from "./pages/TestAPI";
 import SystemSetup from "./pages/SystemSetup";
+import SystemHealth from "./pages/SystemHealth";
 import AdminDashboard from "./pages/AdminDashboard";
 import DebugProposals from "./pages/DebugProposals";
 import Auth from "./pages/Auth";
@@ -54,6 +55,7 @@ const AppContent = () => {
       <Route path="/test-api" element={<TestAPI />} />
       <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/admin/setup" element={<SystemSetup />} />
+      <Route path="/health" element={<SystemHealth />} />
       <Route path="/debug/proposals" element={<DebugProposals />} />
       
       {/* Catch-all route */}
